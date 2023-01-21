@@ -8,7 +8,5 @@ public class OnePlacementServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OnePlacementServerApplication.class, args);
-
-
 	}
 }
