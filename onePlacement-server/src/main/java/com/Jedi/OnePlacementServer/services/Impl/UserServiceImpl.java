@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        user.setReg_no(userDto.getReg_no());
+        user.setRegNo(userDto.getRegNo());
 
         return this.userToDto(this.userRepo.save(user));
     }

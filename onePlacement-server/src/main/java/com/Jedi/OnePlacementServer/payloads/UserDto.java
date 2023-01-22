@@ -22,7 +22,7 @@ public class UserDto {
     private String name;
 
     @NotEmpty
-    private String reg_no;
+    private String regNo;
 
     @Email(message = "Invalid Email Address")
     private String email;

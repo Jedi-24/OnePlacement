@@ -15,6 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+    // role based access using preAuthorized: as method label;
 
     @Autowired // implementation class's object Injection into the userService.
     private UserService userService;
