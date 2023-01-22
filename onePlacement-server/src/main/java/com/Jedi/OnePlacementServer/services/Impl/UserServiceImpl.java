@@ -5,6 +5,7 @@ import com.Jedi.OnePlacementServer.exceptions.ResourceNotFoundException;
 import com.Jedi.OnePlacementServer.payloads.UserDto;
 import com.Jedi.OnePlacementServer.repositories.UserRepo;
 import com.Jedi.OnePlacementServer.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = this.dtoToUser(userDto);
@@ -29,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
         User user = this.userRepo.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("NAHI MILA","User","Id",userId));
+                .orElseThrow(()-> new ResourceNotFoundException("User","Id",userId));
 
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -42,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Integer userId) {
         User user = this.userRepo.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("NAHI MILA","User","Id",userId));
+                .orElseThrow(()-> new ResourceNotFoundException("User","Id",userId));
 
         return this.userToDto(user);
     }
@@ -58,30 +62,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void dltUser(Integer userId) {
         User user = this.userRepo.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("NAHI MILA","User","Id",userId));
+                .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
         this.userRepo.delete(user);
     }
 
     // model mapper to convert userDto -> user and vice versa, but abhi ->
     private User dtoToUser(UserDto userDto){
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setReg_no(userDto.getReg_no());
-        user.setPassword(userDto.getPassword());
-
+        User user = this.modelMapper.map(userDto, User.class);
         return user;
     }
 
     private UserDto userToDto(User user){
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        userDto.setReg_no(user.getReg_no());
-        userDto.setPassword(user.getPassword());
-
+        UserDto userDto = this.modelMapper.map(user, UserDto.class);
         return userDto;
     }
 }
