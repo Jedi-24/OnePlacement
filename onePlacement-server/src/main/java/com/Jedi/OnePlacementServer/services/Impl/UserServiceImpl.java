@@ -67,12 +67,10 @@ public class UserServiceImpl implements UserService {
 
     // model mapper to convert userDto -> user and vice versa, but abhi ->
     private User dtoToUser(UserDto userDto){
-        User user = this.modelMapper.map(userDto, User.class);
-        return user;
+        return this.modelMapper.map(userDto, User.class);
     }
 
     private UserDto userToDto(User user){
-        UserDto userDto = this.modelMapper.map(user, UserDto.class);
-        return userDto;
+        return this.modelMapper.map(user, UserDto.class);
     }
 }
