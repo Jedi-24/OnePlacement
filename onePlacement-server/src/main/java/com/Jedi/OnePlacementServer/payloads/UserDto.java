@@ -1,6 +1,8 @@
 package com.Jedi.OnePlacementServer.payloads;
 
 
+import com.Jedi.OnePlacementServer.entities.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +12,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.NumberFormat;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -29,5 +34,10 @@ public class UserDto {
 
     // pattern annotation;
     @NotEmpty(message = "Invalid Password") @Size(min = 4, max = 12)
+//    @JsonIgnore
     private String password;
+
+    private String jwtToken;
+
+    private Set<RoleDto> roles = new HashSet<>();
 }

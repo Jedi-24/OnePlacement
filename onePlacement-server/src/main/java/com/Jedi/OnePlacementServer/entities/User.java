@@ -28,16 +28,17 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String regNo;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    // profile url ?
+    // profile url ? // todo.
+    private String jwtToken; // todo: ask doubt ?
 
     // relation b|w role and user:
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
