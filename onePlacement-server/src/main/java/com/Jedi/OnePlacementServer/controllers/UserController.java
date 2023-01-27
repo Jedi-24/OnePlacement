@@ -3,6 +3,7 @@ package com.Jedi.OnePlacementServer.controllers;
 import com.Jedi.OnePlacementServer.payloads.ApiResponse;
 import com.Jedi.OnePlacementServer.payloads.UserDto;
 import com.Jedi.OnePlacementServer.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,9 +30,7 @@ public class UserController {
 
     // get All users;
     @GetMapping("/")
-    public List<UserDto> getAllUsers(){
-        return userService.getAllUsers();
-    }
+    public List<UserDto> getAllUsers(){ return userService.getAllUsers(); }
 
     // get A single User:
     @GetMapping("/{userId}")
