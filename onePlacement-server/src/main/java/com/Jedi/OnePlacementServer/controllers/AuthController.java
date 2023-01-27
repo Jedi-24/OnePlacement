@@ -72,6 +72,7 @@ public class AuthController {
         authRequest.setPassword(userDto.getPassword());
         ResponseEntity<JwtAuthResponse> response = createToken(authRequest);
         user.setJwtToken(response.getBody().getToken());
+        System.out.println(response.getBody().getToken());
         user.setPassword("$$$$");
 
         return new ResponseEntity<UserDto>(user, HttpStatus.CREATED);
