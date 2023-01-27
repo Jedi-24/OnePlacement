@@ -1,6 +1,6 @@
 package com.jedi.oneplacement.payloads;
 
-public class LoginInfo {
+public class UserLoginInfo {
     private String username;
     private String password;
 

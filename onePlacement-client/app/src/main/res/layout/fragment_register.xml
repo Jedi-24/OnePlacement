@@ -1,14 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.RegisterFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/login_img"
+        android:layout_width="300sp"
+        android:layout_height="250sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="70sp"
+        android:layout_marginTop="30sp"
+        android:layout_marginEnd="70sp"
+        android:layout_marginBottom="40sp"
+        android:src="@mipmap/ic_launcher" />
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/register_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_img"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/shapes"
+            android:fontFamily="@font/alegreya_sans_sc"
+            android:gravity="center"
+            android:hint="Name..."
+            android:padding="7dp"
+            android:textColor="@color/black"
+            android:textColorHint="#36454F" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/reg_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shapes"
+            android:fontFamily="@font/alegreya_sans_sc"
+            android:gravity="center"
+            android:hint="Registration No."
+            android:padding="7dp"
+            android:textColor="@color/black"
+            android:textColorHint="#36454F" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shapes"
+            android:fontFamily="@font/alegreya_sans_sc"
+            android:gravity="center"
+            android:hint="Email ID"
+            android:padding="7dp"
+            android:textColor="@color/black"
+            android:textColorHint="#36454F" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/reg_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shapes"
+            android:fontFamily="@font/alegreya_sans_sc"
+            android:gravity="center"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="7dp"
+            android:textColor="@color/black"
+            android:textColorHint="#36454F" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/_role"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="80dp"
+            android:hint="Internship | Placement">
+
+            <AutoCompleteTextView
+                android:id="@+id/AutoCompleteTextview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Internship"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reg_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="@string/register" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/register_form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alegreya_sans_sc"
+            android:text="Already Registered ?"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:id="@+id/login_txt"
+            android:fontFamily="@font/alegreya_sans_sc_bold_italic"
+            android:text="click to Login."
+            android:textSize="16dp" />
+    </LinearLayout>
+</RelativeLayout>

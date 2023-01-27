@@ -32,7 +32,7 @@ tools:context=".fragments.LoginFragment">
             android:background="@drawable/shapes"
             android:fontFamily="@font/alegreya_sans_sc"
             android:gravity="center"
-            android:hint="@string/user_name"
+            android:hint="Username (Registration No.)"
             android:textColorHint="#36454F"
             android:textColor="@color/black"
             android:padding="7dp" />
@@ -81,7 +81,7 @@ tools:context=".fragments.LoginFragment">
             android:layout_marginStart="5dp"
             android:id="@+id/reg_txt"
             android:fontFamily="@font/alegreya_sans_sc_bold_italic"
-            android:text="click to register."
+            android:text="click to Register."
             android:textSize="16dp" />
     </LinearLayout>
 </RelativeLayout>

@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import com.jedi.oneplacement.LoginActivity;
 import com.jedi.oneplacement.MainActivity;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
-import com.jedi.oneplacement.payloads.LoginInfo;
+import com.jedi.oneplacement.payloads.UserLoginInfo;
 import com.jedi.oneplacement.retrofit.AuthApi;
 import com.jedi.oneplacement.retrofit.RetrofitInitializer;
 
@@ -35,12 +34,12 @@ public class LoginFragment extends Fragment {
     TextInputEditText mUsername,mPassword;
     MaterialButton mBtn;
     TextView mReg;
-    LoginActivity mlgnActivity;
+    LoginActivity mLoginActivity;
 
     private String mUser,password;
 
     public LoginFragment(LoginActivity loginActivity) {
-        this.mlgnActivity = loginActivity;
+        this.mLoginActivity = loginActivity;
     }
 
     @Override
@@ -51,7 +50,6 @@ public class LoginFragment extends Fragment {
 
         mBtn.setOnClickListener(v->{
             mUser = mUsername.getText().toString();
-            Log.d(TAG, "onCreateView: " + mUser);
             password = mPassword.getText().toString();
 
             mUsername.setText("");
@@ -59,7 +57,7 @@ public class LoginFragment extends Fragment {
             callLoginApi(mUser,password);
         });
 
-        mReg.setOnClickListener(v -> mlgnActivity.loadRegFragment());
+        mReg.setOnClickListener(v -> mLoginActivity.loadRegFragment());
 
         return view;
     }
@@ -68,11 +66,11 @@ public class LoginFragment extends Fragment {
         RetrofitInitializer retrofitInitializer = new RetrofitInitializer();
         AuthApi auth = retrofitInitializer.getRetrofit().create(AuthApi.class);
 
-        LoginInfo loginInfo = new LoginInfo();
-        loginInfo.setUsername(mUser);
-        loginInfo.setPassword(password);
+        UserLoginInfo userLoginInfo = new UserLoginInfo();
+        userLoginInfo.setUsername(mUser);
+        userLoginInfo.setPassword(password);
 
-        auth.loginUser(loginInfo)
+        auth.loginUser(userLoginInfo)
                 .enqueue(new Callback<JwtAuthResponse>() {
                     @Override
                     public void onResponse(Call<JwtAuthResponse> call, Response<JwtAuthResponse> response) {
@@ -87,7 +85,7 @@ public class LoginFragment extends Fragment {
                             }
                         }
                         else{
-                            Toast.makeText(mlgnActivity, "Invalid Credentials, try again later!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mLoginActivity, "Invalid Credentials, try again later!", Toast.LENGTH_SHORT).show();
                         }
                     }
 

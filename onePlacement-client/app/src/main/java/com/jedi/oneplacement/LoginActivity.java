@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         loginFragment = new LoginFragment(this);
-        registerFragment = new RegisterFragment();
+        registerFragment = new RegisterFragment(this);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, loginFragment).commit();
     }
@@ -33,4 +33,9 @@ public class LoginActivity extends AppCompatActivity {
     public void loadRegFragment(){
         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, registerFragment).commit();
     }
+
+    public void loadLoginFragment(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, loginFragment).commit();
+    }
+
 }
