@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jedi.oneplacement.fragments.LoginFragment;
+import com.jedi.oneplacement.fragments.RegisterFragment;
 import com.jedi.oneplacement.retrofit.AuthApi;
 import com.jedi.oneplacement.retrofit.RetrofitInitializer;
 import com.jedi.oneplacement.utils.AppConstants;
@@ -21,6 +23,10 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+
+    LoginFragment loginFragment;
+    RegisterFragment registerFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                         if(response.body().isEmpty()){
-                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
+                            startLoginWindow();
                         }
                         Log.d(TAG, "onResponse: " + response.body());
                     }
@@ -53,7 +57,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<Map<String, Object>> call, Throwable t) {
                         Log.d(TAG, "onFailure: " + t.getMessage());
+                        startLoginWindow();
                     }
                 });
+    }
+
+    private void startLoginWindow(){
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
