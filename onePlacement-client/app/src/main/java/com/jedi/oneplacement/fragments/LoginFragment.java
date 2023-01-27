@@ -1,9 +1,13 @@
 package com.jedi.oneplacement.fragments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +18,26 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jedi.oneplacement.LoginActivity;
+import com.jedi.oneplacement.MainActivity;
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.payloads.LoginInfo;
+import com.jedi.oneplacement.retrofit.AuthApi;
+import com.jedi.oneplacement.retrofit.RetrofitInitializer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
-
+    private static final String TAG = "LoginFragment";
+    
     TextInputEditText mUsername,mPassword;
     MaterialButton mBtn;
     TextView mReg;
     LoginActivity mlgnActivity;
+
+    private String mUser,password;
 
     public LoginFragment(LoginActivity loginActivity) {
         this.mlgnActivity = loginActivity;
@@ -34,12 +50,52 @@ public class LoginFragment extends Fragment {
         initViews(view);
 
         mBtn.setOnClickListener(v->{
-            Toast.makeText(requireContext(), "Loawdaa", Toast.LENGTH_SHORT).show();
+            mUser = mUsername.getText().toString();
+            Log.d(TAG, "onCreateView: " + mUser);
+            password = mPassword.getText().toString();
+
+            mUsername.setText("");
+            mPassword.setText("");
+            callLoginApi(mUser,password);
         });
 
         mReg.setOnClickListener(v -> mlgnActivity.loadRegFragment());
 
         return view;
+    }
+
+    private void callLoginApi(String mUser, String password) {
+        RetrofitInitializer retrofitInitializer = new RetrofitInitializer();
+        AuthApi auth = retrofitInitializer.getRetrofit().create(AuthApi.class);
+
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.setUsername(mUser);
+        loginInfo.setPassword(password);
+
+        auth.loginUser(loginInfo)
+                .enqueue(new Callback<JwtAuthResponse>() {
+                    @Override
+                    public void onResponse(Call<JwtAuthResponse> call, Response<JwtAuthResponse> response) {
+                        if(response.body()!=null){
+                            String jwtToken = response.body().getToken();
+                            if(!(jwtToken.isEmpty())){
+                                // store token in shared preferences:
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ONE_PLACEMENT", Context.MODE_PRIVATE);
+                                sharedPreferences.edit().putString("JWT", jwtToken).apply();
+
+                                startActivity(new Intent(requireContext(), MainActivity.class));
+                            }
+                        }
+                        else{
+                            Toast.makeText(mlgnActivity, "Invalid Credentials, try again later!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JwtAuthResponse> call, Throwable t) {
+                        Log.d(TAG, "onFailure: " + t.getMessage());
+                    }
+                });
     }
 
     private void initViews(View view) {
