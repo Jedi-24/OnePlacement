@@ -56,7 +56,7 @@ public class AuthController {
     // LOGIN API POINT: and to create Token.
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest authRequest) throws Exception{
-        this.authenticate(authRequest.getUsername(), authRequest.getPassword(), authRequest);
+        this.authenticate(authRequest.getUsername(), authRequest.getPassword());
         String jwtToken = this.jwtTokenHelper.generateToken(userDetailsService.loadUserByUsername(authRequest.getUsername()));
         JwtAuthResponse authResponse = new JwtAuthResponse();
         authResponse.setToken(jwtToken);
@@ -78,12 +78,10 @@ public class AuthController {
         return new ResponseEntity<UserDto>(user, HttpStatus.CREATED);
     }
 
-    private void authenticate(String username, String password, JwtAuthRequest request) throws Exception{
+    private void authenticate(String username, String password) throws Exception{
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username,password);
         try{
-            Authentication authentication = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-//            System.out.println("jedi " + authentication.getPrincipal());
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
+            this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         } catch (BadCredentialsException e){
             System.out.println("Invalid Password !");
             // Necessary to throw an Exception, vrna Token generate ho jayega be faltu ka:

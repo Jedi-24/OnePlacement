@@ -28,14 +28,6 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleRepo roleRepo;
-
-    @Override
-    public UserDto createUser(UserDto userDto) {
-        User user = this.dtoToUser(userDto);
-        User savedUser = this.userRepo.save(user);
-        return this.userToDto(savedUser);
-    }
-
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
         User user = this.userRepo.findById(userId)
