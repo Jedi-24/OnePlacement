@@ -1,5 +1,8 @@
 package com.jedi.oneplacement.fragments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jedi.oneplacement.LoginActivity;
+import com.jedi.oneplacement.MainActivity;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.payloads.UserDto;
@@ -81,16 +85,30 @@ public class RegisterFragment extends Fragment {
         user.setRegNo(regNo);
         user.setEmail(email);
         user.setPassword(password);
+        Log.d(TAG, "callRegisterApi: " + user.toString());
 
         auth.registerUser(role, user)
-                .enqueue(new Callback<User>() {
+                .enqueue(new Callback<UserDto>() {
                     @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
+                    public void onResponse(Call<UserDto> call, Response<UserDto> response) {
                         Log.d(TAG, "onResponse: " + response.body());
+                        if(response.body()!=null){
+                            String jwtToken = response.body().getJwtToken();
+                            if(!(jwtToken.isEmpty())){
+                                // store token in shared preferences:
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ONE_PLACEMENT", Context.MODE_PRIVATE);
+                                sharedPreferences.edit().putString("JWT", jwtToken).apply();
+
+                                startActivity(new Intent(requireContext(), MainActivity.class));
+                            }
+                        }
+                        else{
+                            Toast.makeText(mLoginActivity, "Something's Wrong, try again later !", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<User> call, Throwable t) {
+                    public void onFailure(Call<UserDto> call, Throwable t) {
                         Log.d(TAG, "onFailure: " + t.getMessage());
                     }
                 });

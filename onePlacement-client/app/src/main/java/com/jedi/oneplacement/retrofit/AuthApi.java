@@ -21,5 +21,5 @@ public interface AuthApi {
     Call<JwtAuthResponse> loginUser(@Body UserLoginInfo userLoginInfo);
 
     @POST("/api/v1/auth/register/user/{role}")
-    Call<User> registerUser(@Path (value = "role") String role, @Body User user);
+    Call<UserDto> registerUser(@Path (value = "role") String role, @Body User user);
 }
