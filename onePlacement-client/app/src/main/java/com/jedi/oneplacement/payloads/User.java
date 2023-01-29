@@ -3,7 +3,7 @@ package com.jedi.oneplacement.payloads;
 import lombok.Data;
 
 @Data
-public class User {
+public class User extends Object{
     private String name;
     private String regNo;
     private String email;
