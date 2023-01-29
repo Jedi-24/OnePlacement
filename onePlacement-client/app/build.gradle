@@ -25,6 +25,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // this makes sure that a binding class is generated corresponding to every layout file, using which Views are accessed;
+    buildFeatures{
+        viewBinding true
+    }
+
 }
 
 dependencies {

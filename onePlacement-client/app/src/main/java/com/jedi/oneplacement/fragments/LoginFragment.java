@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -19,22 +20,21 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.jedi.oneplacement.EntryActivity;
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.databinding.FragmentLoginBinding;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
 import com.jedi.oneplacement.retrofit.AuthApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
-
-    TextInputEditText mUsername, mPassword;
-    MaterialButton mBtn;
-    TextView mReg;
     EntryActivity mEntryActivity;
+    FragmentLoginBinding mBinding = null;
 
-    private String mUser, password;
     private Map<String, Object> mUserdata = new HashMap<>();
 
     public LoginFragment(EntryActivity entryActivity) {
@@ -42,26 +42,23 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        initViews(view);
+        mBinding = FragmentLoginBinding.inflate(inflater,container, false);
+        mBinding.loginBtn.setOnClickListener(v -> {
 
-        mBtn.setOnClickListener(v -> {
-            mUser = mUsername.getText().toString();
-            password = mPassword.getText().toString();
-
-            mUsername.setText("");
-            mPassword.setText("");
-            callLoginApi(mUser, password);
+            callLoginApi(mBinding.userName.getText().toString(), mBinding.password.getText().toString());
+            mBinding.userName.setText("");
+            mBinding.password.setText("");
         });
 
-        mReg.setOnClickListener(v -> mEntryActivity.loadRegFragment());
+        mBinding.regTxt.setOnClickListener(v -> mEntryActivity.loadRegFragment());
 
-        return view;
+        return mBinding.getRoot();
     }
 
     private void callLoginApi(String mUser, String password) {
+        Log.d(TAG, "callLoginApi: here");
         AuthApiImpl.loginUser(mUser, password, new AuthApiImpl.ApiCallListener<JwtAuthResponse>() {
             @Override
             public void onResponse(JwtAuthResponse response) {
@@ -109,12 +106,9 @@ public class LoginFragment extends Fragment {
         });
     }
 
-
-
-    private void initViews(View view) {
-        mUsername = view.findViewById(R.id.user_name);
-        mPassword = view.findViewById(R.id.password);
-        mBtn = view.findViewById(R.id.login_btn);
-        mReg = view.findViewById(R.id.reg_txt);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBinding = null;
     }
 }

@@ -75,7 +75,7 @@ public class RegisterFragment extends Fragment {
                     SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
                     sharedPreferences.edit().putString(AppConstants.JWT, jwtToken).apply();
 
-                    startActivity(new Intent(requireContext(), EntryActivity.class));
+                    startActivity(new Intent(requireContext(), EntryActivity.class)); // todo: remove this shite;
                 }
             }
 
