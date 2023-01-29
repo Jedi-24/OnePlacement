@@ -6,82 +6,90 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 import com.jedi.oneplacement.EntryActivity;
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.databinding.FragmentRegisterBinding;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.AuthApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.UserInstance;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterFragment extends Fragment {
-    private static final String TAG = "RegisterFragment";
-
-    AutoCompleteTextView autoCompleteTextView;
-    TextInputEditText mName,mRegNo,mEmail,mPassword;
-    MaterialButton mRegBtn;
-    TextView mLogin;
-
-    private String name,password,email,regNo,role;
-
-    EntryActivity mEntryActivity;
-
-    public RegisterFragment(EntryActivity entryActivity) {
-        this.mEntryActivity = entryActivity;
-    }
+    private String name, password, email, regNo, role;
+    FragmentRegisterBinding mBinding = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_register, container, false);
-        initViews(view);
+        mBinding = FragmentRegisterBinding.inflate(inflater, container, false);
+        role = AppConstants.DEFAULT_ROLE;
 
-        autoCompleteTextView.setOnItemClickListener((parent, view1, position, id) -> {
-            role = autoCompleteTextView.getText().toString();
-            Toast.makeText(requireContext(), autoCompleteTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+        mBinding.autoCompleteTextview.setOnItemClickListener((parent, view1, position, id) -> {
+            role = mBinding.autoCompleteTextview.getText().toString();
+            Toast.makeText(requireContext(), mBinding.autoCompleteTextview.getText().toString(), Toast.LENGTH_SHORT).show();
         });
 
-        mRegBtn.setOnClickListener(v->{
-            name = mName.getText().toString();
-            password = mPassword.getText().toString();
-            email = mEmail.getText().toString();
-            regNo = mRegNo.getText().toString();
-            mName.setText("");mPassword.setText("");mRegNo.setText("");mEmail.setText("");
-            callRegisterApi(name,regNo,email,password,role);
+        mBinding.regBtn.setOnClickListener(v -> {
+            name = mBinding.name.getText().toString();
+            password = mBinding.regPassword.getText().toString();
+            email = mBinding.email.getText().toString();
+            regNo = mBinding.regNo.getText().toString();
+            mBinding.name.setText("");
+            mBinding.regPassword.setText("");
+            mBinding.email.setText("");
+            mBinding.regNo.setText("");
+            callRegisterApi(name, regNo, email, password, role);
         });
 
-        mLogin.setOnClickListener(v -> mEntryActivity.loadLoginFragment());
-        return view;
+        return mBinding.getRoot();
     }
 
     private void callRegisterApi(String name, String regNo, String email, String password, String role) {
-
         AuthApiImpl.registerUser(name, regNo, email, password, role, new AuthApiImpl.ApiCallListener<UserDto>() {
             @Override
             public void onResponse(UserDto response) {
                 String jwtToken = response.getJwtToken();
-                if(!(jwtToken.isEmpty())){
+                if (!(jwtToken.isEmpty())) {
                     // store token in shared preferences:
                     SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
                     sharedPreferences.edit().putString(AppConstants.JWT, jwtToken).apply();
-
-                    startActivity(new Intent(requireContext(), EntryActivity.class)); // todo: remove this shite;
+                    redirectToHome(jwtToken);
                 }
             }
 
             @Override
             public void onFailure(int code) {
+            }
+        });
+    }
 
+    private void redirectToHome(String token) {
+        UserInstance.updateJwtToken(token, new UserInstance.FetchListener() {
+            @Override
+            public void onFetch() {
+                NavHostFragment.findNavController(RegisterFragment.this).navigate(R.id.action_registerFragment_to_homeFragment);
+            }
+
+            @Override
+            public void onError(int code) {
+                Toast.makeText(requireContext(), "Error thrown with code: " + code, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -89,22 +97,8 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         String[] subjects = getResources().getStringArray(R.array.options);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), R.layout.dropdown_item,subjects);
-        autoCompleteTextView.setAdapter(adapter);
-    }
-
-    private void initViews(View view) {
-        autoCompleteTextView = view.findViewById(R.id.AutoCompleteTextview);
-
-        mName = view.findViewById(R.id.name);
-        mRegNo = view.findViewById(R.id.reg_no);
-        mEmail = view.findViewById(R.id.email);
-        mPassword = view.findViewById(R.id.reg_password);
-
-        mRegBtn = view.findViewById(R.id.reg_btn);
-        mLogin = view.findViewById(R.id.login_txt);
-        role = AppConstants.DEFAULT_ROLE;
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, subjects);
+        mBinding.autoCompleteTextview.setAdapter(adapter);
     }
 }

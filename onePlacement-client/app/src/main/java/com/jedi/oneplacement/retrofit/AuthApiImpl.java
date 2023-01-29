@@ -64,7 +64,7 @@ public class AuthApiImpl {
     }
 
     public static void checkUser(String token, ApiCallListener<Map<String, Object>> listener) {
-        getRetrofitAccessObject().checkUser(token).enqueue(new Callback<Map<String, Object>>() {
+        getRetrofitAccessObject().checkUser("Bearer " + token).enqueue(new Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 if (response.body().isEmpty()) {

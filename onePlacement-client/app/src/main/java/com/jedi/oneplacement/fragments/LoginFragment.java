@@ -1,22 +1,19 @@
 package com.jedi.oneplacement.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.jedi.oneplacement.EntryActivity;
 import com.jedi.oneplacement.R;
@@ -24,22 +21,14 @@ import com.jedi.oneplacement.databinding.FragmentLoginBinding;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
 import com.jedi.oneplacement.retrofit.AuthApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
-
-import org.jetbrains.annotations.NotNull;
+import com.jedi.oneplacement.utils.UserInstance;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
-    EntryActivity mEntryActivity;
     FragmentLoginBinding mBinding = null;
-
-    private Map<String, Object> mUserdata = new HashMap<>();
-
-    public LoginFragment(EntryActivity entryActivity) {
-        this.mEntryActivity = entryActivity;
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,13 +41,12 @@ public class LoginFragment extends Fragment {
             mBinding.password.setText("");
         });
 
-        mBinding.regTxt.setOnClickListener(v -> mEntryActivity.loadRegFragment());
+        mBinding.regTxt.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_registerFragment));
 
         return mBinding.getRoot();
     }
 
     private void callLoginApi(String mUser, String password) {
-        Log.d(TAG, "callLoginApi: here");
         AuthApiImpl.loginUser(mUser, password, new AuthApiImpl.ApiCallListener<JwtAuthResponse>() {
             @Override
             public void onResponse(JwtAuthResponse response) {
@@ -85,23 +73,16 @@ public class LoginFragment extends Fragment {
     }
 
     private void redirectToHome(String token) {
-        // retrieve token from shared preferences:
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-
-        AuthApiImpl.checkUser("Bearer " + token, new AuthApiImpl.ApiCallListener<Map<String, Object>>() {
+        UserInstance.updateJwtToken(token, new UserInstance.FetchListener() {
             @Override
-            public void onResponse(Map<String, Object> response) {
-                mUserdata = response;
-                String toJson = new Gson().toJson(mUserdata.get("Authenticated: "));
-                Log.d(TAG, "onResponse: " + toJson);
-                sharedPreferences.edit().putString(AppConstants.JSON_DATA, toJson).apply();
-                mEntryActivity.loadHomeFragment();
+            public void onFetch() {
+                NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_homeFragment);
             }
 
             @Override
-            public void onFailure(int code) {
+            public void onError(int code) {
                 // in any case, BAD REQUEST | UNSUCCESSFUL REQUEST :
-                mEntryActivity.loadLoginFragment();
+//                mEntryActivity.loadLoginFragment();
             }
         });
     }

@@ -1,9 +1,17 @@
 package com.jedi.oneplacement;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,40 +22,18 @@ import com.jedi.oneplacement.fragments.RegisterFragment;
 
 import com.jedi.oneplacement.retrofit.AuthApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.UserInstance;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class EntryActivity extends AppCompatActivity {
-    private static final String TAG = "EntryActivity";
-    private Map<String, Object> mUserdata = new HashMap<>();
-
-    LoginFragment loginFragment;
-    RegisterFragment registerFragment;
-    HomeFragment homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
-
-        loginFragment = new LoginFragment(this);
-        registerFragment = new RegisterFragment(this);
-        homeFragment = new HomeFragment(this);
-
         checkUserSession();
-    }
-
-    public void loadRegFragment(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.base_fragment, registerFragment).commit();
-    }
-
-    public void loadLoginFragment(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.base_fragment, loginFragment).commit();
-    }
-
-    public void loadHomeFragment(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.base_fragment, homeFragment).commit();
     }
 
     private void checkUserSession() {
@@ -55,20 +41,19 @@ public class EntryActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(AppConstants.JWT, null);
 
-        AuthApiImpl.checkUser("Bearer " + token, new AuthApiImpl.ApiCallListener<Map<String, Object>>() {
+        UserInstance.updateJwtToken(token, new UserInstance.FetchListener() {
             @Override
-            public void onResponse(Map<String, Object> response) {
-                mUserdata = response;
-                String toJson = new Gson().toJson(mUserdata.get("Authenticated: "));
-                Log.d(TAG, "onResponse: " + toJson);
-                sharedPreferences.edit().putString(AppConstants.JSON_DATA, toJson).apply();
-                loadHomeFragment();
+            public void onFetch() {
+                NavOptions.Builder navBuilder = new NavOptions.Builder();
+                NavOptions navOptions = navBuilder.setPopUpTo(R.id.loginFragment, true).build();
+                NavController navController = Navigation.findNavController(EntryActivity.this,R.id.fragmentContainerView);
+                navController.navigate(R.id.homeFragment,null,navOptions);
             }
 
             @Override
-            public void onFailure(int code) {
+            public void onError(int code) {
                 // in any case, BAD REQUEST | UNSUCCESSFUL REQUEST :
-                loadLoginFragment();
+//                loadLoginFragment();
             }
         });
     }
