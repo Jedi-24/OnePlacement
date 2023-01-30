@@ -38,7 +38,12 @@ public class User implements UserDetails {
     private String password;
 
     // profile url ? // todo.
-    private String jwtToken; // todo: ask doubt ?
+    private String profilePath;
+    private String resumePath;
+
+    private String jwtToken;
+    private String branch;
+    private String phoneNumber;
 
     // relation b|w role and user:
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

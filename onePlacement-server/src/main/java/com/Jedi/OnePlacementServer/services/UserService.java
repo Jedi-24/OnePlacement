@@ -6,7 +6,6 @@ import com.Jedi.OnePlacementServer.payloads.UserDto;
 import java.util.List;
 
 public interface UserService {
-
     UserDto registerUser(UserDto userDto, String role);
     UserDto updateUser(UserDto user, Integer userId);
     UserDto getUserById(Integer userId);

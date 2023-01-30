@@ -19,6 +19,6 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepo.findByRegNo(username)
-               .orElseThrow(()->new ResourceNotFoundException("User", "Registration Number :" + username, 69));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Registration Number :" + username, 69));
     }
 }

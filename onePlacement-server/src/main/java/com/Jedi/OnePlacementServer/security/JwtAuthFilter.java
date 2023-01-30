@@ -36,38 +36,38 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // GET Username from token. implementation in JWT-helper;
         String username = null;
         String token = null;
-        try{
-            if(requestToken.startsWith("Bearer")){
+        try {
+            if (requestToken.startsWith("Bearer")) {
                 token = requestToken.substring(7);
-                try{
+                try {
                     username = this.jwtTokenHelper.getUsernameFromToken(token);
-                }catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
-                } catch (MalformedJwtException e){
+                } catch (MalformedJwtException e) {
                     System.out.println("Invalid JWT");
                 }
-            }else{
+            } else {
                 System.out.println("Invalid JWT format, doesn't start with BEARER.");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
         // 2. Validate Token:
-        if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if(this.jwtTokenHelper.validateToken(token,userDetails)){
+            if (this.jwtTokenHelper.validateToken(token, userDetails)) {
                 // AUTHENTICATION SET KRE:
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            }else{
+            } else {
                 System.out.println("Invalid payload in Token!");
             }
-        } else{
+        } else {
             System.out.println("Username is NULL | Context Holder Not Null");
         }
+
         // we need to filter the request further, to API access maybe...
         filterChain.doFilter(request, response);
     }

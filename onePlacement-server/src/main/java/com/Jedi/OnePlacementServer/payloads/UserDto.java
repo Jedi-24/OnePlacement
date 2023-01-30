@@ -37,7 +37,12 @@ public class UserDto {
 //    @JsonIgnore
     private String password;
 
+    private String profilePath;
+    private String resumePath;
+
     private String jwtToken;
+    private String branch;
+    private String phoneNumber;
 
     private Set<RoleDto> roles = new HashSet<>();
 }
