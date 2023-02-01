@@ -10,14 +10,12 @@ public class UserDto {
 
     private int id;
     private String name;
-
     private String regNo;
-
     private String email;
-
     private String password;
-
     private String jwtToken;
+    private String branch;
+    private String phoneNumber;
 
     private Set<RoleDto> roles = new HashSet<>();
 }

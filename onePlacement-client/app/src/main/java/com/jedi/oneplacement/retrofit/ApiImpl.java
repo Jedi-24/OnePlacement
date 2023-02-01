@@ -1,40 +1,49 @@
 package com.jedi.oneplacement.retrofit;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.jedi.oneplacement.EntryActivity;
+import com.google.gson.GsonBuilder;
+import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.payloads.UserLoginInfo;
 import com.jedi.oneplacement.utils.AppConstants;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
+import lombok.SneakyThrows;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class AuthApiImpl {
+public class ApiImpl {
     private static final String TAG = "AuthApiImpl";
-    private static AuthApi mApi = null;
+    private static Api mApi = null;
 
-    private static AuthApi getRetrofitAccessObject() {
+    private static Api getRetrofitAccessObject() {
         if (mApi == null) {
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(AppConstants.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
-            mApi = retrofit.create(AuthApi.class);
+            mApi = retrofit.create(Api.class);
         }
         return mApi;
     }
@@ -101,6 +110,32 @@ public class AuthApiImpl {
 
                     @Override
                     public void onFailure(Call<UserDto> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+    public static void getImage(Integer uid,String token,ApiCallListener<FileResponse> listener){
+        Log.d(TAG, "getImage: " + token);
+
+        getRetrofitAccessObject().getImage(uid,"Bearer " + token)
+                .enqueue(new Callback<FileResponse>() {
+                    @Override
+                    public void onResponse(Call<FileResponse> call, Response<FileResponse> response) {
+                        if(response.body()==null) {
+                            listener.onFailure(response.code());
+                            Log.d(TAG, "onFailure: hehehehe");
+                            return;
+                        }
+
+                        Log.d(TAG, "onResponse: " + response.body());
+                        listener.onResponse(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<FileResponse> call, Throwable t) {
+
+                        Log.d(TAG, "onFailure: " + t.getMessage());
                         listener.onFailure(-1);
                     }
                 });

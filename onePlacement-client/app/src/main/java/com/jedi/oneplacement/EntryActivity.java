@@ -1,31 +1,16 @@
 package com.jedi.oneplacement;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.google.gson.Gson;
-import com.jedi.oneplacement.fragments.HomeFragment;
-import com.jedi.oneplacement.fragments.LoginFragment;
-import com.jedi.oneplacement.fragments.RegisterFragment;
-
-import com.jedi.oneplacement.retrofit.AuthApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class EntryActivity extends AppCompatActivity {
 

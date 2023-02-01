@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
@@ -14,17 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import com.google.gson.Gson;
-import com.jedi.oneplacement.EntryActivity;
+
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.databinding.FragmentLoginBinding;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
-import com.jedi.oneplacement.retrofit.AuthApiImpl;
+import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
@@ -47,7 +42,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void callLoginApi(String mUser, String password) {
-        AuthApiImpl.loginUser(mUser, password, new AuthApiImpl.ApiCallListener<JwtAuthResponse>() {
+        ApiImpl.loginUser(mUser, password, new ApiImpl.ApiCallListener<JwtAuthResponse>() {
             @Override
             public void onResponse(JwtAuthResponse response) {
                 String token = response.getToken();
