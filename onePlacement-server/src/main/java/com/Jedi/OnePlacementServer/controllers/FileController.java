@@ -13,11 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController @RequestMapping("/file")
 public class FileController {
@@ -53,7 +57,7 @@ public class FileController {
     }
 
     @GetMapping("/retrieve/image/{userId}")
-    public ResponseEntity<Resource> retrieveImage(@PathVariable("userId") Integer uId) throws IOException {
+    public ResponseEntity<FileResponse> retrieveImage(@PathVariable("userId") Integer uId) throws IOException {
         String fPath = this.fileService.retrieveImage(uId);
         File file = new File(fPath);
 
@@ -64,9 +68,17 @@ public class FileController {
         header.add("Expires", "0");
 
         Path path = Paths.get(fPath);
-        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
-
-        return ResponseEntity.ok().headers(header).contentLength(file.length()).contentType(MediaType.IMAGE_JPEG).body(resource);
+        // this resource contains a bytes array;
+        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path)); // readAllBytes gives me a bytes[];
+//        File rFile = new File(resource.getURI());
+//        Map<String, byte[]> ret = new HashMap<>();
+//        ret.put("Jedi", resource.getByteArray());
+//        return ResponseEntity.ok().headers(header).contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource.getByteArray());
+//        return ResponseEntity.ok().headers(header).contentLength(file.length()).contentType(MediaType.IMAGE_JPEG).body(DatatypeConverter.printBase64Binary());
+        FileResponse fileResponse = new FileResponse();
+        fileResponse.setFileName(DatatypeConverter.printBase64Binary(resource.getByteArray()));
+        fileResponse.setMessage("success ? eh");
+        return ResponseEntity.ok().headers(header).body(fileResponse);
     }
 
     @GetMapping("/retrieve/resume/{userId}")
