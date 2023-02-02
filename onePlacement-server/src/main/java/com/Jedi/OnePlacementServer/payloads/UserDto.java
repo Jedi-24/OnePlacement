@@ -33,7 +33,7 @@ public class UserDto {
     private String email;
 
     // pattern annotation;
-    @NotEmpty(message = "Invalid Password") @Size(min = 4, max = 12)
+    @NotEmpty(message = "Invalid Password") @Size(min = 4)
 //    @JsonIgnore
     private String password;
 

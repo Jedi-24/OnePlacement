@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
@@ -22,23 +23,18 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String uploadImage(String path, MultipartFile file, Integer uId) throws IOException {
-        // File Name
-        String fName = file.getOriginalFilename();
-        String randomID = UUID.randomUUID().toString();
-        assert fName != null;
-        String fName_rand = randomID.concat(fName.substring(fName.lastIndexOf('.')));
-
         // Full Path
-        String fPath=path+File.separator+fName_rand;
+        String fPath=path+File.separator+uId;
 
         // Create Folder (if not created)
         File f = new File(path);
         if(!f.exists()) f.mkdir();
+
         // copy file
-        Files.copy(file.getInputStream(), Paths.get(fPath));
+        Files.copy(file.getInputStream(), Paths.get(fPath), StandardCopyOption.REPLACE_EXISTING);
         updateUser(uId,fPath, "I");
 
-        return fName;
+        return uId.toString();
     }
 
     @Override
@@ -75,6 +71,7 @@ public class FileServiceImpl implements FileService {
     }
 
     private void updateUser(Integer uId, String fPath, String from){
+        System.out.println("I CAME HERE " + uId);
         User user = this.userRepo.findById(uId)
                 .orElseThrow(()-> new ResourceNotFoundException("User","Id",uId));
 
