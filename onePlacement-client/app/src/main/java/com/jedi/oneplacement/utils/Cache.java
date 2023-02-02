@@ -13,6 +13,7 @@ import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,9 +26,10 @@ public class Cache {
     private static final String TAG = "Cache";
     public static Bitmap readFromCache(Context context){
         File folder = context.getCacheDir();
-        File f = new File(folder, "user_photo");
+        File f = new File(folder, AppConstants.USER_PHOTO);
         Bitmap b = null;
         try{
+            new FileInputStream(f).read();
             b = BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,9 +37,20 @@ public class Cache {
         return b;
     }
 
+    public static void updateCache(Context context){
+        // not a good way to do it.
+        File folder = context.getCacheDir();
+        File f = new File(folder,AppConstants.USER_PHOTO_BAK);
+        File f_ = new File(folder,AppConstants.USER_PHOTO);
+        Log.d(TAG, "updateCache: " + f_.delete());
+        Log.d(TAG, "updateCache: " + f.renameTo(f_));
+    }
+
     public static void writeToCache(Context context, byte[] byteData){
         File folder = context.getCacheDir();
-        File f = new File(folder, "user_photo");
+        File f = new File(folder, AppConstants.USER_PHOTO);
+        Log.d(TAG, "writeToCache: " + f.getAbsolutePath());
+
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(f);

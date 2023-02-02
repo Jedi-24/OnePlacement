@@ -3,72 +3,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.UserProfileFragment">
 
-    <include layout="@layout/toolbar" android:id="@+id/layout"/>
+    <include
+        android:id="@+id/layout"
+        layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:id="@+id/firstL"
-        android:layout_width="match_parent"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_photo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/layout"
+        android:layout_centerHorizontal="true"
+        android:clickable="false"
+        android:layout_marginTop="60sp"
+        android:src="@drawable/man" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/edit_img"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout">
+        android:layout_marginTop="60sp"
+        android:layout_alignEnd="@+id/profile_photo"
+        android:src="@drawable/ic_edit_svgrepo_com"
+        android:layout_below="@id/layout"
+        android:visibility="invisible"
+        app:fabCustomSize="40sp" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_photo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="30sp"
-            android:src="@drawable/man" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Username" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Username" />
-
-            <EditText
-                android:id="@+id/user_branch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Username" />
-        </LinearLayout>
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/secondL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/firstL">
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/profile_photo">
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Username" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username" />
+
+        <EditText
+            android:id="@+id/user_branch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Branch" />
+
+        <EditText
             android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Email" />
 
         <EditText
+            android:id="@+id/m_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/m_number"
             android:text="Mobile Number" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/edit_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:id="@+id/edit_view"
-        android:text="Edit"
-        />
+        android:text="Edit" />
 </RelativeLayout>

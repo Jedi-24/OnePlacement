@@ -69,6 +69,15 @@ public class UserInstance {
         });
     }
 
+    public static User getUserInstance() {
+        return mUser;
+    }
+
+    public static void setUserInstance(User user){
+        mUser = user;
+        Log.d(TAG, "setUserInstance: " + mUser.toString());
+    }
+
     public static Integer getId() {
         return mUser.getId();
     }

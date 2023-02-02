@@ -12,14 +12,17 @@ import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.payloads.UserLoginInfo;
 import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.UserInstance;
 
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 import lombok.SneakyThrows;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,6 +109,50 @@ public class ApiImpl {
                         }
                         else
                             listener.onFailure(response.code());
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserDto> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+    public static void uploadImg(String token, MultipartBody.Part img , ApiCallListener<FileResponse> listener){
+        Log.d(TAG, "uploadImg: " + UserInstance.getId());
+        getRetrofitAccessObject().uploadImage("Bearer " + token, UserInstance.getId(), img)
+                .enqueue(new Callback<FileResponse>() {
+                    @Override
+                    public void onResponse(Call<FileResponse> call, Response<FileResponse> response) {
+                        Log.d(TAG, "onResponse: haa aa gaya");
+//                        Log.d(TAG, "onResponse: " + response.body());
+                        listener.onResponse(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<FileResponse> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+    public static void updateUser(String token, String branch, String email, String mno, ApiCallListener<UserDto> listener){
+        UserDto userDto = new ModelMapper().map(UserInstance.getUserInstance(), UserDto.class);
+        userDto.setBranch(branch);
+        userDto.setEmail(email);
+        userDto.setPhoneNumber(mno);
+
+        Log.d(TAG, "updateUser: " + userDto.toString());
+
+        getRetrofitAccessObject().updateUserDetails("Bearer " + token, UserInstance.getId(), userDto)
+                .enqueue(new Callback<UserDto>() {
+                    @Override
+                    public void onResponse(Call<UserDto> call, Response<UserDto> response) {
+                        if(response.body()==null){
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
                     }
 
                     @Override
