@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -46,6 +48,12 @@ public class Cache {
         Log.d(TAG, "updateCache: " + f.renameTo(f_));
     }
 
+    public static void removeImgFromCache(Context context){
+        File folder = context.getCacheDir();
+        File f = new File(folder,AppConstants.USER_PHOTO);
+        f.delete();
+    }
+
     public static void writeToCache(Context context, byte[] byteData){
         File folder = context.getCacheDir();
         File f = new File(folder, AppConstants.USER_PHOTO);
@@ -68,18 +76,20 @@ public class Cache {
         }
     }
 
-    public static void getImage(Context context, ImageView userImg) {
+    public static void getImage(Context context, ImageView userImg, ImageView tbImg) {
         Log.d(TAG, "getImage: haha " + UserInstance.getId());
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(AppConstants.JWT, null);
         Bitmap b = Cache.readFromCache(context);
 
-        if(b!=null){
+        if(b !=null){
             userImg.setImageBitmap(b);
+            tbImg.setImageBitmap(b);
             Toast.makeText(context, "Image is loaded from Internal Cache!", Toast.LENGTH_SHORT).show();
             return;
         }
+
 
         ApiImpl.getImage(UserInstance.getId(), token, new ApiImpl.ApiCallListener<FileResponse>() {
             @Override
@@ -87,6 +97,7 @@ public class Cache {
                 byte[] byteData = Base64.decode(response.getFileName(),0);
                 Bitmap bm = BitmapFactory.decodeByteArray(byteData, 0, byteData.length);
                 userImg.setImageBitmap(bm);
+                tbImg.setImageBitmap(bm);
 
                 Cache.writeToCache(context, byteData);
             }

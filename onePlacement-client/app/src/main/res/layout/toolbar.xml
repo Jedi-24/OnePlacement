@@ -2,15 +2,14 @@
 <com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/purple_700"
-    app:navigationIcon="@drawable/ic_menu_svgrepo_com"
+    android:id="@+id/tool_bar"
+    android:background="#A7727D"
     android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:src="@drawable/man"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_profile_circle_svgrepo_com"
         android:layout_gravity="end"
         android:layout_marginEnd="10sp"
         android:id="@+id/user_photo"

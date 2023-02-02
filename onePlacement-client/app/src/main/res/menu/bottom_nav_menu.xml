@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_home2_svgrepo_com"
+        android:title="Home"
+        />
+    <item
+        android:icon="@drawable/ic_company_svgrepo_com"
+        android:title="Companies"
+        />
+    <item
+        android:icon="@drawable/ic_tie_2_svgrepo_com"
+        android:id="@+id/set_role"
+        android:title="Role"
+        />
+</menu>

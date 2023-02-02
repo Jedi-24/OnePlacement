@@ -1,13 +1,9 @@
 package com.jedi.oneplacement.fragments;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,6 +11,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -24,7 +23,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jedi.oneplacement.R;
-import com.jedi.oneplacement.databinding.FragmentHomeBinding;
 import com.jedi.oneplacement.databinding.FragmentUserProfileBinding;
 import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.payloads.User;
@@ -37,10 +35,8 @@ import com.jedi.oneplacement.utils.UserInstance;
 import org.modelmapper.ModelMapper;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -52,6 +48,10 @@ public class UserProfileFragment extends Fragment {
     Boolean editable;
     Uri contentURI = null;
     Bitmap b = null;
+
+    public interface BackListener{
+        void onBack();
+    }
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -67,12 +67,31 @@ public class UserProfileFragment extends Fragment {
             mBinding.profilePhoto.setImageBitmap(b);
             Toast.makeText(requireContext(), "Image is loaded from Internal Cache!", Toast.LENGTH_SHORT).show();
         }
+        mBinding.layout.toolBar.setNavigationIcon(R.drawable.ic_arrow_back_svgrepo_com);
+        mBinding.layout.userPhoto.setVisibility(View.GONE);
+        setUserDetails();
+
+        mBinding.layout.toolBar.setNavigationOnClickListener(v->{
+            // todo:-->
+        });
 
         toggleEditables(false);
 
         mBinding.editImg.setOnClickListener(v -> {
             Log.d(TAG, "onCreateView: haa haaa");
             choosePhotoFromGallery();
+        });
+
+        mBinding.logOutBtn.setOnClickListener(v->{
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
+            sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
+
+            Cache.removeImgFromCache(requireContext());
+
+            NavOptions.Builder navBuilder = new NavOptions.Builder();
+            NavOptions navOptions = navBuilder.setPopUpTo(R.id.homeFragment, true).build();
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.loginFragment, null, navOptions);
         });
 
         mBinding.editView.setOnClickListener(v -> {
@@ -95,41 +114,44 @@ public class UserProfileFragment extends Fragment {
 
                 // get img file from cache:
                 File folder = getContext().getCacheDir();
-                File file = new File(folder, AppConstants.USER_PHOTO_BAK); // creates am instance of the file located at the "specified" Location;
-                Log.d(TAG, "onCreateView: " + file.getAbsolutePath());
-                Log.d(TAG, "onCreateView: haa yehi " + file.getName());
+                File file = new File(folder, AppConstants.USER_PHOTO_BAK); // creates an instance of the file located at the "specified" Location;
 
-                // we don't need to read from the file, we need to send the file by creating RequestBody's object;
-                RequestBody requestBodyImg = RequestBody.create(MediaType.parse("multipart/form-data"), file); // todo: try changing the MediaType.
-                Log.d(TAG, "onCreateView: " + requestBodyImg);
-                MultipartBody.Part formDataImg = MultipartBody.Part.createFormData("image", file.getName(), requestBodyImg);
+                if(file.exists()){
+                    Log.d(TAG, "onCreateView: " + file.getAbsolutePath());
+                    Log.d(TAG, "onCreateView: haa yehi " + file.getName());
 
-                ApiImpl.uploadImg(token, formDataImg,new ApiImpl.ApiCallListener<FileResponse>() {
+                    // we don't need to read from the file, we need to send the file by creating RequestBody's object;
+                    RequestBody requestBodyImg = RequestBody.create(MediaType.parse("multipart/form-data"), file); // todo: try changing the MediaType.
+                    Log.d(TAG, "onCreateView: " + requestBodyImg);
+                    MultipartBody.Part formDataImg = MultipartBody.Part.createFormData("image", file.getName(), requestBodyImg);
+
+                    ApiImpl.uploadImg(token, formDataImg,new ApiImpl.ApiCallListener<FileResponse>() {
+                        @Override
+                        public void onResponse(FileResponse response) {
+                            Log.d(TAG, "onResponse: idhar aao");
+                            Log.d(TAG, "onResponse: " + response.toString());
+                            // todo: update cache.
+                            Cache.updateCache(requireContext());
+                        }
+
+                        @Override
+                        public void onFailure(int code) {
+                        }
+                    });
+                }
+
+                ApiImpl.updateUser(token, branch, email, mno, new ApiImpl.ApiCallListener<UserDto>() {
                     @Override
-                    public void onResponse(FileResponse response) {
-                        Log.d(TAG, "onResponse: idhar aao");
+                    public void onResponse(UserDto response) {
+                        UserInstance.setUserInstance(new ModelMapper().map(response, User.class));
                         Log.d(TAG, "onResponse: " + response.toString());
-                        // todo: update cache.
-                        Cache.updateCache(requireContext());
                     }
 
                     @Override
                     public void onFailure(int code) {
+                        Toast.makeText(getContext(), "failed to update user details", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-//                ApiImpl.updateUser(token, branch, email, mno, new ApiImpl.ApiCallListener<UserDto>() {
-//                    @Override
-//                    public void onResponse(UserDto response) {
-//                        UserInstance.setUserInstance(new ModelMapper().map(response, User.class));
-//                        Log.d(TAG, "onResponse: " + response.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int code) {
-//                        Toast.makeText(getContext(), "failed to update user details", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
 
                 toggleEditables(false);
             }
@@ -159,8 +181,15 @@ public class UserProfileFragment extends Fragment {
                         mBinding.profilePhoto.setImageURI(contentURI);
                     }
                 });
-
         return mBinding.getRoot();
+    }
+
+    private void setUserDetails() {
+        mBinding.name.setText(UserInstance.getName());
+        mBinding.regNumber.setText(UserInstance.getRegNo());
+        mBinding.userBranch.setText(UserInstance.getBranch());
+        mBinding.email.setText(UserInstance.getEmail());
+        mBinding.mNumber.setText(UserInstance.getPhoneNumber());
     }
 
     private void choosePhotoFromGallery() {

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -46,29 +48,43 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentHomeBinding.inflate(inflater, container, false);
+
         mBinding.userName.setText(UserInstance.getName());
         mBinding.userRegNo.setText(UserInstance.getRegNo());
+        String role = UserInstance.getRole().iterator().next().getRole_name();
 
-        Cache.getImage(requireContext(),mBinding.userProfileImg);
+        MenuItem item = mBinding.bottomNav.getMenu().getItem(2);
+        item.setTitle(role+"s");
+
+        Cache.getImage(requireContext(),mBinding.userProfileImg, mBinding.layout.userPhoto);
+
+//        if(bm!=null)
+//            mBinding.layout.userPhoto.setImageBitmap(bm);
+//        else{
+//            mBinding.layout.userPhoto.setImageBitmap(Cache.readFromCache(requireContext()));
+//        }
+
 
         if(UserInstance.getBranch()!=null)
             mBinding.userBranch.setText(UserInstance.getBranch());
-        mBinding.role.setText(UserInstance.getRole().iterator().next().getRole_name());
+        mBinding.role.setText(role);
 
-        mBinding.toolBar.userPhoto.setOnClickListener(v->{
+        mBinding.layout.userPhoto.setOnClickListener(v->{
             NavController navController = NavHostFragment.findNavController(this);
             navController.navigate(R.id.userProfileFragment);
         });
 
-        mBinding.logOutBtn.setOnClickListener(v -> {
-            SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-            sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
-
-            NavOptions.Builder navBuilder = new NavOptions.Builder();
-            NavOptions navOptions = navBuilder.setPopUpTo(R.id.homeFragment, true).build();
-            NavController navController = NavHostFragment.findNavController(this);
-            navController.navigate(R.id.loginFragment, null, navOptions);
-        });
+//        mBinding.logOutBtn.setOnClickListener(v -> {
+//            SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
+//            sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
+//
+//            Cache.removeImgFromCache(requireContext());
+//
+//            NavOptions.Builder navBuilder = new NavOptions.Builder();
+//            NavOptions navOptions = navBuilder.setPopUpTo(R.id.homeFragment, true).build();
+//            NavController navController = NavHostFragment.findNavController(this);
+//            navController.navigate(R.id.loginFragment, null, navOptions);
+//        });
         return mBinding.getRoot();
     }
 }

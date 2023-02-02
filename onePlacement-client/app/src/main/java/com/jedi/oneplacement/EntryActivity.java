@@ -8,12 +8,14 @@ import androidx.navigation.Navigation;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.jedi.oneplacement.fragments.UserProfileFragment;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
 
 public class EntryActivity extends AppCompatActivity {
-
+    private static final String TAG = "EntryActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,5 +43,11 @@ public class EntryActivity extends AppCompatActivity {
 //                loadLoginFragment();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, "onBackPressed: back presseed");
+        super.onBackPressed();
     }
 }

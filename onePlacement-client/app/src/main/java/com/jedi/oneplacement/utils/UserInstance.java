@@ -94,6 +94,10 @@ public class UserInstance {
         return mUser.getBranch();
     }
 
+    public static String getEmail() {
+        return mUser.getEmail();
+    }
+
     public static Set<RoleDto> getRole() {
         return mUser.getRoles();
     }
