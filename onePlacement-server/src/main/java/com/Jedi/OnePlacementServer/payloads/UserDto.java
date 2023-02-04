@@ -34,7 +34,6 @@ public class UserDto {
 
     // pattern annotation;
     @NotEmpty(message = "Invalid Password") @Size(min = 4)
-//    @JsonIgnore
     private String password;
 
     private String profilePath;
@@ -43,6 +42,9 @@ public class UserDto {
     private String jwtToken;
     private String branch;
     private String phoneNumber;
+    private String tpoCredits;
+    private String roleStatus;
+    private String profileStatus;
 
     private Set<RoleDto> roles = new HashSet<>();
 }

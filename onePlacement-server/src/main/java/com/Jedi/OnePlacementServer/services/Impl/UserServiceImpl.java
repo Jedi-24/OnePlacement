@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto registerUser(UserDto userDto, String role) {
+        userDto.setTpoCredits("10");
         User user = modelMapper.map(userDto, User.class);
         // encode the password:
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));

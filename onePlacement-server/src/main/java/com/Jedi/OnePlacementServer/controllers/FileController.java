@@ -2,6 +2,7 @@ package com.Jedi.OnePlacementServer.controllers;
 
 import com.Jedi.OnePlacementServer.payloads.FileResponse;
 import com.Jedi.OnePlacementServer.services.FileService;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -35,7 +36,7 @@ public class FileController {
     private String resumeFolderPath;
 
     @PostMapping("/upload/image")
-    public ResponseEntity<FileResponse> imageUpload(@RequestParam("image") MultipartFile image, @RequestParam("userID") Integer uId) throws IOException {
+    public ResponseEntity<FileResponse> imageUpload(@RequestParam("image") @Nullable MultipartFile image, @RequestParam("userID") Integer uId) throws IOException {
         String imageName = null;
         try {
             imageName = this.fileService.uploadImage(imgFolderPath, image, uId);
@@ -59,7 +60,6 @@ public class FileController {
     @GetMapping("/retrieve/image/{userId}")
     public ResponseEntity<FileResponse> retrieveImage(@PathVariable("userId") Integer uId) throws IOException {
         String fPath = this.fileService.retrieveImage(uId);
-        File file = new File(fPath);
 
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=profile.jpeg");
@@ -81,8 +81,8 @@ public class FileController {
         return ResponseEntity.ok().headers(header).body(fileResponse);
     }
 
-    @GetMapping("/retrieve/resume/{userId}")
-    public ResponseEntity<Resource> retrieveResume(@PathVariable("userId") Integer uId) throws IOException {
+    @GetMapping(value = "/retrieve/resume/{userId}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FileResponse> retrieveResume(@PathVariable("userId") Integer uId) throws IOException {
         String fPath = this.fileService.retrieveResume(uId);
         File file = new File(fPath);
 
@@ -95,6 +95,9 @@ public class FileController {
         Path path = Paths.get(fPath);
         ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
-        return ResponseEntity.ok().headers(header).contentLength(file.length()).contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
+        FileResponse fileResponse = new FileResponse();
+        fileResponse.setFileName(DatatypeConverter.printBase64Binary(resource.getByteArray()));
+        fileResponse.setMessage("success ? eh");
+        return ResponseEntity.ok().headers(header).contentType(MediaType.APPLICATION_JSON).body(fileResponse);
     }
 }

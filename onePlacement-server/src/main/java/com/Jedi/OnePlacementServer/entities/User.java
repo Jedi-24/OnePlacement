@@ -37,13 +37,15 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    // profile url ? // todo.
     private String profilePath;
     private String resumePath;
 
     private String jwtToken;
     private String branch;
     private String phoneNumber;
+    private String tpoCredits;
+    private String roleStatus;
+    private String profileStatus;
 
     // relation b|w role and user:
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

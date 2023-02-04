@@ -39,21 +39,17 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String uploadResume(String path, MultipartFile file, Integer uId) throws IOException {
-        String fileName = file.getOriginalFilename();
-        String randomUUID = UUID.randomUUID().toString();
-        assert fileName != null;
-        String fName_rand = randomUUID.concat(fileName.substring(fileName.lastIndexOf('.')));
-
-        String fPath = path+File.separator+fName_rand;
+        // full path
+        String fPath = path+File.separator+uId;
 
         File f = new File(path);
         if(!f.exists()) f.mkdir();
 
         // copy file
-        Files.copy(file.getInputStream(), Paths.get(fPath));
+        Files.copy(file.getInputStream(), Paths.get(fPath), StandardCopyOption.REPLACE_EXISTING);
         updateUser(uId,fPath, "R");
 
-        return fileName;
+        return uId.toString();
     }
 
     @Override
