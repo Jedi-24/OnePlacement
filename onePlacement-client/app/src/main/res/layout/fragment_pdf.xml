@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:src="@drawable/ic_error_page_svgrepo_com"
+        android:src="@drawable/ic_not_found_error_alert_svgrepo_com"
         android:id="@+id/no_resume"
         />
 

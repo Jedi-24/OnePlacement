@@ -11,8 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e2ffc766-83d5-4cd1-a0fa-866ae8ced7a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/onePlacement-server/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-server/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/onePlacement-server/src/test/java/com/Jedi/OnePlacementServer/OnePlacementServerApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-server/src/main/java/com/Jedi/OnePlacementServer/OnePlacementServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-server/src/main/java/com/Jedi/OnePlacementServer/OnePlacementServerApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +38,7 @@
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/onePlacement-client" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
