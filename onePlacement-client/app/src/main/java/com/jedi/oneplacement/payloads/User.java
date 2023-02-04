@@ -14,6 +14,9 @@ public class User {
     private String jwtToken;
     private String branch;
     private String phoneNumber;
+    private String tpoCredits;
+    private String roleStatus;
+    private String profileStatus;
 
     private Set<RoleDto> roles;
 }

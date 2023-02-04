@@ -1,8 +1,16 @@
 package com.jedi.oneplacement.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.gson.Gson;
+import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.retrofit.ApiImpl;
@@ -50,6 +58,19 @@ public class UserInstance {
         fetchUser(listener);
     }
 
+    public static void sessionOver(Context context, Fragment fragment){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
+
+        Cache.removeImgFromCache(context);
+        Cache.removeResumeFromCache(context);
+
+        NavOptions.Builder navBuilder = new NavOptions.Builder();
+        NavOptions navOptions = navBuilder.setPopUpTo(R.id.homeFragment, true).build();
+        NavController navController = NavHostFragment.findNavController(fragment);
+        navController.navigate(R.id.loginFragment, null, navOptions);
+    }
+
     private static void fetchUser(FetchListener listener) {
         // API.someFun(jwtToken, onResponse = {res -> mUser.setWhatever field() } )
         ApiImpl.checkUser(mUser.getJwtToken(), new ApiImpl.ApiCallListener<Map<String, Object>>() {
@@ -73,7 +94,7 @@ public class UserInstance {
         return mUser;
     }
 
-    public static void setUserInstance(User user){
+    public static void setUserInstance(User user) {
         mUser = user;
         Log.d(TAG, "setUserInstance: " + mUser.toString());
     }
@@ -96,6 +117,18 @@ public class UserInstance {
 
     public static String getEmail() {
         return mUser.getEmail();
+    }
+
+    public static String getCreditPts() {
+        return mUser.getTpoCredits();
+    }
+
+    public static String getRoleStatus() {
+        return mUser.getRoleStatus();
+    }
+
+    public static String getProfileStatus() {
+        return mUser.getProfileStatus();
     }
 
     public static Set<RoleDto> getRole() {

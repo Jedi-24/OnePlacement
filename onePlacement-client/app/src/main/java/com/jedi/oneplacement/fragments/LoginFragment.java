@@ -30,7 +30,6 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         mBinding = FragmentLoginBinding.inflate(inflater,container, false);
         mBinding.loginBtn.setOnClickListener(v -> {
-
             callLoginApi(mBinding.userName.getText().toString(), mBinding.password.getText().toString());
             mBinding.userName.setText("");
             mBinding.password.setText("");
@@ -61,7 +60,7 @@ public class LoginFragment extends Fragment {
                     // no internet
                     Toast.makeText(requireContext(), code + ": Error could not login, check your Internet.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(requireContext(), code + ": Bad Request.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), code + ": Bad Request..", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -76,6 +75,8 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onError(int code) {
+                Log.d(TAG, "onError: haa bhai ajajajajja");
+                Toast.makeText(requireContext(), "TERI MAA KI...", Toast.LENGTH_SHORT).show();
                 // in any case, BAD REQUEST | UNSUCCESSFUL REQUEST :
 //                mEntryActivity.loadLoginFragment();
             }

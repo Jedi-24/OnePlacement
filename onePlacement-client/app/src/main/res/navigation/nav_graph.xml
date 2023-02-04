@@ -41,4 +41,9 @@
         android:name="com.jedi.oneplacement.fragments.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/pdfFragment"
+        android:name="com.jedi.oneplacement.fragments.PdfFragment"
+        android:label="fragment_pdf"
+        tools:layout="@layout/fragment_pdf" />
 </navigation>

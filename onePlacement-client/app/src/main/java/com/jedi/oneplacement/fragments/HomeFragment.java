@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.databinding.FragmentHomeBinding;
 import com.jedi.oneplacement.payloads.FileResponse;
+import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
@@ -51,19 +52,16 @@ public class HomeFragment extends Fragment {
 
         mBinding.userName.setText(UserInstance.getName());
         mBinding.userRegNo.setText(UserInstance.getRegNo());
+        mBinding.creditPts.setText(UserInstance.getCreditPts());
+        mBinding.profileStatusTxt.setText(UserInstance.getProfileStatus());
+        mBinding.roleTxt.setText(UserInstance.getRoleStatus());
+
         String role = UserInstance.getRole().iterator().next().getRole_name();
 
         MenuItem item = mBinding.bottomNav.getMenu().getItem(2);
         item.setTitle(role+"s");
 
         Cache.getImage(requireContext(),mBinding.userProfileImg, mBinding.layout.userPhoto);
-
-//        if(bm!=null)
-//            mBinding.layout.userPhoto.setImageBitmap(bm);
-//        else{
-//            mBinding.layout.userPhoto.setImageBitmap(Cache.readFromCache(requireContext()));
-//        }
-
 
         if(UserInstance.getBranch()!=null)
             mBinding.userBranch.setText(UserInstance.getBranch());
@@ -74,17 +72,6 @@ public class HomeFragment extends Fragment {
             navController.navigate(R.id.userProfileFragment);
         });
 
-//        mBinding.logOutBtn.setOnClickListener(v -> {
-//            SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-//            sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
-//
-//            Cache.removeImgFromCache(requireContext());
-//
-//            NavOptions.Builder navBuilder = new NavOptions.Builder();
-//            NavOptions navOptions = navBuilder.setPopUpTo(R.id.homeFragment, true).build();
-//            NavController navController = NavHostFragment.findNavController(this);
-//            navController.navigate(R.id.loginFragment, null, navOptions);
-//        });
         return mBinding.getRoot();
     }
 }

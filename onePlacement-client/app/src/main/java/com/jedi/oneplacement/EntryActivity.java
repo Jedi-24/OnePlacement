@@ -9,9 +9,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jedi.oneplacement.fragments.UserProfileFragment;
 import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.Cache;
 import com.jedi.oneplacement.utils.UserInstance;
 
 public class EntryActivity extends AppCompatActivity {
@@ -39,6 +41,10 @@ public class EntryActivity extends AppCompatActivity {
 
             @Override
             public void onError(int code) {
+                Cache.removeImgFromCache(EntryActivity.this);
+                Cache.removeResumeFromCache(EntryActivity.this);
+
+                Toast.makeText(EntryActivity.this, "maa chudaoo", Toast.LENGTH_SHORT).show();
                 // in any case, BAD REQUEST | UNSUCCESSFUL REQUEST :
 //                loadLoginFragment();
             }

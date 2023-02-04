@@ -10,8 +10,13 @@ public class AppConstants {
     public static String APP_NAME = "ONE_PLACEMENT";
     public static String JWT = "JWT";
     public static String USER_PHOTO = "user_photo";
+    public static String RESUME = "resume";
+    public static String RESUME_BAK = "resume_bak";
+
     public static String USER_PHOTO_BAK = "user_photo_bak";
-    public static int GALLERY = 1;
+
+    public static String NOT_OFFERED = "NOT OFFERED";
+    public static String NOT_VERIFIED = "UNVERIFIED";
 
     public static final String AUTH = "Authorization";
 

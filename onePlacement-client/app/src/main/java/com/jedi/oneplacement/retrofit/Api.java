@@ -40,10 +40,17 @@ public interface Api {
     @POST("/file/upload/image")
     Call<FileResponse> uploadImage(@Header("Authorization") String token, @Part("userID") Integer uId, @Part MultipartBody.Part img);
 
+    @Multipart
+    @POST("/file/upload/resume")
+    Call<FileResponse> uploadResume(@Header("Authorization") String token, @Part("userID") Integer uId, @Part MultipartBody.Part resume);
+
     @PUT("/api/users/{userId}")
     Call<UserDto> updateUserDetails(@Header(AppConstants.AUTH) String token, @Path("userId") Integer uId, @Body UserDto userDto);
 
     /* --------- DOWNLOAD FILES ------------ */
     @GET("/file/retrieve/image/{userId}")
-    Call<FileResponse> getImage(@Path(value = "userId") Integer uId, @Header(AppConstants.AUTH) String token); // fileInputstream ?
+    Call<FileResponse> getImage(@Path(value = "userId") Integer uId, @Header(AppConstants.AUTH) String token);
+
+    @GET("/file/retrieve/resume/{userId}")
+    Call<FileResponse> getResume(@Path(value = "userId") Integer uId, @Header(AppConstants.AUTH) String token);
 }
