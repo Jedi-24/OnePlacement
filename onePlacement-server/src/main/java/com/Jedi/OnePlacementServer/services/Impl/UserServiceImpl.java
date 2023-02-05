@@ -27,10 +27,11 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleRepo roleRepo;
+
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
         User user = this.userRepo.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("User","Id",userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
 
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Integer userId) {
         User user = this.userRepo.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("User","Id",userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
 
         return this.userToDto(user);
     }
@@ -62,13 +63,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void dltUser(Integer userId) {
         User user = this.userRepo.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("User","Id",userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
         this.userRepo.delete(user);
     }
 
     @Override
     public UserDto registerUser(UserDto userDto, String role) {
-        userDto.setTpoCredits("10");
         User user = modelMapper.map(userDto, User.class);
         // encode the password:
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
@@ -76,20 +76,21 @@ public class UserServiceImpl implements UserService {
         // set Roles:
         Role iRole = this.roleRepo.findById(AppConstants.Intern_Role_ID).get();
         Role pRole = this.roleRepo.findById(AppConstants.Placement_Role_ID).get();
-
-        if(role.matches(iRole.getRole_name())) user.getRoles().add(iRole);
-        else user.getRoles().add(pRole);
+        if (role.matches(iRole.getRole_name()))
+            user.setRole(iRole);
+        else
+            user.setRole(pRole);
 
         User savedUser = this.userRepo.save(user);
-        return this.modelMapper.map(savedUser,UserDto.class);
+        return this.modelMapper.map(savedUser, UserDto.class);
     }
 
     // model mapper to convert userDto -> user and vice versa, but abhi ->
-    private User dtoToUser(UserDto userDto){
+    private User dtoToUser(UserDto userDto) {
         return this.modelMapper.map(userDto, User.class);
     }
 
-    private UserDto userToDto(User user){
+    private UserDto userToDto(User user) {
         return this.modelMapper.map(user, UserDto.class);
     }
 }

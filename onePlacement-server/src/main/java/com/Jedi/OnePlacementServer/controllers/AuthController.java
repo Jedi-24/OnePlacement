@@ -39,9 +39,8 @@ public class AuthController {
     public Map<String, Object> checkLogin() {
         HashMap<String, Object> users = new HashMap<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+        if (!(authentication instanceof AnonymousAuthenticationToken))
             users.put("Authenticated: ", authentication.getPrincipal());
-        }
         return users;
     }
 
@@ -64,7 +63,6 @@ public class AuthController {
         authRequest.setPassword(userDto.getPassword());
         ResponseEntity<JwtAuthResponse> response = createToken(authRequest);
         user.setJwtToken(response.getBody().getToken());
-        System.out.println(response.getBody().getToken());
         user.setPassword("$$$$");
 
         return new ResponseEntity<UserDto>(user, HttpStatus.CREATED);

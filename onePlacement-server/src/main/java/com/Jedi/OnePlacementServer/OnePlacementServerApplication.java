@@ -1,7 +1,10 @@
 package com.Jedi.OnePlacementServer;
 
 import com.Jedi.OnePlacementServer.entities.Role;
+import com.Jedi.OnePlacementServer.entities.User;
+import com.Jedi.OnePlacementServer.payloads.UserDto;
 import com.Jedi.OnePlacementServer.repositories.RoleRepo;
+import com.Jedi.OnePlacementServer.repositories.UserRepo;
 import com.Jedi.OnePlacementServer.utils.AppConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,37 +16,39 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
-@SpringBootApplication // beans can be declared here, as this is already a configuration class or make a custom config. class;
+@SpringBootApplication
+// beans can be declared here, as this is already a configuration class or make a custom config. class;
 public class OnePlacementServerApplication implements CommandLineRunner {
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	@Autowired
-	private RoleRepo roleRepo;
-	public static void main(String[] args) {
-		SpringApplication.run(OnePlacementServerApplication.class, args);
-	}
-	@Bean // spring container detects bean,object is ready -> automatically and inject it during auto wiring.
-	public ModelMapper modelMapper(){
-		return new ModelMapper();
-	}
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepo roleRepo;
 
-	@Override
-	public void run(String... args) throws Exception {
-		try{
-			Role role = new Role();
-			role.setRole_name(AppConstants.I_Role);
-			role.setId(AppConstants.Intern_Role_ID);
+    public static void main(String[] args) {
+        SpringApplication.run(OnePlacementServerApplication.class, args);
+    }
 
-			Role role1 = new Role();
-			role1.setRole_name(AppConstants.P_Role);
-			role1.setId(AppConstants.Placement_Role_ID);
+    @Bean // spring container detects bean,object is ready -> automatically and inject it during auto wiring.
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
-			List<Role> roles = List.of(role, role1);
-			this.roleRepo.saveAll(roles);
+    @Override
+    public void run(String... args) throws Exception {
+        try {
+            Role role = new Role();
+            role.setRole_name(AppConstants.I_Role);
+            role.setId(AppConstants.Intern_Role_ID);
 
-		} catch (Exception e){
-			System.out.println(e.getMessage());
-		}
-	}
+            Role role1 = new Role();
+            role1.setRole_name(AppConstants.P_Role);
+            role1.setId(AppConstants.Placement_Role_ID);
+            List<Role> roles = List.of(role, role1);
+            this.roleRepo.saveAll(roles);
+        } catch (Exception e) {
+            System.out.println("here janeman");
+            System.out.println(e.getMessage());
+        }
+    }
 }

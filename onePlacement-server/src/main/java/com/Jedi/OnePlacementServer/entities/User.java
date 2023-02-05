@@ -1,5 +1,6 @@
 package com.Jedi.OnePlacementServer.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -16,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Users")
-@Data
 @NoArgsConstructor
 @Getter
 @Setter
@@ -47,18 +47,14 @@ public class User implements UserDetails {
     private String roleStatus;
     private String profileStatus;
 
-    // relation b|w role and user:
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-    joinColumns = @JoinColumn(name = "user",referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
-    private Set<Role> roles = new HashSet<>();
+//  relation b|w role and user entities: **Many-to-One**
+//  todo: read about fetch type...
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // one directional mapping for non auto incremented roles table;
+    private Role role; // role table <id> as foreign key for the user table;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority> collection = this.roles.stream()
-                .map((role -> new SimpleGrantedAuthority(role.getRole_name()))).collect(Collectors.toList());
-
-        return collection;
+        return null;
     }
 
     @Override
