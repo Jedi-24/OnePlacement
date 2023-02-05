@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.utils;
+package com.jedi.oneplacement.user.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,27 +6,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.link.DefaultLinkHandler;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.jedi.oneplacement.payloads.FileResponse;
-import com.jedi.oneplacement.retrofit.ApiImpl;
+import com.jedi.oneplacement.user.payloads.FileResponse;
+import com.jedi.oneplacement.user.retrofit.ApiImpl;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
 public class Cache {

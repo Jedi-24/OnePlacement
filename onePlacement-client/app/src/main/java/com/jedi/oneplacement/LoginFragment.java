@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.fragments;
+package com.jedi.oneplacement;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,12 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.databinding.FragmentLoginBinding;
-import com.jedi.oneplacement.payloads.JwtAuthResponse;
-import com.jedi.oneplacement.retrofit.ApiImpl;
-import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.user.retrofit.ApiImpl;
+import com.jedi.oneplacement.user.utils.AppConstants;
+import com.jedi.oneplacement.user.utils.UserInstance;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";

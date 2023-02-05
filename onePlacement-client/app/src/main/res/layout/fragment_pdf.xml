@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#BFC3C6"
-    tools:context=".fragments.PdfFragment">
+    tools:context=".user.fragments.PdfFragment">
 
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"

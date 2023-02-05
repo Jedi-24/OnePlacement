@@ -1,27 +1,24 @@
-package com.jedi.oneplacement.retrofit;
+package com.jedi.oneplacement.user.retrofit;
 
-import com.jedi.oneplacement.payloads.FileResponse;
-import com.jedi.oneplacement.payloads.JwtAuthResponse;
-import com.jedi.oneplacement.payloads.User;
-import com.jedi.oneplacement.payloads.UserDto;
-import com.jedi.oneplacement.payloads.UserLoginInfo;
-import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.user.payloads.FileResponse;
+import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.user.payloads.User;
+import com.jedi.oneplacement.user.payloads.UserDto;
+import com.jedi.oneplacement.user.payloads.UserLoginInfo;
+import com.jedi.oneplacement.user.utils.AppConstants;
 
 import java.util.Map;
 
 import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface Api {
 

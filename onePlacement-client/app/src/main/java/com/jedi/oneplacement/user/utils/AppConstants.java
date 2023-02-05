@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.utils;
+package com.jedi.oneplacement.user.utils;
 
 public class AppConstants {
     // todo: use it ?

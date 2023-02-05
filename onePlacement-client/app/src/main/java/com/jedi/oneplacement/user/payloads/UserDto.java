@@ -1,7 +1,4 @@
-package com.jedi.oneplacement.payloads;
-
-import java.util.HashSet;
-import java.util.Set;
+package com.jedi.oneplacement.user.payloads;
 
 import lombok.Data;
 

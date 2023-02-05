@@ -1,30 +1,15 @@
-package com.jedi.oneplacement.fragments;
+package com.jedi.oneplacement.user.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.github.barteksc.pdfviewer.link.DefaultLinkHandler;
-import com.github.barteksc.pdfviewer.listener.OnLongPressListener;
-import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.jedi.oneplacement.databinding.FragmentPdfBinding;
-import com.jedi.oneplacement.payloads.FileResponse;
-import com.jedi.oneplacement.retrofit.ApiImpl;
-import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
-
-import java.io.File;
+import com.jedi.oneplacement.user.utils.Cache;
 
 public class PdfFragment extends Fragment {
     private static final String TAG = "PdfFragment";

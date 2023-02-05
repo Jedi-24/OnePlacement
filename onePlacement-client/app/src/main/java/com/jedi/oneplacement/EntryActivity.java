@@ -11,10 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jedi.oneplacement.fragments.UserProfileFragment;
-import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.user.utils.AppConstants;
+import com.jedi.oneplacement.user.utils.Cache;
+import com.jedi.oneplacement.user.utils.UserInstance;
 
 public class EntryActivity extends AppCompatActivity {
     private static final String TAG = "EntryActivity";

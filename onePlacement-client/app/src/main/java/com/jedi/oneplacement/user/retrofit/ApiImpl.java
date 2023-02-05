@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.retrofit;
+package com.jedi.oneplacement.user.retrofit;
 
 import android.util.Log;
 
@@ -6,13 +6,13 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jedi.oneplacement.payloads.FileResponse;
-import com.jedi.oneplacement.payloads.JwtAuthResponse;
-import com.jedi.oneplacement.payloads.User;
-import com.jedi.oneplacement.payloads.UserDto;
-import com.jedi.oneplacement.payloads.UserLoginInfo;
-import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.user.payloads.FileResponse;
+import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.user.payloads.User;
+import com.jedi.oneplacement.user.payloads.UserDto;
+import com.jedi.oneplacement.user.payloads.UserLoginInfo;
+import com.jedi.oneplacement.user.utils.AppConstants;
+import com.jedi.oneplacement.user.utils.UserInstance;
 
 import org.modelmapper.ModelMapper;
 

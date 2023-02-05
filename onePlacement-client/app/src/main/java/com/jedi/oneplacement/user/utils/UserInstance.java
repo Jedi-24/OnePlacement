@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.utils;
+package com.jedi.oneplacement.user.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,12 +11,11 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.gson.Gson;
 import com.jedi.oneplacement.R;
-import com.jedi.oneplacement.payloads.RoleDto;
-import com.jedi.oneplacement.payloads.User;
-import com.jedi.oneplacement.retrofit.ApiImpl;
+import com.jedi.oneplacement.user.payloads.RoleDto;
+import com.jedi.oneplacement.user.payloads.User;
+import com.jedi.oneplacement.user.retrofit.ApiImpl;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * // Navigation graph

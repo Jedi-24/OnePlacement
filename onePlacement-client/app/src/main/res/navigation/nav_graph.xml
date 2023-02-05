@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.jedi.oneplacement.fragments.HomeFragment"
+        android:name="com.jedi.oneplacement.user.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.jedi.oneplacement.fragments.RegisterFragment"
+        android:name="com.jedi.oneplacement.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.jedi.oneplacement.fragments.LoginFragment"
+        android:name="com.jedi.oneplacement.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -38,12 +38,12 @@
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.jedi.oneplacement.fragments.UserProfileFragment"
+        android:name="com.jedi.oneplacement.user.fragments.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
     <fragment
         android:id="@+id/pdfFragment"
-        android:name="com.jedi.oneplacement.fragments.PdfFragment"
+        android:name="com.jedi.oneplacement.user.fragments.PdfFragment"
         android:label="fragment_pdf"
         tools:layout="@layout/fragment_pdf" />
 </navigation>

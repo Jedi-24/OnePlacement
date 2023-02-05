@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.fragments;
+package com.jedi.oneplacement.user.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,13 +29,13 @@ import android.widget.Toast;
 
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.databinding.FragmentUserProfileBinding;
-import com.jedi.oneplacement.payloads.FileResponse;
-import com.jedi.oneplacement.payloads.User;
-import com.jedi.oneplacement.payloads.UserDto;
-import com.jedi.oneplacement.retrofit.ApiImpl;
-import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.user.payloads.FileResponse;
+import com.jedi.oneplacement.user.payloads.User;
+import com.jedi.oneplacement.user.payloads.UserDto;
+import com.jedi.oneplacement.user.retrofit.ApiImpl;
+import com.jedi.oneplacement.user.utils.AppConstants;
+import com.jedi.oneplacement.user.utils.Cache;
+import com.jedi.oneplacement.user.utils.UserInstance;
 
 import org.modelmapper.ModelMapper;
 
