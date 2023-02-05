@@ -20,5 +20,4 @@
         android:src="@drawable/ic_not_found_error_alert_svgrepo_com"
         android:id="@+id/no_resume"
         />
-
 </LinearLayout>
