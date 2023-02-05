@@ -29,7 +29,7 @@ public class EntryActivity extends AppCompatActivity {
         // retrieve token from shared preferences:
         SharedPreferences sharedPreferences = this.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(AppConstants.JWT, null);
-
+        Log.d(TAG, "checkUserSession: " + token);
         UserInstance.updateJwtToken(token, new UserInstance.FetchListener() {
             @Override
             public void onFetch() {

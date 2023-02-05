@@ -101,7 +101,7 @@ public class ApiImpl {
                 .enqueue(new Callback<UserDto>() {
                     @Override
                     public void onResponse(@NonNull Call<UserDto> call, @NonNull Response<UserDto> response) {
-                        Log.d(TAG, "onResponse: " + response.body());
+                        Log.d(TAG, "onResponse: hehehe " + response.body());
                         if(!response.isSuccessful() || response.body() == null){
                             listener.onFailure(response.code());
                             return;

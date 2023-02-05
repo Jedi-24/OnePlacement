@@ -20,5 +20,5 @@ public class UserDto {
     private String roleStatus;
     private String profileStatus;
 
-    private Set<RoleDto> roles = new HashSet<>();
+    private RoleDto role;
 }

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.databinding.FragmentHomeBinding;
 import com.jedi.oneplacement.payloads.FileResponse;
+import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment {
         mBinding.profileStatusTxt.setText(UserInstance.getProfileStatus());
         mBinding.roleTxt.setText(UserInstance.getRoleStatus());
 
-        String role = UserInstance.getRole().iterator().next().getRole_name();
+        String role = UserInstance.getRole().getRole_name();
 
         MenuItem item = mBinding.bottomNav.getMenu().getItem(2);
         item.setTitle(role+"s");

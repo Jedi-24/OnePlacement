@@ -131,10 +131,9 @@ public class UserInstance {
         return mUser.getProfileStatus();
     }
 
-    public static Set<RoleDto> getRole() {
-        return mUser.getRoles();
+    public static RoleDto getRole() {
+        return mUser.getRole();
     }
-
     public static String getPhoneNumber() {
         return mUser.getPhoneNumber();
     }
