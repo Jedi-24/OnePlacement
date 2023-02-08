@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.databinding.FragmentHomeBinding;
-import com.jedi.oneplacement.user.utils.Cache;
-import com.jedi.oneplacement.user.utils.UserInstance;
+import com.jedi.oneplacement.utils.Cache;
+import com.jedi.oneplacement.utils.UserInstance;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";

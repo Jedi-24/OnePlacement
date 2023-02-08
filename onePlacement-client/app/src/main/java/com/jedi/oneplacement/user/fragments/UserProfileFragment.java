@@ -33,9 +33,9 @@ import com.jedi.oneplacement.user.payloads.FileResponse;
 import com.jedi.oneplacement.user.payloads.User;
 import com.jedi.oneplacement.user.payloads.UserDto;
 import com.jedi.oneplacement.user.retrofit.ApiImpl;
-import com.jedi.oneplacement.user.utils.AppConstants;
-import com.jedi.oneplacement.user.utils.Cache;
-import com.jedi.oneplacement.user.utils.UserInstance;
+import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.Cache;
+import com.jedi.oneplacement.utils.UserInstance;
 
 import org.modelmapper.ModelMapper;
 

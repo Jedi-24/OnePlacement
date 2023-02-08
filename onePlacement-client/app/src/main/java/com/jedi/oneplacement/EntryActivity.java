@@ -11,9 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jedi.oneplacement.user.utils.AppConstants;
-import com.jedi.oneplacement.user.utils.Cache;
-import com.jedi.oneplacement.user.utils.UserInstance;
+import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.Cache;
+import com.jedi.oneplacement.utils.UserInstance;
 
 public class EntryActivity extends AppCompatActivity {
     private static final String TAG = "EntryActivity";
@@ -35,6 +35,12 @@ public class EntryActivity extends AppCompatActivity {
                 NavOptions.Builder navBuilder = new NavOptions.Builder();
                 NavOptions navOptions = navBuilder.setPopUpTo(R.id.loginFragment, true).build();
                 NavController navController = Navigation.findNavController(EntryActivity.this,R.id.fragmentContainerView);
+                // check if the user is admin ? -> redirect to adminHomePage.
+                if(UserInstance.getRole().getRole_name().matches(AppConstants.ADMIN_ROLE)){
+                    navController.navigate(R.id.adminHomeFragment,null,navOptions);
+                    return;
+                }
+
                 navController.navigate(R.id.homeFragment,null,navOptions);
             }
 

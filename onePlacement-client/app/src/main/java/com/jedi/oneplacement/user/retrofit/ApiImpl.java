@@ -11,8 +11,8 @@ import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
 import com.jedi.oneplacement.user.payloads.User;
 import com.jedi.oneplacement.user.payloads.UserDto;
 import com.jedi.oneplacement.user.payloads.UserLoginInfo;
-import com.jedi.oneplacement.user.utils.AppConstants;
-import com.jedi.oneplacement.user.utils.UserInstance;
+import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.UserInstance;
 
 import org.modelmapper.ModelMapper;
 
@@ -207,10 +207,9 @@ public class ApiImpl {
         getRetrofitAccessObject().getImage(uid,"Bearer " + token)
                 .enqueue(new Callback<FileResponse>() {
                     @Override
-                    public void onResponse(Call<FileResponse> call, Response<FileResponse> response) {
+                    public void onResponse(@NonNull Call<FileResponse> call, @NonNull Response<FileResponse> response) {
                         if(response.body()==null) {
                             listener.onFailure(response.code());
-                            Log.d(TAG, "onFailure: hehehehe");
                             return;
                         }
 

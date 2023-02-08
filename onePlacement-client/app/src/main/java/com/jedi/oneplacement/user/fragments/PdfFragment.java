@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jedi.oneplacement.databinding.FragmentPdfBinding;
-import com.jedi.oneplacement.user.utils.Cache;
+import com.jedi.oneplacement.utils.Cache;
 
 public class PdfFragment extends Fragment {
     private static final String TAG = "PdfFragment";

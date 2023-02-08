@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.jedi.oneplacement.databinding.FragmentRegisterBinding;
 import com.jedi.oneplacement.user.payloads.UserDto;
 import com.jedi.oneplacement.user.retrofit.ApiImpl;
-import com.jedi.oneplacement.user.utils.AppConstants;
-import com.jedi.oneplacement.user.utils.UserInstance;
+import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.UserInstance;
 
 public class RegisterFragment extends Fragment {
     private String name, password, email, regNo, role;

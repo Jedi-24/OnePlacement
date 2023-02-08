@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.user.utils;
+package com.jedi.oneplacement.utils;
 
 public class AppConstants {
     // todo: use it ?
@@ -8,6 +8,7 @@ public class AppConstants {
 
     // ---> Phone: 192.168.243.117
     public static String DEFAULT_ROLE = "Internship";
+    public static String ADMIN_ROLE = "ROLE_Admin";
     public static String APP_NAME = "ONE_PLACEMENT";
     public static String JWT = "JWT";
     public static String USER_PHOTO = "user_photo";

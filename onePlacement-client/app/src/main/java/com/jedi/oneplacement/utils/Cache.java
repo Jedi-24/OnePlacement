@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.user.utils;
+package com.jedi.oneplacement.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

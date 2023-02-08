@@ -5,7 +5,7 @@ import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
 import com.jedi.oneplacement.user.payloads.User;
 import com.jedi.oneplacement.user.payloads.UserDto;
 import com.jedi.oneplacement.user.payloads.UserLoginInfo;
-import com.jedi.oneplacement.user.utils.AppConstants;
+import com.jedi.oneplacement.utils.AppConstants;
 
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public interface Api {
     @POST("/api/v1/auth/check")
     Call<Map<String, Object>> checkUser(@Header(AppConstants.AUTH) String token);
 
-    @POST("/api/v1/auth/login")
+    @POST("/api/v1/auth/login/user")
     Call<JwtAuthResponse> loginUser(@Body UserLoginInfo userLoginInfo);
 
     @POST("/api/v1/auth/register/user/{role}")
