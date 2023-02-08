@@ -15,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -62,9 +64,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void dltUser(Integer userId) {
-        User user = this.userRepo.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
-        this.userRepo.delete(user);
+        this.userRepo.deleteById(userId);
     }
 
     @Override
@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService {
         // set Roles:
         Role iRole = this.roleRepo.findById(AppConstants.Intern_Role_ID).get();
         Role pRole = this.roleRepo.findById(AppConstants.Placement_Role_ID).get();
+        role = "ROLE_".concat(role);
         if (role.matches(iRole.getRole_name()))
             user.setRole(iRole);
         else

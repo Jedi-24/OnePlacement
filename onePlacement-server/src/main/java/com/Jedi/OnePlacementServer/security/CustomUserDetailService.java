@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-// DATABASE se userdata Load krne ke liye:
+// DATABASE se userdata Load krne ke liye: used by auth provider --> here DAOProvider in our configuration;
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 

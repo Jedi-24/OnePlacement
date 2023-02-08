@@ -1,10 +1,12 @@
 package com.Jedi.OnePlacementServer.controllers;
 
+//import com.Jedi.OnePlacementServer.entities.Admin;
 import com.Jedi.OnePlacementServer.exceptions.LoginException;
 import com.Jedi.OnePlacementServer.payloads.JwtAuthRequest;
 import com.Jedi.OnePlacementServer.payloads.JwtAuthResponse;
 import com.Jedi.OnePlacementServer.payloads.UserDto;
 import com.Jedi.OnePlacementServer.security.JwtTokenHelper;
+//import com.Jedi.OnePlacementServer.services.AdminService;
 import com.Jedi.OnePlacementServer.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,9 +47,10 @@ public class AuthController {
     }
 
     // LOGIN API POINT: and to create Token.
-    @PostMapping("/login")
+    @PostMapping("/login/user")
     public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest authRequest) throws Exception {
         this.authenticate(authRequest.getUsername(), authRequest.getPassword());
+        System.out.println(userDetailsService.loadUserByUsername(authRequest.getUsername()).getAuthorities());
         String jwtToken = this.jwtTokenHelper.generateToken(userDetailsService.loadUserByUsername(authRequest.getUsername()));
         JwtAuthResponse authResponse = new JwtAuthResponse();
         authResponse.setToken(jwtToken);
@@ -71,7 +74,7 @@ public class AuthController {
     private void authenticate(String username, String password) throws Exception {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         try {
-            this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            Authentication auth = this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         } catch (BadCredentialsException e) {
             System.out.println("Invalid Password !");
             // Necessary to throw an Exception, vrna Token generate ho jayega be faltu ka:

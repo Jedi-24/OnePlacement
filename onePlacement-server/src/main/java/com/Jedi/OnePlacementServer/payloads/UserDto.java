@@ -23,17 +23,17 @@ public class UserDto {
 
     private int id;
 
-    @NotEmpty @Size(min = 4, message = "Username must be of length >= 4")
+//    @NotEmpty @Size(min = 4, message = "Username must be of length >= 4")
     private String name;
 
-    @NotEmpty
+//    @NotEmpty
     private String regNo;
 
-    @Email(message = "Invalid Email Address")
+//    @Email(message = "Invalid Email Address")
     private String email;
 
     // pattern annotation;
-    @NotEmpty(message = "Invalid Password") @Size(min = 4)
+//    @NotEmpty(message = "Invalid Password") @Size(min = 4)
     private String password;
 
     private String profilePath;
@@ -45,6 +45,5 @@ public class UserDto {
     private String tpoCredits;
     private String roleStatus;
     private String profileStatus;
-
     private RoleDto role;
 }

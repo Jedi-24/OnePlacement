@@ -5,6 +5,7 @@ import com.Jedi.OnePlacementServer.entities.User;
 import com.Jedi.OnePlacementServer.payloads.UserDto;
 import com.Jedi.OnePlacementServer.repositories.RoleRepo;
 import com.Jedi.OnePlacementServer.repositories.UserRepo;
+//import com.Jedi.OnePlacementServer.security.CustomAdminDetailsService;
 import com.Jedi.OnePlacementServer.utils.AppConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class OnePlacementServerApplication implements CommandLineRunner {
         return new ModelMapper();
     }
 
+
     @Override
     public void run(String... args) throws Exception {
         try {
@@ -44,10 +46,13 @@ public class OnePlacementServerApplication implements CommandLineRunner {
             Role role1 = new Role();
             role1.setRole_name(AppConstants.P_Role);
             role1.setId(AppConstants.Placement_Role_ID);
-            List<Role> roles = List.of(role, role1);
+
+            Role role2 = new Role();
+            role2.setRole_name(AppConstants.ADMIN);
+            role2.setId(AppConstants.ADMIN_Role_ID);
+            List<Role> roles = List.of(role, role1, role2);
             this.roleRepo.saveAll(roles);
         } catch (Exception e) {
-            System.out.println("here janeman");
             System.out.println(e.getMessage());
         }
     }

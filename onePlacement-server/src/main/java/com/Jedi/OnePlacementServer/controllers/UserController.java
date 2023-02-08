@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,9 +37,11 @@ public class UserController {
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("userId") Integer uid){
         return ResponseEntity.ok(this.userService.updateUser(userDto, uid));
     }
-
+    @PreAuthorize("hasRole('Admin')")
     @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid){
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
         this.userService.dltUser(uid);
         return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK);
     }

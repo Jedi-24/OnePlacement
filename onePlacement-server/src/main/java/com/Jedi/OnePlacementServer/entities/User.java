@@ -49,12 +49,17 @@ public class User implements UserDetails {
 
 //  relation b|w role and user entities: **Many-to-One**
 //  todo: read about fetch type...
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // one directional mapping for non auto incremented roles table;
+    @ManyToOne(fetch = FetchType.EAGER) // one directional mapping for non auto incremented roles table; *No Cascade.ALL*
     private Role role; // role table <id> as foreign key for the user table;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+
+        Collection<SimpleGrantedAuthority> collection = roles.stream()
+                .map((role -> new SimpleGrantedAuthority(role.getRole_name()))).collect(Collectors.toList());
+        return collection;
     }
 
     @Override
