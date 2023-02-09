@@ -35,13 +35,10 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepo.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
 
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setRegNo(userDto.getRegNo());
         user.setEmail(userDto.getEmail());
         user.setBranch(userDto.getBranch());
         user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setRoles(userDto.getRoles());
 
         return this.userToDto(this.userRepo.save(user));
     }
@@ -77,10 +74,9 @@ public class UserServiceImpl implements UserService {
         Role iRole = this.roleRepo.findById(AppConstants.Intern_Role_ID).get();
         Role pRole = this.roleRepo.findById(AppConstants.Placement_Role_ID).get();
         role = "ROLE_".concat(role);
-        if (role.matches(iRole.getRole_name()))
-            user.setRole(iRole);
-        else
-            user.setRole(pRole);
+
+        if(role.matches(iRole.getRole_name())) user.getRoles().add(iRole);
+        else user.getRoles().add(pRole);
 
         User savedUser = this.userRepo.save(user);
         return this.modelMapper.map(savedUser, UserDto.class);

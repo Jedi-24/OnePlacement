@@ -45,5 +45,5 @@ public class UserDto {
     private String tpoCredits;
     private String roleStatus;
     private String profileStatus;
-    private RoleDto role;
+    private Set<Role> roles = new HashSet<>();
 }
