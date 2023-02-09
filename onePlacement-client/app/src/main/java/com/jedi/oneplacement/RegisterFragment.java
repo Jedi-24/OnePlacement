@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jedi.oneplacement.databinding.FragmentRegisterBinding;
 import com.jedi.oneplacement.user.payloads.UserDto;
 import com.jedi.oneplacement.user.retrofit.ApiImpl;

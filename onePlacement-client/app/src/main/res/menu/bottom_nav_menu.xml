@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/home"
         android:icon="@drawable/ic_home2_svgrepo_com"
         android:title="Home"
         />
     <item
         android:icon="@drawable/ic_company_svgrepo_com"
+        android:id="@+id/companies"
         android:title="Companies"
         />
     <item
         android:icon="@drawable/ic_tie_2_svgrepo_com"
         android:id="@+id/set_role"
         android:title="Role"
+        />
+    <item
+        android:icon="@drawable/server_network_part_2_svgrepo_com"
+        android:id="@+id/admin"
+        android:visible="false"
+        android:title="Admin"
         />
 </menu>

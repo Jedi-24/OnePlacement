@@ -1,22 +1,31 @@
 package com.jedi.oneplacement;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.jedi.oneplacement.user.fragments.HomeFragment;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
 import com.jedi.oneplacement.utils.UserInstance;
 
 public class EntryActivity extends AppCompatActivity {
     private static final String TAG = "EntryActivity";
+    BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +44,6 @@ public class EntryActivity extends AppCompatActivity {
                 NavOptions.Builder navBuilder = new NavOptions.Builder();
                 NavOptions navOptions = navBuilder.setPopUpTo(R.id.loginFragment, true).build();
                 NavController navController = Navigation.findNavController(EntryActivity.this,R.id.fragmentContainerView);
-                // check if the user is admin ? -> redirect to adminHomePage.
-                if(UserInstance.getRole().getRole_name().matches(AppConstants.ADMIN_ROLE)){
-                    navController.navigate(R.id.adminHomeFragment,null,navOptions);
-                    return;
-                }
-
                 navController.navigate(R.id.homeFragment,null,navOptions);
             }
 

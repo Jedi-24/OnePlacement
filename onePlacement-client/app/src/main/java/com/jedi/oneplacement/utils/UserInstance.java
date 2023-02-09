@@ -16,6 +16,7 @@ import com.jedi.oneplacement.user.payloads.User;
 import com.jedi.oneplacement.user.retrofit.ApiImpl;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * // Navigation graph
@@ -129,9 +130,12 @@ public class UserInstance {
         return mUser.getProfileStatus();
     }
 
-    public static RoleDto getRole() {
-        return mUser.getRole();
+    public static Set<RoleDto> getRoles(){
+        return mUser.getRoles();
     }
+//    public static RoleDto getRole() {
+//        return mUser.getRole();
+//    }
     public static String getPhoneNumber() {
         return mUser.getPhoneNumber();
     }

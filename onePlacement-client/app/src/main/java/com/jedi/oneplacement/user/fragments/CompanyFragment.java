@@ -1,66 +1,128 @@
 package com.jedi.oneplacement.user.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.admin.fragments.AdminFragment;
+import com.jedi.oneplacement.databinding.FragmentCompanyBinding;
+import com.jedi.oneplacement.user.payloads.RoleDto;
+import com.jedi.oneplacement.user.utils.VPadapter;
+import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.Cache;
+import com.jedi.oneplacement.utils.UserInstance;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CompanyFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Iterator;
+import java.util.Set;
+
 public class CompanyFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FragmentCompanyBinding mBinding;
+    VPadapter vPadapter;
 
     public CompanyFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CompanyFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CompanyFragment newInstance(String param1, String param2) {
-        CompanyFragment fragment = new CompanyFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_company, container, false);
+        mBinding = FragmentCompanyBinding.inflate(inflater, container, false);
+
+        Bitmap b = Cache.readFromCache(requireContext());
+        if (b != null) mBinding.layout.userPhoto.setImageBitmap(b);
+
+        mBinding.layout.userPhoto.setOnClickListener(v -> {
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.userProfileFragment);
+        });
+
+//        String role = UserInstance.getRole().getRole_name();
+        Set<RoleDto> roles = UserInstance.getRoles();
+        String role = "";
+        for (RoleDto roleDto : roles) {
+            role = roleDto.getRole_name();
+        }
+
+        if (UserInstance.getRoles().size() > 1) {
+            mBinding.bottomNav.getMenu().getItem(3).setVisible(true);
+        }
+
+        mBinding.bottomNav.getMenu().getItem(2).setTitle(role + "s");
+        ;
+        mBinding.bottomNav.getMenu().findItem(R.id.companies).setChecked(true);
+
+        mBinding.tabLayout.addTab(mBinding.tabLayout.newTab().setText("OPENINGS"));
+        mBinding.tabLayout.addTab(mBinding.tabLayout.newTab().setText("REGISTERED"));
+
+        vPadapter = new VPadapter(getChildFragmentManager(), getLifecycle());
+        mBinding.viewPager.setAdapter(vPadapter);
+
+        mBinding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mBinding.viewPager.setCurrentItem(tab.getPosition(), true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
+        mBinding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                mBinding.tabLayout.selectTab(mBinding.tabLayout.getTabAt(position));
+            }
+        });
+
+        mBinding.bottomNav.setOnItemSelectedListener(item1 -> {
+            if (item1.getItemId() == R.id.home) {
+                NavOptions.Builder navBuilder = new NavOptions.Builder();
+                NavOptions navOptions = navBuilder.setPopUpTo(R.id.companyFragment, true).build();
+                NavHostFragment.findNavController(CompanyFragment.this).navigate(R.id.homeFragment, null, navOptions);
+                return true;
+            }
+            if (item1.getItemId() == R.id.companies) {
+                NavOptions.Builder navBuilder = new NavOptions.Builder();
+                NavOptions navOptions = navBuilder.setPopUpTo(R.id.companyFragment, true).build();
+                NavHostFragment.findNavController(CompanyFragment.this).navigate(R.id.companyFragment, null, navOptions);
+                return true;
+            }
+
+            if (item1.getItemId() == R.id.set_role) {
+                NavOptions.Builder navBuilder = new NavOptions.Builder();
+                NavOptions navOptions = navBuilder.setPopUpTo(R.id.companyFragment, true).build();
+                NavHostFragment.findNavController(CompanyFragment.this).navigate(R.id.rolesFragment, null, navOptions);
+                return true;
+            }
+
+            if (item1.getItemId() == R.id.admin) {
+                NavOptions.Builder navBuilder = new NavOptions.Builder();
+                NavOptions navOptions = navBuilder.setPopUpTo(R.id.companyFragment, true).build();
+                NavHostFragment.findNavController(CompanyFragment.this).navigate(R.id.adminFragment, null, navOptions);
+                return true;
+            }
+            return false;
+        });
+
+        return mBinding.getRoot();
     }
 }

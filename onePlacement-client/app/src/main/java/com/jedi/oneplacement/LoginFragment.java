@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jedi.oneplacement.databinding.FragmentLoginBinding;
 import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
 import com.jedi.oneplacement.user.retrofit.ApiImpl;
@@ -24,7 +26,6 @@ import com.jedi.oneplacement.utils.UserInstance;
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
     FragmentLoginBinding mBinding = null;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -34,6 +35,10 @@ public class LoginFragment extends Fragment {
             mBinding.userName.setText("");
             mBinding.password.setText("");
         });
+
+        BottomNavigationView bottomNavigationView = mBinding.getRoot().findViewById(R.id.bottom_nav);
+        Log.d(TAG, "onCreateView: " + bottomNavigationView);
+//        bottomNavigationView.setVisibility(View.GONE);
 
         mBinding.regTxt.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_registerFragment));
 
@@ -70,13 +75,6 @@ public class LoginFragment extends Fragment {
         UserInstance.updateJwtToken(token, new UserInstance.FetchListener() {
             @Override
             public void onFetch() {
-                // check if the user is admin ? -> redirect to adminHomePage.
-                if(UserInstance.getRole().getRole_name().matches(AppConstants.ADMIN_ROLE)){
-                    NavOptions.Builder navBuilder = new NavOptions.Builder();
-                    NavOptions navOptions = navBuilder.setPopUpTo(R.id.loginFragment, true).build();
-                    NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.adminHomeFragment, null, navOptions);
-                    return;
-                }
                 NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_homeFragment);
             }
 

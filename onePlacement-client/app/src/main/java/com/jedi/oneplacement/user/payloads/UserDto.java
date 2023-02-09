@@ -1,5 +1,7 @@
 package com.jedi.oneplacement.user.payloads;
 
+import java.util.Set;
+
 import lombok.Data;
 
 @Data
@@ -17,5 +19,5 @@ public class UserDto {
     private String roleStatus;
     private String profileStatus;
 
-    private RoleDto role;
+    private Set<RoleDto> roles;
 }
