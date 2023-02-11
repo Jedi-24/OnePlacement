@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.user.retrofit;
+package com.jedi.oneplacement.retrofit;
 
 import android.util.Log;
 
@@ -16,6 +16,7 @@ import com.jedi.oneplacement.utils.UserInstance;
 
 import org.modelmapper.ModelMapper;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -50,6 +51,25 @@ public class ApiImpl {
         void onFailure(int code);
     }
 
+    /* -------- USER AUTH -------- */
+    public static void checkUser(String token, ApiCallListener<Map<String, Object>> listener) {
+        getRetrofitAccessObject().checkUser("Bearer " + token).enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(@NonNull Call<Map<String, Object>> call, @NonNull Response<Map<String, Object>> response) {
+                if (!response.isSuccessful() || response.body().isEmpty()) {
+                    listener.onFailure(response.code());
+                } else {
+                    listener.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                listener.onFailure(-1);
+            }
+        });
+    }
+
     public static void loginUser(String userName, String password, ApiCallListener<JwtAuthResponse> listener) {
         getRetrofitAccessObject().loginUser(new UserLoginInfo(userName, password)).enqueue(new Callback<JwtAuthResponse>() {
             @Override
@@ -64,24 +84,6 @@ public class ApiImpl {
 
             @Override
             public void onFailure(Call<JwtAuthResponse> call, Throwable t) {
-                listener.onFailure(-1);
-            }
-        });
-    }
-
-    public static void checkUser(String token, ApiCallListener<Map<String, Object>> listener) {
-        getRetrofitAccessObject().checkUser("Bearer " + token).enqueue(new Callback<Map<String, Object>>() {
-            @Override
-            public void onResponse(@NonNull Call<Map<String, Object>> call, @NonNull Response<Map<String, Object>> response) {
-                if (!response.isSuccessful() || response.body().isEmpty()) {
-                    listener.onFailure(response.code());
-                } else {
-                    listener.onResponse(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
                 listener.onFailure(-1);
             }
         });
@@ -115,6 +117,8 @@ public class ApiImpl {
                     }
                 });
     }
+
+    /* --------- EDIT USER DATA --------- */
 
     public static void uploadImg(String token, MultipartBody.Part img , ApiCallListener<FileResponse> listener){
         getRetrofitAccessObject().uploadImage("Bearer " + token, UserInstance.getId(), img)
@@ -160,9 +164,6 @@ public class ApiImpl {
         userDto.setBranch(branch);
         userDto.setEmail(email);
         userDto.setPhoneNumber(mno);
-
-        Log.d(TAG, "updateUser: " + userDto.toString());
-
         getRetrofitAccessObject().updateUserDetails("Bearer " + token, UserInstance.getId(), userDto)
                 .enqueue(new Callback<UserDto>() {
                     @Override
@@ -182,6 +183,27 @@ public class ApiImpl {
                 });
     }
 
+    /* ------- GET ALL USERS -------- */
+    public static void getAllUsers(String token,ApiCallListener<List<UserDto>> listener){
+        getRetrofitAccessObject().getAllUsers("Bearer " + token)
+                .enqueue(new Callback<List<UserDto>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<UserDto>> call, @NonNull Response<List<UserDto>> response) {
+                        if(!response.isSuccessful() || response.body() == null){
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserDto>> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+    /* ------- DOWNLOAD FILES ------ */
     public static void getResume(Integer uid, String token, ApiCallListener<FileResponse> listener){
         getRetrofitAccessObject().getResume(uid, "Bearer " + token)
                 .enqueue(new Callback<FileResponse>() {

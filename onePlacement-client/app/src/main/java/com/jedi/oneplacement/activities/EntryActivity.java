@@ -1,24 +1,19 @@
-package com.jedi.oneplacement;
+package com.jedi.oneplacement.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.jedi.oneplacement.user.fragments.HomeFragment;
+import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
 import com.jedi.oneplacement.utils.UserInstance;
@@ -41,10 +36,13 @@ public class EntryActivity extends AppCompatActivity {
         UserInstance.updateJwtToken(token, new UserInstance.FetchListener() {
             @Override
             public void onFetch() {
-                NavOptions.Builder navBuilder = new NavOptions.Builder();
-                NavOptions navOptions = navBuilder.setPopUpTo(R.id.loginFragment, true).build();
-                NavController navController = Navigation.findNavController(EntryActivity.this,R.id.fragmentContainerView);
-                navController.navigate(R.id.homeFragment,null,navOptions);
+                Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+//                NavOptions.Builder navBuilder = new NavOptions.Builder();
+//                NavOptions navOptions = navBuilder.setPopUpTo(R.id.loginFragment, true).build();
+//                NavController navController = Navigation.findNavController(EntryActivity.this,R.id.fragmentContainerView);
+//                navController.navigate(R.id.homeFragment2,null,navOptions);
             }
 
             @Override

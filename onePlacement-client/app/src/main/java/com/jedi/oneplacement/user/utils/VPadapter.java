@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.jedi.oneplacement.user.fragments.BlankFragment;
-import com.jedi.oneplacement.user.fragments.BlankFragment2;
+import com.jedi.oneplacement.user.fragments.OpeningsFragment;
+import com.jedi.oneplacement.user.fragments.RegisteredCompaniesFragment;
 
 public class VPadapter extends FragmentStateAdapter {
     public VPadapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
@@ -17,8 +17,8 @@ public class VPadapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if(position == 1) return new BlankFragment2();
-        return new BlankFragment();
+        if(position == 1) return new RegisteredCompaniesFragment();
+        return new OpeningsFragment();
     }
 
     @Override

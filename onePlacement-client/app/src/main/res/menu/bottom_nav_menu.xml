@@ -16,7 +16,7 @@
         android:title="Role"
         />
     <item
-        android:icon="@drawable/server_network_part_2_svgrepo_com"
+        android:icon="@drawable/admin"
         android:id="@+id/admin"
         android:visible="false"
         android:title="Admin"

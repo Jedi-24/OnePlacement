@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.user.payloads.RoleDto;
 import com.jedi.oneplacement.user.payloads.User;
-import com.jedi.oneplacement.user.retrofit.ApiImpl;
+import com.jedi.oneplacement.retrofit.ApiImpl;
 
 import java.util.Map;
 import java.util.Set;

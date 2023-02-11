@@ -64,18 +64,6 @@
                     android:maxLines="1"
                     android:text="Branch"
                     android:textSize="15dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/user_branch"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="gone"
-                    android:id="@+id/cut_cr_btn"
-                    android:text="CUT CREDITS"
-                    android:layout_toEndOf="@id/user_profile_img"
-                    />
-
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -83,7 +71,6 @@
         android:id="@+id/other_user_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_nav"
         android:layout_below="@+id/home_user_details"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -211,11 +198,4 @@
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu" />
 </RelativeLayout>

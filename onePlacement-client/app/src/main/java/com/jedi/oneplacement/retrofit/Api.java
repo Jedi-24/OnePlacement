@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.user.retrofit;
+package com.jedi.oneplacement.retrofit;
 
 import com.jedi.oneplacement.user.payloads.FileResponse;
 import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
@@ -7,6 +7,7 @@ import com.jedi.oneplacement.user.payloads.UserDto;
 import com.jedi.oneplacement.user.payloads.UserLoginInfo;
 import com.jedi.oneplacement.utils.AppConstants;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -35,14 +36,18 @@ public interface Api {
     /* --------- USER DATA EDITING ------------ */
     @Multipart
     @POST("/file/upload/image")
-    Call<FileResponse> uploadImage(@Header("Authorization") String token, @Part("userID") Integer uId, @Part MultipartBody.Part img);
+    Call<FileResponse> uploadImage(@Header(AppConstants.AUTH) String token, @Part("userID") Integer uId, @Part MultipartBody.Part img);
 
     @Multipart
     @POST("/file/upload/resume")
-    Call<FileResponse> uploadResume(@Header("Authorization") String token, @Part("userID") Integer uId, @Part MultipartBody.Part resume);
+    Call<FileResponse> uploadResume(@Header(AppConstants.AUTH) String token, @Part("userID") Integer uId, @Part MultipartBody.Part resume);
 
     @PUT("/api/users/{userId}")
     Call<UserDto> updateUserDetails(@Header(AppConstants.AUTH) String token, @Path("userId") Integer uId, @Body UserDto userDto);
+
+    /* --------- GET ALL USERS [ROLE BASED RETRIEVAL] ------------- */
+    @GET("/api/users/")
+    Call<List<UserDto>> getAllUsers(@Header(AppConstants.AUTH) String token);
 
     /* --------- DOWNLOAD FILES ------------ */
     @GET("/file/retrieve/image/{userId}")

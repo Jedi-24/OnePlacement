@@ -6,59 +6,17 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.jedi.oneplacement.user.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-    </fragment>
-    <fragment
         android:id="@+id/registerFragment"
         android:name="com.jedi.oneplacement.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
-        <action
-            android:id="@+id/action_registerFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.jedi.oneplacement.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/userProfileFragment"
-        android:name="com.jedi.oneplacement.user.fragments.UserProfileFragment"
-        android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" />
-    <fragment
-        android:id="@+id/pdfFragment"
-        android:name="com.jedi.oneplacement.user.fragments.PdfFragment"
-        android:label="fragment_pdf"
-        tools:layout="@layout/fragment_pdf" />
-    <fragment
-        android:id="@+id/companyFragment"
-        android:name="com.jedi.oneplacement.user.fragments.CompanyFragment"
-        android:label="fragment_company"
-        tools:layout="@layout/fragment_company" />
-    <fragment
-        android:id="@+id/rolesFragment"
-        android:name="com.jedi.oneplacement.user.fragments.RolesFragment"
-        android:label="fragment_roles"
-        tools:layout="@layout/fragment_roles" />
-    <fragment
-        android:id="@+id/adminFragment"
-        android:name="com.jedi.oneplacement.admin.fragments.AdminFragment"
-        android:label="fragment_admin"
-        tools:layout="@layout/fragment_admin" />
 </navigation>

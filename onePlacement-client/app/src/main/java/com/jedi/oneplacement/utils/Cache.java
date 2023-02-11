@@ -13,7 +13,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.link.DefaultLinkHandler;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.jedi.oneplacement.user.payloads.FileResponse;
-import com.jedi.oneplacement.user.retrofit.ApiImpl;
+import com.jedi.oneplacement.retrofit.ApiImpl;
 
 import java.io.File;
 import java.io.FileInputStream;

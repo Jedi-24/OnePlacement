@@ -1,11 +1,11 @@
 package com.jedi.oneplacement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.databinding.FragmentRegisterBinding;
 import com.jedi.oneplacement.user.payloads.UserDto;
-import com.jedi.oneplacement.user.retrofit.ApiImpl;
+import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
 
@@ -74,7 +74,9 @@ public class RegisterFragment extends Fragment {
         UserInstance.updateJwtToken(token, new UserInstance.FetchListener() {
             @Override
             public void onFetch() {
-                NavHostFragment.findNavController(RegisterFragment.this).navigate(R.id.action_registerFragment_to_homeFragment);
+                Intent intent = new Intent(requireActivity(), MainActivity.class);
+                startActivity(intent);
+                requireActivity().finish();
             }
 
             @Override

@@ -28,11 +28,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.activities.EntryActivity;
+import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.databinding.FragmentUserProfileBinding;
 import com.jedi.oneplacement.user.payloads.FileResponse;
 import com.jedi.oneplacement.user.payloads.User;
 import com.jedi.oneplacement.user.payloads.UserDto;
-import com.jedi.oneplacement.user.retrofit.ApiImpl;
+import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
 import com.jedi.oneplacement.utils.UserInstance;
@@ -70,6 +72,7 @@ public class UserProfileFragment extends Fragment {
         mBinding = FragmentUserProfileBinding.inflate(inflater, container, false);
         b = Cache.readFromCache(getContext());
         if (b != null) mBinding.profilePhoto.setImageBitmap(b);
+        requireActivity().findViewById(R.id.bottom_nav).setVisibility(View.GONE);
 
         mBinding.layout.toolBar.setNavigationIcon(R.drawable.ic_arrow_back_svgrepo_com);
         mBinding.layout.userPhoto.setVisibility(View.GONE);
@@ -80,6 +83,8 @@ public class UserProfileFragment extends Fragment {
             NavOptions navOptions = navBuilder.setPopUpTo(R.id.homeFragment, true).build();
             NavController navController = NavHostFragment.findNavController(this);
             navController.navigate(R.id.homeFragment, null, navOptions);
+            MainActivity.setCheckz();
+            requireActivity().findViewById(R.id.bottom_nav).setVisibility(View.VISIBLE); // todo: fix this transition
         });
 
         toggleEditables(false);
@@ -96,10 +101,9 @@ public class UserProfileFragment extends Fragment {
             Cache.removeImgFromCache(requireContext());
             Cache.removeResumeFromCache(requireContext());
 
-            NavOptions.Builder navBuilder = new NavOptions.Builder();
-            NavOptions navOptions = navBuilder.setPopUpTo(R.id.homeFragment, true).build();
-            NavController navController = NavHostFragment.findNavController(this);
-            navController.navigate(R.id.loginFragment, null, navOptions);
+            Intent intent = new Intent(requireActivity(), EntryActivity.class);
+            startActivity(intent);
+            requireActivity().finish();
         });
 
         mBinding.editView.setOnClickListener(v -> {

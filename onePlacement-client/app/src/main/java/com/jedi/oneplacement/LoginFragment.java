@@ -1,13 +1,12 @@
 package com.jedi.oneplacement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
@@ -16,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.databinding.FragmentLoginBinding;
 import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
-import com.jedi.oneplacement.user.retrofit.ApiImpl;
+import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
 
@@ -35,10 +34,6 @@ public class LoginFragment extends Fragment {
             mBinding.userName.setText("");
             mBinding.password.setText("");
         });
-
-        BottomNavigationView bottomNavigationView = mBinding.getRoot().findViewById(R.id.bottom_nav);
-        Log.d(TAG, "onCreateView: " + bottomNavigationView);
-//        bottomNavigationView.setVisibility(View.GONE);
 
         mBinding.regTxt.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_registerFragment));
 
@@ -75,7 +70,9 @@ public class LoginFragment extends Fragment {
         UserInstance.updateJwtToken(token, new UserInstance.FetchListener() {
             @Override
             public void onFetch() {
-                NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_homeFragment);
+                Intent intent = new Intent(requireActivity(), MainActivity.class);
+                startActivity(intent);
+                requireActivity().finish();
             }
 
             @Override

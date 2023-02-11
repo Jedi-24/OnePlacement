@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="7dp"
+    app:cardCornerRadius="15dp"
+    android:id="@+id/user"
+    android:layout_margin="10dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userprofile_img"
+            android:layout_width="90sp"
+            android:layout_height="90sp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/man" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/userprofile_img"
+            android:fontFamily="@font/amaranth_bold"
+            android:text="USERNAME"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/user_reg_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_name"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/userprofile_img"
+            android:ellipsize="end"
+            android:fontFamily="@font/amaranth"
+            android:maxLines="1"
+            android:text="REG. NO."
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/user_branch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_reg_no"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/userprofile_img"
+            android:ellipsize="end"
+            android:fontFamily="@font/amaranth"
+            android:maxLines="1"
+            android:text="Branch"
+            android:textSize="15dp" />
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
