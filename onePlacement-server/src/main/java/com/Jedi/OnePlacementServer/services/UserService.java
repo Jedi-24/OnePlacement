@@ -8,6 +8,7 @@ import java.util.List;
 public interface UserService {
     UserDto registerUser(UserDto userDto, String role);
     UserDto updateUser(UserDto user, Integer userId);
+    String verifyProfile(Integer userId);
     UserDto getUserById(Integer userId);
     List<UserDto> getAllUsers();
     void dltUser(Integer userId);

@@ -22,7 +22,7 @@ public class UserController {
     @Autowired // implementation class's object Injection into the userService.
     private UserService userService;
 
-    // get All users;
+    @PreAuthorize("hasRole('Admin')")
     @GetMapping("/")
     public List<UserDto> getAllUsers(){ return userService.getAllUsers(); }
 
@@ -37,6 +37,13 @@ public class UserController {
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("userId") Integer uid){
         return ResponseEntity.ok(this.userService.updateUser(userDto, uid));
     }
+    @PreAuthorize("hasRole('Admin')")
+    @PutMapping("/verify/{userId}")
+    public ResponseEntity<ApiResponse> verifyProfile(@PathVariable("userId") Integer uId){
+        String s = this.userService.verifyProfile(uId);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(s, true), HttpStatus.OK);
+    }
+
     @PreAuthorize("hasRole('Admin')")
     @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid){

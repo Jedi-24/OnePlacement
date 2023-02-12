@@ -52,20 +52,12 @@ public class User implements UserDetails {
 //    @ManyToOne(fetch = FetchType.EAGER) // one directional mapping for non auto incremented roles table; *No Cascade.ALL*
 //    private Role role; // role table <id> as foreign key for the user table;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user",referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(role);
-//
-//        Collection<SimpleGrantedAuthority> collection = roles.stream()
-//                .map((role -> new SimpleGrantedAuthority(role.getRole_name()))).collect(Collectors.toList());
-//        return collection;
-//    }
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private Set<Company> companies = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

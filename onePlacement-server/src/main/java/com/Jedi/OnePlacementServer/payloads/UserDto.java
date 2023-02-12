@@ -1,6 +1,7 @@
 package com.Jedi.OnePlacementServer.payloads;
 
 
+import com.Jedi.OnePlacementServer.entities.Company;
 import com.Jedi.OnePlacementServer.entities.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
@@ -46,4 +47,5 @@ public class UserDto {
     private String roleStatus;
     private String profileStatus;
     private Set<Role> roles = new HashSet<>();
+    private Set<Company> companies = new HashSet<>();
 }

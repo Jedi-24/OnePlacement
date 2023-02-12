@@ -44,6 +44,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String verifyProfile(Integer userId) {
+        User user = this.userRepo.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        user.setProfileStatus(AppConstants.VERIFIED);
+
+        this.userRepo.save(user);
+
+        return AppConstants.VERIFIED;
+    }
+
+    @Override
     public UserDto getUserById(Integer userId) {
         User user = this.userRepo.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
