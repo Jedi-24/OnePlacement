@@ -1,5 +1,6 @@
 package com.Jedi.OnePlacementServer.controllers;
 
+import com.Jedi.OnePlacementServer.payloads.ApiResponse;
 import com.Jedi.OnePlacementServer.payloads.CompanyDto;
 import com.Jedi.OnePlacementServer.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController @RequestMapping("/company")
 public class CompanyController {
     @Autowired
@@ -15,7 +18,12 @@ public class CompanyController {
 
     @PreAuthorize("hasRole('Admin')")
     @PostMapping("/save/{role}")
-    ResponseEntity<CompanyDto> addCompany(@PathVariable("role") String role, @RequestBody CompanyDto companyDto){
+    public ResponseEntity<CompanyDto> addCompany(@PathVariable("role") String role, @RequestBody CompanyDto companyDto){
         return new ResponseEntity<CompanyDto>(this.companyService.addCompany(companyDto, role), HttpStatus.OK);
+    }
+
+    @GetMapping("/{role}")
+    public List<CompanyDto> fetchAllCompanies(@PathVariable("role") String role){
+        return this.companyService.fetchAllCompanies(role);
     }
 }

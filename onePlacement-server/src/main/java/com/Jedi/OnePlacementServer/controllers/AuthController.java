@@ -41,8 +41,10 @@ public class AuthController {
     public Map<String, Object> checkLogin() {
         HashMap<String, Object> users = new HashMap<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("jajaja " + authentication.getPrincipal());
         if (!(authentication instanceof AnonymousAuthenticationToken))
             users.put("Authenticated: ", authentication.getPrincipal());
+        System.out.println(users);
         return users;
     }
 

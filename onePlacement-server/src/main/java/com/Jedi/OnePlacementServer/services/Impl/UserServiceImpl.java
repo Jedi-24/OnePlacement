@@ -1,8 +1,10 @@
 package com.Jedi.OnePlacementServer.services.Impl;
 
+import com.Jedi.OnePlacementServer.entities.Company;
 import com.Jedi.OnePlacementServer.entities.Role;
 import com.Jedi.OnePlacementServer.entities.User;
 import com.Jedi.OnePlacementServer.exceptions.ResourceNotFoundException;
+import com.Jedi.OnePlacementServer.payloads.CompanyDto;
 import com.Jedi.OnePlacementServer.payloads.UserDto;
 import com.Jedi.OnePlacementServer.repositories.RoleRepo;
 import com.Jedi.OnePlacementServer.repositories.UserRepo;
@@ -32,8 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
-        User user = this.userRepo.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
 
         user.setEmail(userDto.getEmail());
         user.setBranch(userDto.getBranch());
@@ -45,8 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String verifyProfile(Integer userId) {
-        User user = this.userRepo.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
         user.setProfileStatus(AppConstants.VERIFIED);
 
         this.userRepo.save(user);
@@ -56,8 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Integer userId) {
-        User user = this.userRepo.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
 
         return this.userToDto(user);
     }
@@ -76,6 +75,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void regInCompany(Integer userId, CompanyDto companyDto) {
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+
+        user.getCompanies().add(this.modelMapper.map(companyDto, Company.class));
+        this.userRepo.save(user);
+    }
+
+    @Override
     public UserDto registerUser(UserDto userDto, String role) {
         User user = modelMapper.map(userDto, User.class);
         // encode the password:
@@ -86,7 +93,7 @@ public class UserServiceImpl implements UserService {
         Role pRole = this.roleRepo.findById(AppConstants.Placement_Role_ID).get();
         role = "ROLE_".concat(role);
 
-        if(role.matches(iRole.getRole_name())) user.getRoles().add(iRole);
+        if (role.matches(iRole.getRole_name())) user.getRoles().add(iRole);
         else user.getRoles().add(pRole);
 
         User savedUser = this.userRepo.save(user);

@@ -11,6 +11,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
@@ -44,4 +48,24 @@ public class CompanyServiceImpl implements CompanyService {
 
         return this.modelMapper.map(savedCompany, CompanyDto.class);
     }
+
+    @Override
+    public List<CompanyDto> fetchAllCompanies(String role) {
+        List<Company> companyList = new ArrayList<>();
+        companyList = this.companyRepo.findAll();
+        role = "ROLE_" + role;
+        List<CompanyDto> retC = new ArrayList<>();
+        for(Company company: companyList){
+            Set<Role> companyRoles = company.getRoles();
+            for(Role c : companyRoles){
+                if(c.getRole_name().matches(role)) {
+                    System.out.println(company.getCname() + " debug mode");
+                    retC.add(this.modelMapper.map(company, CompanyDto.class));
+                }
+            }
+        }
+        return retC;
+    }
+
+
 }

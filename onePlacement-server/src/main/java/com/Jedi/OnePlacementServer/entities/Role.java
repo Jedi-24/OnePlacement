@@ -16,6 +16,6 @@ public class Role {
     @Id
     private int id;
     private String role_name;
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    private Set<Company> companies = new HashSet<>();
+//    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+//    private Set<Company> companies = new HashSet<>();
 }

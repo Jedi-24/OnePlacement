@@ -1,6 +1,7 @@
 package com.Jedi.OnePlacementServer.controllers;
 
 import com.Jedi.OnePlacementServer.payloads.ApiResponse;
+import com.Jedi.OnePlacementServer.payloads.CompanyDto;
 import com.Jedi.OnePlacementServer.payloads.UserDto;
 import com.Jedi.OnePlacementServer.services.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -51,5 +52,11 @@ public class UserController {
 
         this.userService.dltUser(uid);
         return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK);
+    }
+
+    @PostMapping("/company/register/{userId}")
+    public ResponseEntity<ApiResponse> registerIntoCompany(@PathVariable("userId") Integer uid, @Valid @RequestBody CompanyDto companyDto){
+        this.userService.regInCompany(uid, companyDto);
+        return new ResponseEntity<ApiResponse>(new ApiResponse("Registered Successfully", true), HttpStatus.OK);
     }
 }

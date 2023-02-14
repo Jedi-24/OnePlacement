@@ -16,6 +16,8 @@ public class CompanyDto {
     private String profile;
     private String stipend;
     private String ctc;
+    private String ppo;
+
     private Set<Role> roles = new HashSet<>();
-    private Set<User> users = new HashSet<>();
+//    private Set<User> users = new HashSet<>();
 }
