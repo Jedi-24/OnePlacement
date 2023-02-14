@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.databinding.FragmentRegisterBinding;
-import com.jedi.oneplacement.user.payloads.UserDto;
+import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
@@ -29,6 +29,10 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentRegisterBinding.inflate(inflater, container, false);
+        mBinding.layout.title.setVisibility(View.VISIBLE);
+        mBinding.layout.title.setText(AppConstants.APP);
+        mBinding.layout.userPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
+
         role = AppConstants.DEFAULT_ROLE;
 
         mBinding.autoCompleteTextview.setOnItemClickListener((parent, view1, position, id) -> {
@@ -37,14 +41,14 @@ public class RegisterFragment extends Fragment {
         });
 
         mBinding.regBtn.setOnClickListener(v -> {
-            name = mBinding.name.getText().toString();
-            password = mBinding.regPassword.getText().toString();
-            email = mBinding.email.getText().toString();
-            regNo = mBinding.regNo.getText().toString();
-            mBinding.name.setText("");
-            mBinding.regPassword.setText("");
-            mBinding.email.setText("");
-            mBinding.regNo.setText("");
+            name = mBinding.nameInput.getText().toString();
+            password = mBinding.regPasswordInput.getText().toString();
+            email = mBinding.emailInput.getText().toString();
+            regNo = mBinding.regNoInput.getText().toString();
+            mBinding.nameInput.setText("");
+            mBinding.regPasswordInput.setText("");
+            mBinding.emailInput.setText("");
+            mBinding.regNoInput.setText("");
             callRegisterApi(name, regNo, email, password, role);
         });
 

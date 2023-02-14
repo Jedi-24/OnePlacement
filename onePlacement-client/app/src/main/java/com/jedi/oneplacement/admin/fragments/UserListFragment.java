@@ -58,7 +58,6 @@ public class UserListFragment extends Fragment {
     }
 
     public void loadUserFragment(String jsonData){
-        Log.d(TAG, "loadUserFragment: JAJAJAJAJA");
         Bundle result = new Bundle();
         result.putString("bundleKey", jsonData);
         requireActivity().getSupportFragmentManager().setFragmentResult("requestKey", result);

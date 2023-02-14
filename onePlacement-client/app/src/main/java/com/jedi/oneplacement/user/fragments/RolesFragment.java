@@ -3,23 +3,12 @@ package com.jedi.oneplacement.user.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavOptions;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jedi.oneplacement.R;
-import com.jedi.oneplacement.admin.fragments.AdminFragment;
-import com.jedi.oneplacement.databinding.FragmentCompanyBinding;
 import com.jedi.oneplacement.databinding.FragmentRolesBinding;
-import com.jedi.oneplacement.user.payloads.RoleDto;
-import com.jedi.oneplacement.utils.UserInstance;
-
-import java.util.Iterator;
-import java.util.Set;
 
 public class RolesFragment extends Fragment {
     FragmentRolesBinding mBinding;

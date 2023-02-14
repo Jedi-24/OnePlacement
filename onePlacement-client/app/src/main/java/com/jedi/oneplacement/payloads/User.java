@@ -1,5 +1,6 @@
-package com.jedi.oneplacement.user.payloads;
+package com.jedi.oneplacement.payloads;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import lombok.Data;
@@ -19,4 +20,5 @@ public class User {
     private String profileStatus;
 
     private Set<RoleDto> roles;
+    private Set<Company> companies = new HashSet<>();
 }

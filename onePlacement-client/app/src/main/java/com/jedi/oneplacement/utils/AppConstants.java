@@ -8,10 +8,11 @@ public class AppConstants {
 
     // ---> Phone: 192.168.243.117
     public static String DEFAULT_ROLE = "Internship";
-    public static String ADMIN_ROLE = "ROLE_Admin";
+//    public static String ADMIN_ROLE = "ROLE_Admin";
 
 
     public static String ADMIN = "ADMIN DASHBOARD";
+    public static String APP = "ONE PLACEMENT";
 
     public static String APP_NAME = "ONE_PLACEMENT";
     public static String JWT = "JWT";
@@ -23,6 +24,7 @@ public class AppConstants {
 
     public static String NOT_OFFERED = "NOT OFFERED";
     public static String NOT_VERIFIED = "UNVERIFIED";
+    public static String VERIFIED = "VERIFIED";
 
     public static final String AUTH = "Authorization";
 }

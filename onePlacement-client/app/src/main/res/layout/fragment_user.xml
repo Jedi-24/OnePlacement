@@ -1,15 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".admin.fragments.UserFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <include android:id="@+id/tb_layout"
+        layout="@layout/toolbar" />
+     <!-- todo: setup UI -->
 
-</FrameLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="7dp"
+        app:cardCornerRadius="15dp"
+        android:id="@+id/home_user_details"
+        android:layout_below="@+id/tb_layout"
+        android:layout_margin="10dp" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_profile_img"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/man" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/user_profile_img"
+                android:fontFamily="@font/amaranth_bold"
+                android:text="USERNAME"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/user_reg_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/user_profile_img"
+                android:fontFamily="@font/amaranth_bold"
+                android:layout_below="@id/user_name"
+                android:text="2020XOXO"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/user_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_reg_no"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/user_profile_img"
+                android:ellipsize="end"
+                android:fontFamily="@font/amaranth"
+                android:maxLines="1"
+                android:text="Email"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/user_branch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_email"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/user_profile_img"
+                android:ellipsize="end"
+                android:fontFamily="@font/amaranth"
+                android:maxLines="1"
+                android:text="Branch"
+                android:textSize="15dp" />
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+</RelativeLayout>

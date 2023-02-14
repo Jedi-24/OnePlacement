@@ -1,14 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".admin.fragments.AddCompanyFragment">
+    android:layout_height="match_parent" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="string/company daalo" />
+    <RelativeLayout
+        android:layout_margin="30dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/c_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
 
-</FrameLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/c_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Company Name"
+                android:inputType="textEmailAddress"
+                android:padding="20dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_below="@id/c_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profile_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Profile"
+                android:inputType="textEmailAddress"
+                android:padding="20dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:visibility="visible"
+            android:animateLayoutChanges="true"
+            android:layout_below="@id/profile"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/stipend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/stipend_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Stipend"
+                android:inputType="textEmailAddress"
+                android:padding="20dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_below="@id/stipend"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/ctc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ctc_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="CTC"
+                android:inputType="textEmailAddress"
+                android:padding="20dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_below="@id/ctc"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/role"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Internship | Placement">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Internship"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_below="@id/ctc"
+            android:layout_alignParentRight="true"
+            android:animateLayoutChanges="true"
+            android:id="@+id/ppo"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="PPO">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextviewPPO"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Yes"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_below="@+id/role"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Company"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:id="@+id/button_add_c" />
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

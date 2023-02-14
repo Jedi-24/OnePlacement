@@ -4,17 +4,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.databinding.FragmentHomeBinding;
-import com.jedi.oneplacement.user.payloads.RoleDto;
+import com.jedi.oneplacement.payloads.RoleDto;
+import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
 import com.jedi.oneplacement.utils.UserInstance;
 
@@ -33,9 +32,12 @@ public class HomeFragment extends Fragment {
         mBinding.userName.setText(UserInstance.getName());
         mBinding.userRegNo.setText(UserInstance.getRegNo());
         mBinding.creditPts.setText(UserInstance.getCreditPts());
-        mBinding.profileStatusTxt.setText(UserInstance.getProfileStatus());
-        mBinding.roleTxt.setText(UserInstance.getRoleStatus());
+        String profileStatus = UserInstance.getProfileStatus();
+        mBinding.profileStatusTxt.setText(profileStatus);
 
+        if(profileStatus.matches(AppConstants.VERIFIED))
+            mBinding.profileStatusIcon.setImageResource(R.drawable.verified_svgrepo_com);
+        mBinding.roleTxt.setText(UserInstance.getRoleStatus());
         Set<RoleDto> roles = UserInstance.getRoles();
         String role = "";
         for (RoleDto roleDto : roles) {

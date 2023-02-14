@@ -1,16 +1,20 @@
 package com.jedi.oneplacement.retrofit;
 
+import static com.jedi.oneplacement.utils.UserInstance.getRoles;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jedi.oneplacement.user.payloads.FileResponse;
-import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
-import com.jedi.oneplacement.user.payloads.User;
-import com.jedi.oneplacement.user.payloads.UserDto;
-import com.jedi.oneplacement.user.payloads.UserLoginInfo;
+import com.jedi.oneplacement.payloads.Company;
+import com.jedi.oneplacement.payloads.FileResponse;
+import com.jedi.oneplacement.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.payloads.RoleDto;
+import com.jedi.oneplacement.payloads.User;
+import com.jedi.oneplacement.payloads.UserDto;
+import com.jedi.oneplacement.payloads.UserLoginInfo;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
 
@@ -18,6 +22,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -32,11 +37,9 @@ public class ApiImpl {
 
     private static Api getRetrofitAccessObject() {
         if (mApi == null) {
-
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
-
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(AppConstants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
@@ -113,6 +116,58 @@ public class ApiImpl {
 
                     @Override
                     public void onFailure(Call<UserDto> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+    /* ---------- COMPANIES ---------- */
+    public static void addCompany(String token,String cName, String mProfile, String mStipend, String mCtc, String mPPO, String mRole,ApiCallListener<Company> listener){
+        Company company = new Company();
+
+        company.setCname(cName);
+        company.setProfile(mProfile);
+        company.setStipend(mStipend);
+        company.setCtc(mCtc);
+        company.setPpo(mPPO);
+        getRetrofitAccessObject().addCompany(mRole, company, "Bearer " + token)
+                .enqueue(new Callback<Company>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Company> call, @NonNull Response<Company> response) {
+                        if(!response.isSuccessful() || response.body() == null)
+                        {
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Company> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+    public static void getAllCompanies(String token, ApiCallListener<List<Company>> listener){
+        Set<RoleDto> roles = UserInstance.getRoles();
+        String mRole="";
+        for(RoleDto role: roles)
+            mRole = role.getRole_name();
+        Log.d(TAG, "getAllCompanies: " + mRole);
+        mRole = mRole.substring(5);
+        getRetrofitAccessObject().fetchCompanies(mRole,"Bearer " + token)
+                .enqueue(new Callback<List<Company>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<Company>> call, @NonNull Response<List<Company>> response) {
+                        if(!response.isSuccessful() || response.body() == null){
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
+                    }
+                    @Override
+                    public void onFailure(Call<List<Company>> call, Throwable t) {
                         listener.onFailure(-1);
                     }
                 });

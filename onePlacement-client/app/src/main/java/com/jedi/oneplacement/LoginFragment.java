@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.databinding.FragmentLoginBinding;
-import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.payloads.JwtAuthResponse;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
@@ -29,10 +29,14 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentLoginBinding.inflate(inflater,container, false);
+        mBinding.layout.title.setVisibility(View.VISIBLE);
+        mBinding.layout.title.setText(AppConstants.APP);
+        mBinding.layout.userPhoto.setImageResource(R.mipmap.ic_launcher_foreground);
+
         mBinding.loginBtn.setOnClickListener(v -> {
-            callLoginApi(mBinding.userName.getText().toString(), mBinding.password.getText().toString());
-            mBinding.userName.setText("");
-            mBinding.password.setText("");
+            callLoginApi(mBinding.userNameInput.getText().toString(), mBinding.passwordInput.getText().toString());
+            mBinding.userNameInput.setText("");
+            mBinding.passwordInput.setText("");
         });
 
         mBinding.regTxt.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_loginFragment_to_registerFragment));
@@ -77,7 +81,7 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onError(int code) {
-                Log.d(TAG, "onError: haa bhai ajajajajja");
+                Log.d(TAG, "onError: haa bhai ajajajajja " + code);
                 Toast.makeText(requireContext(), "TERI MAA KI...", Toast.LENGTH_SHORT).show();
                 // in any case, BAD REQUEST | UNSUCCESSFUL REQUEST :
 //                mEntryActivity.loadLoginFragment();

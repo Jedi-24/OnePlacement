@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.user.payloads;
+package com.jedi.oneplacement.payloads;
 
 import lombok.Data;
 

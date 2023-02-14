@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.link.DefaultLinkHandler;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.jedi.oneplacement.user.payloads.FileResponse;
+import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 
 import java.io.File;
@@ -113,7 +113,6 @@ public class Cache {
         ApiImpl.getResume(UserInstance.getId(), token, new ApiImpl.ApiCallListener<FileResponse>() {
             @Override
             public void onResponse(FileResponse response) {
-                System.out.println(response.getFileName());
                 byte[] byteData = Base64.decode(response.getFileName(), 0);
                 configurePdf(pdf, byteData);
                 writeToCache(context,byteData,"R");
@@ -165,7 +164,6 @@ public class Cache {
         ApiImpl.getImage(UserInstance.getId(), token, new ApiImpl.ApiCallListener<FileResponse>() {
             @Override
             public void onResponse(FileResponse response) {
-                System.out.println(response.getFileName());
                 byte[] byteData = Base64.decode(response.getFileName(), 0);
                 Bitmap bm = BitmapFactory.decodeByteArray(byteData, 0, byteData.length);
                 userImg.setImageBitmap(bm);

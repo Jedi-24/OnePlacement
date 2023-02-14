@@ -1,35 +1,23 @@
 package com.jedi.oneplacement.user.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.activities.MainActivity;
-import com.jedi.oneplacement.admin.fragments.AdminFragment;
 import com.jedi.oneplacement.databinding.FragmentCompanyBinding;
-import com.jedi.oneplacement.user.payloads.RoleDto;
 import com.jedi.oneplacement.user.utils.VPadapter;
-import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
-
-import java.util.Iterator;
-import java.util.Set;
 
 public class CompanyFragment extends Fragment {
     FragmentCompanyBinding mBinding;

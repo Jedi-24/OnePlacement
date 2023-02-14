@@ -6,20 +6,20 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.fragments.AdminFragment;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
-import com.jedi.oneplacement.admin.utils.UsersAdapter;
 import com.jedi.oneplacement.databinding.ActivityMainBinding;
+import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.user.fragments.CompanyFragment;
 import com.jedi.oneplacement.user.fragments.HomeFragment;
 import com.jedi.oneplacement.user.fragments.RolesFragment;
-import com.jedi.oneplacement.user.payloads.RoleDto;
-import com.jedi.oneplacement.user.payloads.UserDto;
+import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.utils.UserInstance;
-import com.jedi.oneplacement.utils.UsersDataPersistance;
+import com.jedi.oneplacement.utils.DataPersistence;
 
 import java.util.List;
 import java.util.Set;
@@ -50,9 +50,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (UserInstance.getRoles().size() > 1) {
-            AdapterFactory.fetchUsers(this, usersList -> UsersDataPersistance.usersList = usersList);
+            AdapterFactory.fetchUsers(this, usersList -> DataPersistence.usersList = usersList);
             mBinding.bottomNav.getMenu().getItem(3).setVisible(true);
         }
+
+        AdapterFactory.fetchCompanies(this, companiesList -> {
+            Log.d(TAG, "onCreate: " + companiesList.size());
+            DataPersistence.companyList = companiesList;
+        });
 
         mBinding.bottomNav.getMenu().getItem(2).setTitle(role + "s");
         mBinding.bottomNav.setOnItemSelectedListener(item1 -> {

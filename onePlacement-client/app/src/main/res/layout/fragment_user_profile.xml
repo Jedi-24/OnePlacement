@@ -177,7 +177,21 @@
             android:text="View Resume" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VERIFIED PROFILES CAN ONLY UPDATE THEIR RESUMES !"
+        android:textColor="#FF0000"
+        android:layout_above="@+id/editL"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/amaranth_bold_italic"
+        android:visibility="gone"
+        />
+
     <LinearLayout
+        android:id="@+id/editL"
         android:weightSum="100"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"

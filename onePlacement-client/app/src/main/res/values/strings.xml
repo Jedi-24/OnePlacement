@@ -9,6 +9,18 @@
         <item>Internship</item>
         <item>Placement</item>
     </string-array>
+
+    <string-array name="cFor">
+        <item>Internship</item>
+        <item>Placement</item>
+        <item>Both</item>
+    </string-array>
+
+    <string-array name="PPO">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

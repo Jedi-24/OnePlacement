@@ -31,9 +31,9 @@ import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.activities.EntryActivity;
 import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.databinding.FragmentUserProfileBinding;
-import com.jedi.oneplacement.user.payloads.FileResponse;
-import com.jedi.oneplacement.user.payloads.User;
-import com.jedi.oneplacement.user.payloads.UserDto;
+import com.jedi.oneplacement.payloads.FileResponse;
+import com.jedi.oneplacement.payloads.User;
+import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
@@ -54,6 +54,7 @@ import okhttp3.RequestBody;
 
 public class UserProfileFragment extends Fragment {
     private static final String TAG = "UserProfileFragment";
+    boolean isEditable = true;
     FragmentUserProfileBinding mBinding;
     Boolean editable;
     Uri contentURI = null;
@@ -77,6 +78,11 @@ public class UserProfileFragment extends Fragment {
         mBinding.layout.toolBar.setNavigationIcon(R.drawable.ic_arrow_back_svgrepo_com);
         mBinding.layout.userPhoto.setVisibility(View.GONE);
         setUserDetails();
+        isEditable = UserInstance.getProfileStatus().matches(AppConstants.VERIFIED) ? false : true;
+        if(!isEditable){
+            mBinding.warning.setVisibility(View.VISIBLE);
+        }
+        Log.d(TAG, "onCreateView: " + isEditable);
 
         mBinding.layout.toolBar.setNavigationOnClickListener(v -> {
             NavOptions.Builder navBuilder = new NavOptions.Builder();
@@ -111,9 +117,11 @@ public class UserProfileFragment extends Fragment {
             if (!editable) {
                 mBinding.editView.setText("Save");
                 mBinding.resume.setText("UPLOAD RESUME");
-                mBinding.editImg.setVisibility(View.VISIBLE);
-
-                toggleEditables(true);
+                editable = true;
+                if(isEditable) {
+                    mBinding.editImg.setVisibility(View.VISIBLE);
+                    toggleEditables(true);
+                }
             } else {
                 mBinding.resume.setEnabled(true);
                 SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
@@ -170,23 +178,27 @@ public class UserProfileFragment extends Fragment {
                             });
                         }
 
-                        ApiImpl.updateUser(jwt, branch, email, mno, new ApiImpl.ApiCallListener<UserDto>() {
-                            @Override
-                            public void onResponse(UserDto response) {
-                                UserInstance.setUserInstance(new ModelMapper().map(response, User.class));
-                                Log.d(TAG, "onResponse: " + response.toString());
-                                toggleEditables(false);
-                            }
+                        if(isEditable) {
+                            ApiImpl.updateUser(jwt, branch, email, mno, new ApiImpl.ApiCallListener<UserDto>() {
+                                @Override
+                                public void onResponse(UserDto response) {
+                                    UserInstance.setUserInstance(new ModelMapper().map(response, User.class));
+                                    Log.d(TAG, "onResponse: " + response.toString());
+                                    toggleEditables(false);
+                                }
 
-                            @Override
-                            public void onFailure(int code) {
-                                Log.d(TAG, "onFailure: code: " + code);
-                                if (code == -1)
-                                    Toast.makeText(requireContext(), code + ": Error could not update Details, check your Internet.", Toast.LENGTH_SHORT).show();
-                                else
-                                    Toast.makeText(requireContext(), code + ": Bad Request..", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                @Override
+                                public void onFailure(int code) {
+                                    Log.d(TAG, "onFailure: code: " + code);
+                                    if (code == -1)
+                                        Toast.makeText(requireContext(), code + ": Error could not update Details, check your Internet.", Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(requireContext(), code + ": Bad Request..", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        else
+                            toggleEditables(false);
                     }
 
                     @Override

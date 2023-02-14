@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/company_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="7dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/c_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Company Name"
+            android:fontFamily="@font/amaranth_bold"
+            android:textSize="35dp" />
+        <RelativeLayout
+            android:id="@+id/hiddenV"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/c_name_text"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/ctc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="ctc"
+                android:padding="10dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_toEndOf="@+id/ctc"
+                android:id="@+id/stipend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Stipend"
+                android:padding="10dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_toEndOf="@+id/stipend"
+                android:id="@+id/ppo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="20dp"
+                android:hint="ppo" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/register_in_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="end"
+                android:text="Register" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

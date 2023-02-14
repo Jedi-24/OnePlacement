@@ -1,10 +1,11 @@
 package com.jedi.oneplacement.retrofit;
 
-import com.jedi.oneplacement.user.payloads.FileResponse;
-import com.jedi.oneplacement.user.payloads.JwtAuthResponse;
-import com.jedi.oneplacement.user.payloads.User;
-import com.jedi.oneplacement.user.payloads.UserDto;
-import com.jedi.oneplacement.user.payloads.UserLoginInfo;
+import com.jedi.oneplacement.payloads.Company;
+import com.jedi.oneplacement.payloads.FileResponse;
+import com.jedi.oneplacement.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.payloads.User;
+import com.jedi.oneplacement.payloads.UserDto;
+import com.jedi.oneplacement.payloads.UserLoginInfo;
 import com.jedi.oneplacement.utils.AppConstants;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public interface Api {
     @PUT("/api/users/{userId}")
     Call<UserDto> updateUserDetails(@Header(AppConstants.AUTH) String token, @Path("userId") Integer uId, @Body UserDto userDto);
 
-    /* --------- GET ALL USERS [ROLE BASED RETRIEVAL] ------------- */
+    /* --------- GET ALL USERS ------------- */
     @GET("/api/users/")
     Call<List<UserDto>> getAllUsers(@Header(AppConstants.AUTH) String token);
 
@@ -55,4 +56,11 @@ public interface Api {
 
     @GET("/file/retrieve/resume/{userId}")
     Call<FileResponse> getResume(@Path(value = "userId") Integer uId, @Header(AppConstants.AUTH) String token);
+
+    /* -------- COMPANY CALLS -------- */
+    @POST("/company/save/{role}")
+    Call<Company> addCompany(@Path(value = "role") String role, @Body Company company, @Header(AppConstants.AUTH) String token);
+    @GET("/company/{role}")
+    Call<List<Company>> fetchCompanies(@Path(value = "role") String role, @Header(AppConstants.AUTH) String token);
+
 }
