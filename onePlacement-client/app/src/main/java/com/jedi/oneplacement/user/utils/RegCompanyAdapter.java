@@ -15,34 +15,31 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.payloads.Company;
-import com.jedi.oneplacement.retrofit.ApiImpl;
-import com.jedi.oneplacement.user.fragments.OpeningsFragment;
 import com.jedi.oneplacement.user.fragments.RegisteredCompaniesFragment;
-import com.jedi.oneplacement.utils.UserInstance;
 
 import java.util.ArrayList;
 
-public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.CompanyViewHolder> {
+public class RegCompanyAdapter extends RecyclerView.Adapter<RegCompanyAdapter.CompanyViewHolder> {
     private static final String TAG = "CompanyAdapter";
     public ArrayList<Company> companyList = new ArrayList<>();
-    private static OpeningsFragment openingsFragment;
+    private static RegisteredCompaniesFragment registeredCompaniesFragment;
 
-    public CompanyAdapter(OpeningsFragment openingsFragment) {
-        CompanyAdapter.openingsFragment = openingsFragment;
-//        CompanyAdapter.registeredCompaniesFragment = registeredCompaniesFragment;
+    public RegCompanyAdapter(RegisteredCompaniesFragment registeredCompaniesFragment) {
+        RegCompanyAdapter.registeredCompaniesFragment = registeredCompaniesFragment;
     }
 
     @NonNull
     @Override
-    public CompanyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RegCompanyAdapter.CompanyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.company_rv_layout, parent, false);
-        return new CompanyViewHolder(view);
+        return new RegCompanyAdapter.CompanyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CompanyViewHolder holder, int position) {
         holder.bindView(companyList.get(holder.getAdapterPosition()));
     }
+
 
     @Override
     public int getItemCount() {
@@ -73,9 +70,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.CompanyV
             else
                 stipend.setText(company.getStipend());
 
-//            if(registeredCompaniesFragment!=null){
-//                mRegBtn.setVisibility(View.GONE);
-//            }
+            mRegBtn.setVisibility(View.GONE);
 
             ctc.setText(company.getCtc());
             mCompany.setOnClickListener(v -> {
@@ -84,12 +79,6 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.CompanyV
                 else
                     hidden.setVisibility(View.GONE);
                 setV = !setV;
-            });
-
-            mRegBtn.setOnClickListener(v -> {
-//                 to register in the company:
-                Toast.makeText(openingsFragment.requireContext(), "KKKKKKKKKKKKKKKKK", Toast.LENGTH_SHORT).show();
-                openingsFragment.registerInCompany(company);
             });
         }
 

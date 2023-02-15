@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.gson.Gson;
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.retrofit.ApiImpl;
@@ -53,8 +54,8 @@ public class UserInstance {
 
     public static void updateJwtToken(String token, FetchListener listener) {
         Log.d(TAG, "updateJwtToken: " + token);
-        mUser.setJwtToken(token);
-        fetchUser(listener);
+//        mUser.setJwtToken(token);
+        fetchUser(token,listener);
     }
 
     public static void sessionOver(Context context, Fragment fragment){
@@ -70,8 +71,9 @@ public class UserInstance {
         navController.navigate(R.id.loginFragment, null, navOptions);
     }
 
-    private static void fetchUser(FetchListener listener) {
+    public static void fetchUser(String token, FetchListener listener) {
         // API.someFun(jwtToken, onResponse = {res -> mUser.setWhatever field() } )
+        mUser.setJwtToken(token);
         ApiImpl.checkUser(mUser.getJwtToken(), new ApiImpl.ApiCallListener<Map<String, Object>>() {
             @Override
             public void onResponse(Map<String, Object> response) {
@@ -138,5 +140,9 @@ public class UserInstance {
 //    }
     public static String getPhoneNumber() {
         return mUser.getPhoneNumber();
+    }
+
+    public static Set<Company> getUserCompanies(){
+        return mUser.getCompanies();
     }
 }

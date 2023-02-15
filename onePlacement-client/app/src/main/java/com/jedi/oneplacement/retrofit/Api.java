@@ -1,5 +1,6 @@
 package com.jedi.oneplacement.retrofit;
 
+import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
@@ -62,5 +63,6 @@ public interface Api {
     Call<Company> addCompany(@Path(value = "role") String role, @Body Company company, @Header(AppConstants.AUTH) String token);
     @GET("/company/{role}")
     Call<List<Company>> fetchCompanies(@Path(value = "role") String role, @Header(AppConstants.AUTH) String token);
-
+    @POST("/api/users/company/register/{userId}")
+    Call<ApiResponse> registerInC(@Body Company company, @Header(AppConstants.AUTH) String token, @Path(value = "userId") Integer uId);
 }

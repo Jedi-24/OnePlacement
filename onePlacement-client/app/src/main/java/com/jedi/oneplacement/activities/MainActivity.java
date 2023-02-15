@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         AdapterFactory.fetchCompanies(this, companiesList -> {
-            Log.d(TAG, "onCreate: " + companiesList.size());
             DataPersistence.companyList = companiesList;
+            Log.d(TAG, "onCreate: " + companiesList.get(0).getCid());
         });
 
         mBinding.bottomNav.getMenu().getItem(2).setTitle(role + "s");

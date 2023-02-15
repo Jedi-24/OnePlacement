@@ -32,7 +32,8 @@ public class Cache {
         try {
             b = BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d(TAG, "readFromCache: " + e.getMessage());
+//            e.printStackTrace();
         }
         return b;
     }

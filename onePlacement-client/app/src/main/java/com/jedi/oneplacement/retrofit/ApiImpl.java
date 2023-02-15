@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
@@ -154,7 +155,6 @@ public class ApiImpl {
         String mRole="";
         for(RoleDto role: roles)
             mRole = role.getRole_name();
-        Log.d(TAG, "getAllCompanies: " + mRole);
         mRole = mRole.substring(5);
         getRetrofitAccessObject().fetchCompanies(mRole,"Bearer " + token)
                 .enqueue(new Callback<List<Company>>() {
@@ -164,6 +164,8 @@ public class ApiImpl {
                             listener.onFailure(response.code());
                             return;
                         }
+                        Company company = response.body().get(0);
+                        Log.d(TAG, "onResponse: " + company.toString());
                         listener.onResponse(response.body());
                     }
                     @Override
@@ -173,8 +175,25 @@ public class ApiImpl {
                 });
     }
 
-    /* --------- EDIT USER DATA --------- */
+    public static void registerInC(Company company, String token, ApiCallListener<ApiResponse> listener){
+        getRetrofitAccessObject().registerInC(company, "Bearer " + token, UserInstance.getId())
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if(!response.isSuccessful() || response.body() == null){
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
+                    }
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
 
+    /* --------- EDIT USER DATA --------- */
     public static void uploadImg(String token, MultipartBody.Part img , ApiCallListener<FileResponse> listener){
         getRetrofitAccessObject().uploadImage("Bearer " + token, UserInstance.getId(), img)
                 .enqueue(new Callback<FileResponse>() {

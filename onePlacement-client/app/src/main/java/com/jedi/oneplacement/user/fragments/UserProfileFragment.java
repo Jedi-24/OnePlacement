@@ -186,7 +186,6 @@ public class UserProfileFragment extends Fragment {
                                     Log.d(TAG, "onResponse: " + response.toString());
                                     toggleEditables(false);
                                 }
-
                                 @Override
                                 public void onFailure(int code) {
                                     Log.d(TAG, "onFailure: code: " + code);

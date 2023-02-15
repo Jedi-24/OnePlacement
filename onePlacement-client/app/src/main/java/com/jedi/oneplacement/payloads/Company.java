@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
 public class Company {
-    private Integer cId;
+    private int cid;
     private String cname;
     private String profile;
     private String stipend;
@@ -18,4 +18,18 @@ public class Company {
 
     private Set<RoleDto> roles = new HashSet<>();
     private Set<User> users = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "cId=" + cid +
+                ", cname='" + cname + '\'' +
+                ", profile='" + profile + '\'' +
+                ", stipend='" + stipend + '\'' +
+                ", ctc='" + ctc + '\'' +
+                ", ppo='" + ppo + '\'' +
+                ", roles=" + roles +
+                ", users=" + users +
+                '}';
+    }
 }

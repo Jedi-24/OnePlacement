@@ -15,10 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.databinding.FragmentAddCompanyBinding;
 import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.DataPersistence;
+
+import java.util.List;
 
 public class AddCompanyFragment extends Fragment {
     private static final String TAG = "AddCompanyFragment";
@@ -82,6 +86,9 @@ public class AddCompanyFragment extends Fragment {
             public void onResponse(Company response) {
                 Log.d(TAG, "onResponse: " + response.toString());
                 Toast.makeText(requireContext(), "success !", Toast.LENGTH_SHORT).show();
+                // reflect in all companies:
+//                AdapterFactory.fetchCompanies(requireContext(), companiesList -> DataPersistence.companyList = companiesList);
+//                Log.d(TAG, "onResponse listtt: " + DataPersistence.companyList);
             }
             @Override
             public void onFailure(int code) {
