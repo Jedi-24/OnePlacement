@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity @Table(name = "Companies") @Getter @Setter
 public class Company {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cId;
+    private int cid;
 
     private String cname;
     private String profile;

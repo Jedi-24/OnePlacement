@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 public class CompanyDto {
-    private Integer cId;
+    private int cid;
 
     private String cname;
     private String profile;

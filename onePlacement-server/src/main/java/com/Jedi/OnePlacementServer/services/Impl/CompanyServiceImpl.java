@@ -59,13 +59,12 @@ public class CompanyServiceImpl implements CompanyService {
             Set<Role> companyRoles = company.getRoles();
             for(Role c : companyRoles){
                 if(c.getRole_name().matches(role)) {
-                    System.out.println(company.getCname() + " debug mode");
+                    System.out.println(company.getCid() + " debug mode");
                     retC.add(this.modelMapper.map(company, CompanyDto.class));
                 }
             }
         }
+        System.out.println(retC.get(0).getCid());
         return retC;
     }
-
-
 }
