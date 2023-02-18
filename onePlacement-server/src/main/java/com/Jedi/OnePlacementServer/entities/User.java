@@ -47,6 +47,7 @@ public class User implements UserDetails {
     private String tpoCredits;
     private String roleStatus;
     private String profileStatus;
+    private String fcmToken;
 
 //  relation b|w role and user entities: **Many-to-One**
 //  todo: read about fetch type...

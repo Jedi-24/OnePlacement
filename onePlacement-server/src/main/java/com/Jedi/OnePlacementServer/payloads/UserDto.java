@@ -46,6 +46,8 @@ public class UserDto {
     private String tpoCredits;
     private String roleStatus;
     private String profileStatus;
+
+    private String fcmToken;
     private Set<Role> roles = new HashSet<>();
     private Set<Company> companies = new HashSet<>();
 }

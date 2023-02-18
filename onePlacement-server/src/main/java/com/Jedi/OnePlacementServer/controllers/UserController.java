@@ -60,4 +60,10 @@ public class UserController {
         this.userService.regInCompany(uid, companyDto);
         return new ResponseEntity<ApiResponse>(new ApiResponse("Registered Successfully", true), HttpStatus.OK);
     }
+
+    @PostMapping("/setup/devToken/{token}/{userId}")
+    public ResponseEntity<String> setupDevToken(@PathVariable("token") String devToken, @PathVariable("userId") Integer uid){
+        this.userService.setupFcmToken(uid, devToken);
+        return new ResponseEntity<String>("DevToken Updated !", HttpStatus.OK);
+    }
 }

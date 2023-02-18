@@ -1,6 +1,7 @@
 package com.Jedi.OnePlacementServer.utils;
 
 public class AppConstants {
+    public static String APP = "OnePlacement";
     public static String I_Role = "ROLE_Internship";
     public static String P_Role = "ROLE_Placement";
     public static String ADMIN = "ROLE_Admin";

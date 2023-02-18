@@ -5,6 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 src/main/resources/application.properties
+src/main/resources/oneplacement-57c3c-firebase-adminsdk-hzxaz-d6733cdbe3.json
+
 images
 resumes
 

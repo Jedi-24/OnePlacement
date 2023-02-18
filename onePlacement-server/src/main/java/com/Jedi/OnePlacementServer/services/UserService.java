@@ -15,4 +15,5 @@ public interface UserService {
     List<UserDto> getAllUsers();
     void dltUser(Integer userId);
     void regInCompany(Integer userId, CompanyDto companyDto);
+    void setupFcmToken(Integer userId, String devToken);
 }

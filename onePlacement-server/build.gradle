@@ -41,6 +41,11 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //	testImplementation 'org.springframework.security:spring-security-test'
+
+	// https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
+	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '9.1.1'
+
+
 }
 
 tasks.named('test') {

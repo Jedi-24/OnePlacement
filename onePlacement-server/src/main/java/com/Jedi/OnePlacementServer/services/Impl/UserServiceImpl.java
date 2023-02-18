@@ -82,6 +82,13 @@ public class UserServiceImpl implements UserService {
         this.userRepo.save(user);
     }
 
+    @Override
+    public void setupFcmToken(Integer userId, String devToken) {
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        user.setFcmToken(devToken);
+        this.userRepo.save(user);
+    }
+
 
     @Override
     public UserDto registerUser(UserDto userDto, String role) {

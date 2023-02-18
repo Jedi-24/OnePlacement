@@ -7,14 +7,21 @@ import com.Jedi.OnePlacementServer.repositories.RoleRepo;
 import com.Jedi.OnePlacementServer.repositories.UserRepo;
 //import com.Jedi.OnePlacementServer.security.CustomAdminDetailsService;
 import com.Jedi.OnePlacementServer.utils.AppConstants;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
+import org.aspectj.apache.bcel.util.ClassPath;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.IOException;
 import java.util.List;
 
 @SpringBootApplication
@@ -35,6 +42,16 @@ public class OnePlacementServerApplication implements CommandLineRunner {
         return new ModelMapper();
     }
 
+    @Bean
+    FirebaseMessaging firebaseMessaging() throws IOException {
+        GoogleCredentials googleCredentials = GoogleCredentials
+                .fromStream(new ClassPathResource("oneplacement-57c3c-firebase-adminsdk-hzxaz-d6733cdbe3.json").getInputStream());
+
+        FirebaseOptions firebaseOptions = FirebaseOptions.builder().setCredentials(googleCredentials).build();
+        FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions,AppConstants.APP);
+
+        return FirebaseMessaging.getInstance(app);
+    }
 
     @Override
     public void run(String... args) throws Exception {
