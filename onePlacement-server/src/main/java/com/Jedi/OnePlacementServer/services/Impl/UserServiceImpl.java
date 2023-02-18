@@ -82,6 +82,7 @@ public class UserServiceImpl implements UserService {
         this.userRepo.save(user);
     }
 
+
     @Override
     public UserDto registerUser(UserDto userDto, String role) {
         User user = modelMapper.map(userDto, User.class);

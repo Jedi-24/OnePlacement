@@ -1,5 +1,6 @@
 package com.Jedi.OnePlacementServer.controllers;
 
+import com.Jedi.OnePlacementServer.entities.User;
 import com.Jedi.OnePlacementServer.payloads.ApiResponse;
 import com.Jedi.OnePlacementServer.payloads.CompanyDto;
 import com.Jedi.OnePlacementServer.payloads.UserDto;
