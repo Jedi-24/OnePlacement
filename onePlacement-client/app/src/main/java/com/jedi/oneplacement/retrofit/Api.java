@@ -4,6 +4,7 @@ import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.payloads.NotifMessage;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.payloads.UserLoginInfo;
@@ -40,6 +41,9 @@ public interface Api {
     @POST("/file/upload/image")
     Call<FileResponse> uploadImage(@Header(AppConstants.AUTH) String token, @Part("userID") Integer uId, @Part MultipartBody.Part img);
 
+    @POST("/api/users/setup/devToken/{token}/{userId}")
+    Call<String> setupDevToken(@Header(AppConstants.AUTH) String token, @Path("token") String devToken, @Path("userId") Integer uId);
+
     @Multipart
     @POST("/file/upload/resume")
     Call<FileResponse> uploadResume(@Header(AppConstants.AUTH) String token, @Part("userID") Integer uId, @Part MultipartBody.Part resume);
@@ -67,4 +71,7 @@ public interface Api {
     Call<List<Company>> fetchCompanies(@Path(value = "role") String role, @Header(AppConstants.AUTH) String token);
     @POST("/api/users/company/register/{userId}")
     Call<ApiResponse> registerInC(@Body Company company, @Header(AppConstants.AUTH) String token, @Path(value = "userId") Integer uId);
+
+    @POST("/notification/{Role}")
+    Call<ApiResponse> sendNotification(@Header(AppConstants.AUTH) String token, @Path(value = "Role") String role, @Body NotifMessage msg);
 }

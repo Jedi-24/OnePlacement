@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.databinding.FragmentAddCompanyBinding;
+import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.Company;
+import com.jedi.oneplacement.payloads.NotifMessage;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.DataPersistence;
@@ -87,8 +89,21 @@ public class AddCompanyFragment extends Fragment {
                 Log.d(TAG, "onResponse: " + response.toString());
                 Toast.makeText(requireContext(), "success !", Toast.LENGTH_SHORT).show();
                 // reflect in all companies:
-//                AdapterFactory.fetchCompanies(requireContext(), companiesList -> DataPersistence.companyList = companiesList);
-//                Log.d(TAG, "onResponse listtt: " + DataPersistence.companyList);
+                // send notification:
+                NotifMessage notifMessage = new NotifMessage();
+                notifMessage.setTitle(cName);
+                notifMessage.setBody("is visiting our Campus, Check it out it's Details !");
+                ApiImpl.sendNotification(mRole, jwt, notifMessage, new ApiImpl.ApiCallListener<ApiResponse>() {
+                    @Override
+                    public void onResponse(ApiResponse response) {
+                        Toast.makeText(requireContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int code) {
+
+                    }
+                });
             }
             @Override
             public void onFailure(int code) {

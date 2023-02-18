@@ -54,13 +54,13 @@ public class UserInstance {
 
     public static void updateJwtToken(String token, FetchListener listener) {
         Log.d(TAG, "updateJwtToken: " + token);
-//        mUser.setJwtToken(token);
         fetchUser(token,listener);
     }
 
     public static void sessionOver(Context context, Fragment fragment){
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
+        sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, "Jedi_24").apply();
 
         Cache.removeImgFromCache(context);
         Cache.removeResumeFromCache(context);

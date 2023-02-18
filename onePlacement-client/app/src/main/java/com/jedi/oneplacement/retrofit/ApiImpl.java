@@ -3,6 +3,7 @@ package com.jedi.oneplacement.retrofit;
 import static com.jedi.oneplacement.utils.UserInstance.getRoles;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -12,6 +13,7 @@ import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
+import com.jedi.oneplacement.payloads.NotifMessage;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.payloads.UserDto;
@@ -182,6 +184,42 @@ public class ApiImpl {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
                         if(!response.isSuccessful() || response.body() == null){
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
+                    }
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+    /* --------- DEVICE TOKEN SETUP ------- */
+    public static void setDeviceToken(String devToken, String jwt){
+        getRetrofitAccessObject().setupDevToken("Bearer " + jwt, devToken, UserInstance.getId())
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                        if(!response.isSuccessful() || response.body()==null)
+                            return;
+                        Log.d(TAG, "onResponse: " + response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                    }
+                });
+    }
+
+    /* --------- COMPANY NOTIFICATION -------- */
+    public static void sendNotification(String mRole, String token, NotifMessage notifMessage, ApiCallListener<ApiResponse> listener){
+        getRetrofitAccessObject().sendNotification("Bearer " + token, mRole, notifMessage)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if(!response.isSuccessful() || response.body()==null){
                             listener.onFailure(response.code());
                             return;
                         }

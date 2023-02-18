@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "501947297246",
+    "project_id": "oneplacement-57c3c",
+    "storage_bucket": "oneplacement-57c3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501947297246:android:3eb84a5639ca693321414f",
+        "android_client_info": {
+          "package_name": "com.jedi.oneplacement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501947297246-idkkr4eh1l45kmqhvgfjqdreqiqajq7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaQs-ax5E4fX1tm8TQw6Rte-P4e4fIkRg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501947297246-idkkr4eh1l45kmqhvgfjqdreqiqajq7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

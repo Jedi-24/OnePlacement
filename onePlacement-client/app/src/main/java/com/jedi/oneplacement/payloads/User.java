@@ -18,6 +18,7 @@ public class User {
     private String tpoCredits;
     private String roleStatus;
     private String profileStatus;
+    private String fcmToken;
 
     private Set<RoleDto> roles;
     private Set<Company> companies = new HashSet<>();

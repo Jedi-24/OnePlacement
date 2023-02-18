@@ -39,10 +39,6 @@ public class EntryActivity extends AppCompatActivity {
                 Intent intent = new Intent(EntryActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-//                NavOptions.Builder navBuilder = new NavOptions.Builder();
-//                NavOptions navOptions = navBuilder.setPopUpTo(R.id.loginFragment, true).build();
-//                NavController navController = Navigation.findNavController(EntryActivity.this,R.id.fragmentContainerView);
-//                navController.navigate(R.id.homeFragment2,null,navOptions);
             }
 
             @Override

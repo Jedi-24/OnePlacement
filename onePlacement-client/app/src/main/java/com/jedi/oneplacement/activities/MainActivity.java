@@ -1,25 +1,34 @@
 package com.jedi.oneplacement.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.fragments.AdminFragment;
 import com.jedi.oneplacement.admin.fragments.UserListFragment;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.databinding.ActivityMainBinding;
 import com.jedi.oneplacement.payloads.Company;
+import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.user.fragments.CompanyFragment;
 import com.jedi.oneplacement.user.fragments.HomeFragment;
 import com.jedi.oneplacement.user.fragments.RolesFragment;
 import com.jedi.oneplacement.payloads.RoleDto;
+import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
 import com.jedi.oneplacement.utils.DataPersistence;
 
@@ -50,6 +59,21 @@ public class MainActivity extends AppCompatActivity {
         for (RoleDto roleDto : roles) {
             role = roleDto.getRole_name();
         }
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if(!task.isSuccessful()){
+                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    String token = task.getResult();
+                    Log.d(TAG, "onCreate: " + token);
+                    Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+                    SharedPreferences sharedPreferences = this.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
+                    String jwt = sharedPreferences.getString(AppConstants.JWT, null);
+                    ApiImpl.setDeviceToken(token, jwt);
+                });
 
         if (UserInstance.getRoles().size() > 1) {
             AdapterFactory.fetchUsers(this, usersList -> DataPersistence.usersList = usersList);

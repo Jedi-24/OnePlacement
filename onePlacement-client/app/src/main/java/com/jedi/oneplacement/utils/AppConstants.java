@@ -8,14 +8,15 @@ public class AppConstants {
 
     // ---> Phone: 192.168.243.117
     public static String DEFAULT_ROLE = "Internship";
-//    public static String ADMIN_ROLE = "ROLE_Admin";
 
 
     public static String ADMIN = "ADMIN DASHBOARD";
     public static String APP = "ONE PLACEMENT";
 
     public static String APP_NAME = "ONE_PLACEMENT";
+    public static String APP_CHANNEL = "ONE_PLACEMENT";
     public static String JWT = "JWT";
+    public static String DEV_TOKEN = "DEV_TOKEN";
     public static String USER_PHOTO = "user_photo";
     public static String RESUME = "resume";
     public static String RESUME_BAK = "resume_bak";
