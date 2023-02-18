@@ -102,6 +102,7 @@ public class ApiImpl {
         user.setTpoCredits("10");
         user.setRoleStatus(AppConstants.NOT_OFFERED);
         user.setProfileStatus(AppConstants.NOT_VERIFIED);
+        Log.d(TAG, "registerUser: " + user.toString());
 
         getRetrofitAccessObject().registerUser(role, user)
                 .enqueue(new Callback<UserDto>() {
@@ -270,6 +271,24 @@ public class ApiImpl {
                         listener.onResponse(response.body());
                     }
 
+                    @Override
+                    public void onFailure(Call<List<UserDto>> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+    public static void searchUsers(String token, String query, ApiCallListener<List<UserDto>> listener){
+        getRetrofitAccessObject().searchUsers("Bearer " + token, query)
+                .enqueue(new Callback<List<UserDto>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<UserDto>> call, @NonNull Response<List<UserDto>> response) {
+                        if(!response.isSuccessful() || response.body()==null){
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
+                    }
                     @Override
                     public void onFailure(Call<List<UserDto>> call, Throwable t) {
                         listener.onFailure(-1);

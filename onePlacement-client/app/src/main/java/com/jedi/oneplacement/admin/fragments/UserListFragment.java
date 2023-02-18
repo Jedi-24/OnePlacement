@@ -8,15 +8,21 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.databinding.FragmentUserListBinding;
+import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.DataPersistence;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // gets all users and show them in card view:
 public class UserListFragment extends Fragment {
@@ -24,6 +30,7 @@ public class UserListFragment extends Fragment {
     FragmentUserListBinding mBinding;
 
     boolean internCardExpanded, placementCardExpanded;
+    private static final List<UserDto> AllS = DataPersistence.usersList;
 
     public UserListFragment() {
         // Required empty public constructor
@@ -37,6 +44,7 @@ public class UserListFragment extends Fragment {
         internCardExpanded = false;
         placementCardExpanded = false;
 
+        reset(this);
         mBinding.internUsers.setOnClickListener(v -> {
             toggleExpand(!internCardExpanded, AppConstants.DEFAULT_ROLE);
             internCardExpanded = !internCardExpanded;
@@ -58,10 +66,6 @@ public class UserListFragment extends Fragment {
     }
 
     public void fetchTimelineAsync() {
-        // Send the network request to fetch the updated data
-        // `client` here is an instance of Android Async HTTP
-        // getHomeTimeline is an example endpoint.
-
         AdapterFactory.fetchUsers(requireContext(), usersList -> {
             DataPersistence.usersList = usersList;
             mBinding.swipeContainer.setRefreshing(false);
@@ -105,5 +109,38 @@ public class UserListFragment extends Fragment {
             mBinding.internUsersListRv.setAdapter(internUsersAdapter);
             internUsersAdapter.notifyDataSetChanged();
         });
+    }
+
+    public static void searcher(UserListFragment fragment, String query){
+
+        List<UserDto> filteredUsers = new ArrayList<>();
+
+        for(UserDto user: AllS){
+            String name = user.getName();
+            if(name.contains(query)){
+                Log.d(TAG, "searcher: hmmmm");
+                filteredUsers.add(user);
+            }
+        }
+
+        if(filteredUsers.size() == 0){
+            Toast.makeText(fragment.requireContext(), "No User found !", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DataPersistence.usersList = filteredUsers;
+        fragment.setAdapt();
+    }
+
+    public static void reset(UserListFragment fragment){
+        DataPersistence.usersList = AllS;
+        fragment.setAdapt();
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume: " + "hereee");
+        super.onResume();
+        setAdapt();
     }
 }

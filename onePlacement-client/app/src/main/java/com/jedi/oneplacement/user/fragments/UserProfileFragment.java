@@ -265,7 +265,7 @@ public class UserProfileFragment extends Fragment {
                                     new File(requireContext().getCacheDir(), AppConstants.USER_PHOTO_BAK))
                             ) {
                                 b = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), contentURI);
-                                b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                                b.compress(Bitmap.CompressFormat.WEBP, 100, fos);
                                 b.recycle();
                             } catch (IOException e) {
                                 e.printStackTrace();

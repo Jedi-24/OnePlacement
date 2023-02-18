@@ -50,6 +50,8 @@ public interface Api {
     /* --------- GET ALL USERS ------------- */
     @GET("/api/users/")
     Call<List<UserDto>> getAllUsers(@Header(AppConstants.AUTH) String token);
+    @GET("/api/users/search/{query}")
+    Call<List<UserDto>> searchUsers(@Header(AppConstants.AUTH) String token, @Path("query") String query);
 
     /* --------- DOWNLOAD FILES ------------ */
     @GET("/file/retrieve/image/{userId}")

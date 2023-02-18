@@ -8,8 +8,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.jedi.oneplacement.admin.fragments.AddCompanyFragment;
 import com.jedi.oneplacement.admin.fragments.UserListFragment;
+import com.jedi.oneplacement.payloads.User;
 
 public class adminVPadapter extends FragmentStateAdapter {
+
+    private UserListFragment userListFragment;
+
     public adminVPadapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
@@ -17,12 +21,17 @@ public class adminVPadapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        userListFragment = new UserListFragment();
         if(position == 1) return new AddCompanyFragment();
-        return new UserListFragment();
+        return userListFragment;
     }
 
     @Override
     public int getItemCount() {
         return 2;
+    }
+
+    public UserListFragment getUserFragment() {
+        return userListFragment;
     }
 }

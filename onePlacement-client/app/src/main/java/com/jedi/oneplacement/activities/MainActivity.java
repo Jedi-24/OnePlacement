@@ -8,9 +8,11 @@ import androidx.navigation.Navigation;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.fragments.AdminFragment;
+import com.jedi.oneplacement.admin.fragments.UserListFragment;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.databinding.ActivityMainBinding;
 import com.jedi.oneplacement.payloads.Company;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (UserInstance.getRoles().size() > 1) {
             AdapterFactory.fetchUsers(this, usersList -> DataPersistence.usersList = usersList);
+            Toast.makeText(this, "fetching Users....", Toast.LENGTH_SHORT).show();
             mBinding.bottomNav.getMenu().getItem(3).setVisible(true);
         }
 

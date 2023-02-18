@@ -98,6 +98,10 @@ public class AdapterFactory { // optimized trike se fetch only once:
             @Override
             public void onResponse(List<UserDto> response) {
                 Log.d(TAG, "onResponse: haa nhai yhi uh meeehe");
+
+                for(UserDto userDto : response){
+                    System.out.println(userDto.toString());
+                }
                 listener.onResponse(response);
             }
 

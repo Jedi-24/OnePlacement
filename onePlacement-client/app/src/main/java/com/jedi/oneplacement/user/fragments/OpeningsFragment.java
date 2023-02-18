@@ -83,7 +83,6 @@ public class OpeningsFragment extends Fragment {
                     }
                 });
             }
-
             @Override
             public void onFailure(int code) {
                 Toast.makeText(requireContext(), "ERR: " + code, Toast.LENGTH_SHORT).show();
