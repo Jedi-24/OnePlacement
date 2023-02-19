@@ -4,13 +4,12 @@ import com.Jedi.OnePlacementServer.entities.Role;
 import com.Jedi.OnePlacementServer.entities.User;
 import com.Jedi.OnePlacementServer.payloads.NotifMessage;
 import com.Jedi.OnePlacementServer.repositories.UserRepo;
+import com.Jedi.OnePlacementServer.utils.AppConstants;
 import com.google.firebase.messaging.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class FirebaseMessagingService {
@@ -23,6 +22,7 @@ public class FirebaseMessagingService {
         role = "ROLE_" + role;
         System.out.println("kkkk " + role);
         List<String> tokens = new ArrayList<>();
+        Set<String> uniqueTokens = new HashSet<>();
         List<User> users = this.userRepo.findAll();
 
         for(User user: users){
@@ -31,22 +31,27 @@ public class FirebaseMessagingService {
                 if(r.getRole_name().matches(role)){
                     System.out.println("hhhhh " + r.getRole_name());
                     if(user.getFcmToken()!=null)
-                        tokens.add(user.getFcmToken());
+                        uniqueTokens.add(user.getFcmToken());
                 }
             }
         }
-        System.out.println(tokens.size());
+        tokens.addAll(uniqueTokens);
 
-        Notification notification = Notification
-                .builder()
-                .setTitle(notifMessage.getTitle())
-                .setBody(notifMessage.getBody())
-                .build();
+        // todo: Revise that Notification object is useless if you have to deal with user logout status; background me it does not call OnMessageReceived, fcm handles the notification itself and sets it to System Tray :/
+//        Notification notification = Notification
+//                .builder()
+//                .setTitle(notifMessage.getTitle())
+//                .setBody(notifMessage.getBody())
+//                .build();
+
+        Map<String, String> notifPayload = new HashMap<>();
+        notifPayload.put(AppConstants.TITLE, notifMessage.getTitle());
+        notifPayload.put(AppConstants.BODY, notifMessage.getBody());
 
         MulticastMessage message = MulticastMessage
                 .builder()
                 .addAllTokens(tokens) // list-of-tokens HERE;
-                .setNotification(notification)
+                .putAllData(notifPayload)
                 .build();
 
         firebaseMessaging.sendMulticast(message);

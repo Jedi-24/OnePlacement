@@ -51,20 +51,17 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDto> fetchAllCompanies(String role) {
-        List<Company> companyList = new ArrayList<>();
-        companyList = this.companyRepo.findAll();
+        List<Company> companyList = this.companyRepo.findAll();
         role = "ROLE_" + role;
         List<CompanyDto> retC = new ArrayList<>();
         for(Company company: companyList){
             Set<Role> companyRoles = company.getRoles();
             for(Role c : companyRoles){
-                if(c.getRole_name().matches(role)) {
-                    System.out.println(company.getCid() + " debug mode");
+                if(c.getRole_name().matches(role))
                     retC.add(this.modelMapper.map(company, CompanyDto.class));
-                }
             }
         }
-        System.out.println(retC.get(0).getCid());
+
         return retC;
     }
 }

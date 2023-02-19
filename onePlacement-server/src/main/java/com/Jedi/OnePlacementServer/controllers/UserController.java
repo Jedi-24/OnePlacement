@@ -62,8 +62,8 @@ public class UserController {
     }
 
     @PostMapping("/setup/devToken/{token}/{userId}")
-    public ResponseEntity<String> setupDevToken(@PathVariable("token") String devToken, @PathVariable("userId") Integer uid){
+    public ResponseEntity<ApiResponse> setupDevToken(@PathVariable("token") String devToken, @PathVariable("userId") Integer uid){
         this.userService.setupFcmToken(uid, devToken);
-        return new ResponseEntity<String>("DevToken Updated !", HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(new ApiResponse("DevToken Updated !", true), HttpStatus.OK);
     }
 }

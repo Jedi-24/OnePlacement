@@ -25,7 +25,6 @@ public class CompanyController {
     @GetMapping("/{role}")
     public List<CompanyDto> fetchAllCompanies(@PathVariable("role") String role){
         List<CompanyDto> companyDtoList = this.companyService.fetchAllCompanies(role);
-        System.out.println(companyDtoList.get(0).getCid());
         return companyDtoList;
     }
 }
