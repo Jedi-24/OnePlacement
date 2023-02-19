@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,15 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.jedi.oneplacement.R;
+import com.google.gson.Gson;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.databinding.FragmentOpeningsBinding;
 import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.Company;
+import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.user.utils.CompanyAdapter;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.DataPersistence;
+import com.jedi.oneplacement.data.DataPersistence;
 import com.jedi.oneplacement.utils.UserInstance;
 
 public class OpeningsFragment extends Fragment {
@@ -30,27 +31,35 @@ public class OpeningsFragment extends Fragment {
     FragmentOpeningsBinding mBinding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Toast.makeText(requireContext(), "onCCCCC", Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         mBinding = FragmentOpeningsBinding.inflate(inflater, container, false);
-
         mBinding.companyRv.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        mBinding.swipeContainer.setOnRefreshListener(() -> fetchTimelineAsync());
 
-        mBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        // Fragment Result API to get data using Navigation Component:
+        requireActivity().getSupportFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            String result = bundle.getString("bundleKey");
+            if (result != null && result.matches(AppConstants.PING_SERVER)) {
+                if (DataPersistence.companyList.size() != 0) fetchTimelineAsync();
+            }
+        });
+
+        // once ping the server in onCreate, then ping only when refreshed (force ping) OR a new notification is detected --> coming from MainActivity.
+        if (DataPersistence.companyList.size() == 0) {
+            AdapterFactory.fetchCompanies(requireContext(), companiesList -> {
+                DataPersistence.companyList = companiesList;
+                setAdapt();
+            });
+        }
+
+        mBinding.swipeContainer.setOnRefreshListener(this::fetchTimelineAsync);
+        mBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         return mBinding.getRoot();
     }
 
     public void fetchTimelineAsync() {
-        // Send the network request to fetch the updated data
-        // `client` here is an instance of Android Async HTTP
-        // getHomeTimeline is an example endpoint.
-
         AdapterFactory.fetchCompanies(requireContext(), companiesList -> {
             DataPersistence.companyList = companiesList;
             mBinding.swipeContainer.setRefreshing(false);
@@ -83,6 +92,7 @@ public class OpeningsFragment extends Fragment {
                     }
                 });
             }
+
             @Override
             public void onFailure(int code) {
                 Toast.makeText(requireContext(), "ERR: " + code, Toast.LENGTH_SHORT).show();

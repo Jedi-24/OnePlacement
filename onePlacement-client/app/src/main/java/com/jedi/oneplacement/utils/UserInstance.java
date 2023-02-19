@@ -59,8 +59,8 @@ public class UserInstance {
 
     public static void sessionOver(Context context, Fragment fragment){
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
-        sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, "Jedi_24").apply();
+        sharedPreferences.edit().putString(AppConstants.JWT, AppConstants.JEDI).apply();
+        sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, AppConstants.JEDI).apply();
 
         Cache.removeImgFromCache(context);
         Cache.removeResumeFromCache(context);

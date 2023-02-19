@@ -10,21 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.jedi.oneplacement.R;
-import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.databinding.FragmentAddCompanyBinding;
 import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.payloads.NotifMessage;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.DataPersistence;
-
-import java.util.List;
 
 public class AddCompanyFragment extends Fragment {
     private static final String TAG = "AddCompanyFragment";

@@ -21,14 +21,17 @@ import com.jedi.oneplacement.utils.UserInstance;
 public class EntryActivity extends AppCompatActivity {
     private static final String TAG = "EntryActivity";
     BottomNavigationView bottomNavigationView;
+    String fg = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
-        checkUserSession();
+
+        fg = getIntent().getStringExtra(AppConstants.APP);
+        checkUserSession(fg);
     }
 
-    private void checkUserSession() {
+    private void checkUserSession(String fg) {
         // retrieve token from shared preferences:
         SharedPreferences sharedPreferences = this.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(AppConstants.JWT, null);
@@ -37,6 +40,7 @@ public class EntryActivity extends AppCompatActivity {
             @Override
             public void onFetch() {
                 Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+                intent.putExtra("key", fg);
                 startActivity(intent);
                 finish();
             }
@@ -45,8 +49,6 @@ public class EntryActivity extends AppCompatActivity {
             public void onError(int code) {
                 Cache.removeImgFromCache(EntryActivity.this);
                 Cache.removeResumeFromCache(EntryActivity.this);
-
-                Toast.makeText(EntryActivity.this, "maa chudaoo", Toast.LENGTH_SHORT).show();
                 // in any case, BAD REQUEST | UNSUCCESSFUL REQUEST :
 //                loadLoginFragment();
             }

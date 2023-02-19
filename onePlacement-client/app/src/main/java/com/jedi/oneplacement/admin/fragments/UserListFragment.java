@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.databinding.FragmentUserListBinding;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.DataPersistence;
+import com.jedi.oneplacement.data.DataPersistence;
 
 import java.util.ArrayList;
 import java.util.List;

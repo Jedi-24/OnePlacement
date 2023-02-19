@@ -197,18 +197,22 @@ public class ApiImpl {
     }
 
     /* --------- DEVICE TOKEN SETUP ------- */
-    public static void setDeviceToken(String devToken, String jwt){
+    public static void setDeviceToken(String devToken, String jwt, ApiCallListener<ApiResponse> listener){
         getRetrofitAccessObject().setupDevToken("Bearer " + jwt, devToken, UserInstance.getId())
-                .enqueue(new Callback<String>() {
+                .enqueue(new Callback<ApiResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        if(!response.isSuccessful() || response.body()==null)
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if(!response.isSuccessful() || response.body()==null) {
+                            listener.onFailure(response.code());
                             return;
-                        Log.d(TAG, "onResponse: " + response.body());
+                        }
+                        listener.onResponse(response.body());
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable t) {
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        Log.d(TAG, "onFailure:err " + t.getMessage());
+                        listener.onFailure(-1);
                     }
                 });
     }

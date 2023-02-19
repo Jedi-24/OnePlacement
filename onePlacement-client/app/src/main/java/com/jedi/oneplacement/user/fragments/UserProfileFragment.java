@@ -103,6 +103,7 @@ public class UserProfileFragment extends Fragment {
         mBinding.logOutBtn.setOnClickListener(v -> {
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
             sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
+            sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, "Jedi_24").apply();
 
             Cache.removeImgFromCache(requireContext());
             Cache.removeResumeFromCache(requireContext());

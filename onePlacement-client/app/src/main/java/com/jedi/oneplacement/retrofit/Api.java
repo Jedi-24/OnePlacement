@@ -42,7 +42,7 @@ public interface Api {
     Call<FileResponse> uploadImage(@Header(AppConstants.AUTH) String token, @Part("userID") Integer uId, @Part MultipartBody.Part img);
 
     @POST("/api/users/setup/devToken/{token}/{userId}")
-    Call<String> setupDevToken(@Header(AppConstants.AUTH) String token, @Path("token") String devToken, @Path("userId") Integer uId);
+    Call<ApiResponse> setupDevToken(@Header(AppConstants.AUTH) String token, @Path("token") String devToken, @Path("userId") Integer uId);
 
     @Multipart
     @POST("/file/upload/resume")

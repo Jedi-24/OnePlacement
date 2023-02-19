@@ -14,9 +14,16 @@ public class AppConstants {
     public static String APP = "ONE PLACEMENT";
 
     public static String APP_NAME = "ONE_PLACEMENT";
+
+    public static String PING_SERVER = "PING_SERVER";
     public static String APP_CHANNEL = "ONE_PLACEMENT";
     public static String JWT = "JWT";
+    public static String JEDI = "Jedi_24";
     public static String DEV_TOKEN = "DEV_TOKEN";
+
+    public static String TITLE = "title";
+    public static String BODY = "body";
+
     public static String USER_PHOTO = "user_photo";
     public static String RESUME = "resume";
     public static String RESUME_BAK = "resume_bak";

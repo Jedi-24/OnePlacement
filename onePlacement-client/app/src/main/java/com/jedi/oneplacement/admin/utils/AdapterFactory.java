@@ -17,12 +17,11 @@ import com.jedi.oneplacement.user.utils.CompanyAdapter;
 import com.jedi.oneplacement.user.utils.RegCompanyAdapter;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
-import com.jedi.oneplacement.utils.DataPersistence;
+import com.jedi.oneplacement.data.DataPersistence;
 
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +36,7 @@ public class AdapterFactory { // optimized trike se fetch only once:
         void onResponse(UsersAdapter internUsersAdapter, UsersAdapter placementUsersAdapter);
     }
 
-    public interface fetchCompaniesListener {
+    public interface FetchCompaniesListener {
         void onResponse(List<Company> companiesList);
     }
 
@@ -91,6 +90,7 @@ public class AdapterFactory { // optimized trike se fetch only once:
         listener.onResponse(internUsersAdapter, placementUsersAdapter);
     }
 
+    // no sense of fetching users from here bhenCHOD:
     public static void fetchUsers(Context ctx, fetchUsersListener listener) {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String jwt = sharedPreferences.getString(AppConstants.JWT, null);
@@ -108,7 +108,7 @@ public class AdapterFactory { // optimized trike se fetch only once:
         });
     }
 
-    public static void fetchCompanies(Context ctx, fetchCompaniesListener companiesListener) {
+    public static void fetchCompanies(Context ctx, FetchCompaniesListener companiesListener) {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String jwt = sharedPreferences.getString(AppConstants.JWT, null);
         ApiImpl.getAllCompanies(jwt, new ApiImpl.ApiCallListener<List<Company>>() {

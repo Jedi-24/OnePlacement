@@ -1,37 +1,22 @@
 package com.jedi.oneplacement.admin.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavOptions;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.utils.adminVPadapter;
 import com.jedi.oneplacement.databinding.FragmentAdminBinding;
-import com.jedi.oneplacement.payloads.User;
-import com.jedi.oneplacement.payloads.UserDto;
-import com.jedi.oneplacement.retrofit.ApiImpl;
-import com.jedi.oneplacement.user.utils.VPadapter;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.DataPersistence;
-import com.jedi.oneplacement.utils.UserInstance;
-
-import java.util.List;
 
 public class AdminFragment extends Fragment {
     private static final String TAG = "AdminFragment";

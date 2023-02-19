@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.utils;
+package com.jedi.oneplacement.data;
 
 import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.payloads.UserDto;

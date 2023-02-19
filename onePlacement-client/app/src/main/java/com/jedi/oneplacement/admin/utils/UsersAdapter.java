@@ -67,7 +67,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             userCard.setOnClickListener(v -> {
                 Log.d(TAG, "bindView: clickedddd");
 
-                // data sharing BW fragments in the same fragment manager using Fragment-Result API --> not working.
+                // data sharing BW fragments in the same fragment manager using Fragment-Result API -->
                 // | other methods include interface in activity/shared View Model/Target Fragment (deprecated).
                 String toJson = new Gson().toJson(user);
                 userListFragment.loadUserFragment(toJson);
