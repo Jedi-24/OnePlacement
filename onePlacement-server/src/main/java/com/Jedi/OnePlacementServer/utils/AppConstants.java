@@ -10,6 +10,7 @@ public class AppConstants {
     public static String BODY = "body";
 
     public static String VERIFIED = "VERIFIED";
+    public static String CREDITS = "CREDITS UPDATED SUCCESSFULLY";
     public static Integer Intern_Role_ID = 501;
     public static Integer Placement_Role_ID = 502;
     public static Integer ADMIN_Role_ID = 503;

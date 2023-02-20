@@ -55,6 +55,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String setCredits(Integer userId, int credits) {
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        user.setTpoCredits(Integer.toString(credits));
+
+        this.userRepo.save(user);
+
+        return AppConstants.CREDITS;
+    }
+
+    @Override
     public UserDto getUserById(Integer userId) {
         User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
 

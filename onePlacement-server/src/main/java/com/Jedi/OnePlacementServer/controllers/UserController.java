@@ -47,6 +47,13 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('Admin')")
+    @PutMapping("/credits/{userId}/{credits}")
+    public ResponseEntity<ApiResponse> setCredits(@PathVariable("userId") Integer uId, @PathVariable("credits") int credits){
+        String s = this.userService.setCredits(uId, credits);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(s, true), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('Admin')")
     @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid){
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
