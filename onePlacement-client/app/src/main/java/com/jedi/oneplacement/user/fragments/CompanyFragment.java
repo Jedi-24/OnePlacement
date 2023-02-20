@@ -16,11 +16,16 @@ import com.google.android.material.tabs.TabLayout;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.databinding.FragmentCompanyBinding;
+import com.jedi.oneplacement.databinding.LockedLayoutBinding;
 import com.jedi.oneplacement.user.utils.VPadapter;
+import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
+import com.jedi.oneplacement.utils.UserInstance;
 
 public class CompanyFragment extends Fragment {
     FragmentCompanyBinding mBinding;
+    LockedLayoutBinding lockedBinding;
+
     VPadapter vPadapter;
 
     public CompanyFragment() {
@@ -31,6 +36,17 @@ public class CompanyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentCompanyBinding.inflate(inflater, container, false);
+
+        if(Integer.parseInt(UserInstance.getCreditPts()) <= 4 || UserInstance.getRoleStatus().matches("OFFERED")){
+            lockedBinding = LockedLayoutBinding.inflate(inflater, container, false);
+            if(Integer.parseInt(UserInstance.getCreditPts()) <= 4)
+                lockedBinding.msg.setText("NOT ENOUGH CREDIT POINTS !");
+            else {
+                lockedBinding.profileLocked.setImageResource(R.drawable.checked);
+                lockedBinding.msg.setText("ALREADY PLACED !");
+            }
+            return lockedBinding.getRoot();
+        }
 
         Bitmap b = Cache.readFromCache(requireContext());
         if (b != null) mBinding.layout.userPhoto.setImageBitmap(b);
