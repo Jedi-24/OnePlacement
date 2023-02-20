@@ -51,6 +51,12 @@ public interface Api {
     @PUT("/api/users/{userId}")
     Call<UserDto> updateUserDetails(@Header(AppConstants.AUTH) String token, @Path("userId") Integer uId, @Body UserDto userDto);
 
+    @PUT("/api/users/credits/{userId}/{credits}")
+    Call<ApiResponse> setCredits(@Header(AppConstants.AUTH) String token, @Path("userId") Integer uId, @Path("credits") int credits);
+
+    @PUT("/api/users/verify/{userId}")
+    Call<ApiResponse> verifyProfile(@Header(AppConstants.AUTH) String token, @Path("userId") Integer uId);
+
     /* --------- GET ALL USERS ------------- */
     @GET("/api/users/")
     Call<List<UserDto>> getAllUsers(@Header(AppConstants.AUTH) String token);

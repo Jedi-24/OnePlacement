@@ -320,6 +320,45 @@ public class ApiImpl {
                 });
     }
 
+    public static void setCredits(int credits, Integer uid, String token, ApiCallListener<ApiResponse> listener){
+        getRetrofitAccessObject().setCredits("Bearer " + token, uid, credits)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if(!response.isSuccessful() || response.body()==null){
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
+
+    public static void verifyProfile(Integer uid, String token, ApiCallListener<ApiResponse> listener){
+        getRetrofitAccessObject().verifyProfile("Bearer " + token, uid)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
+                        if(!response.isSuccessful() || response.body()==null){
+                            listener.onFailure(response.code());
+                            return;
+                        }
+                        listener.onResponse(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        listener.onFailure(-1);
+                    }
+                });
+    }
+
     public static void searchUsers(String token, String query, ApiCallListener<List<UserDto>> listener){
         getRetrofitAccessObject().searchUsers("Bearer " + token, query)
                 .enqueue(new Callback<List<UserDto>>() {
@@ -360,8 +399,6 @@ public class ApiImpl {
     }
 
     public static void getImage(Integer uid,String token,ApiCallListener<FileResponse> listener){
-        Log.d(TAG, "getImage: " + token);
-
         getRetrofitAccessObject().getImage(uid,"Bearer " + token)
                 .enqueue(new Callback<FileResponse>() {
                     @Override
