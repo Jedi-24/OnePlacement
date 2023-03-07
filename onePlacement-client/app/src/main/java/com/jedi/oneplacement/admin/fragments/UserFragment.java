@@ -149,7 +149,7 @@ public class UserFragment extends Fragment {
 
         if (profileStatus.matches(AppConstants.VERIFIED))
             mBinding.profileStatusIcon.setImageResource(R.drawable.verified_svgrepo_com);
-        mBinding.roleTxt.setText(UserInstance.getRoleStatus());
+        mBinding.roleTxt.setText(mUser.getRoleStatus());
 
         Set<RoleDto> roles = mUser.getRoles();
         String role = "";

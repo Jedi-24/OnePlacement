@@ -15,10 +15,10 @@ import android.widget.Toast;
 
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
+import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.FragmentUserListBinding;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.data.DataPersistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class UserListFragment extends Fragment {
     FragmentUserListBinding mBinding;
 
     boolean internCardExpanded, placementCardExpanded;
-    private static final List<UserDto> AllS = DataPersistence.usersList;
+    private static List<UserDto> AllS = new ArrayList<>();
 
     public UserListFragment() {
         // Required empty public constructor
@@ -43,7 +43,9 @@ public class UserListFragment extends Fragment {
         internCardExpanded = false;
         placementCardExpanded = false;
 
-        reset(this);
+        if (AllS.size() != 0)
+            reset(this);
+
         mBinding.internUsers.setOnClickListener(v -> {
             toggleExpand(!internCardExpanded, AppConstants.DEFAULT_ROLE);
             internCardExpanded = !internCardExpanded;
@@ -57,19 +59,34 @@ public class UserListFragment extends Fragment {
         mBinding.placementUsersListRv.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         mBinding.internUsersListRv.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
-        mBinding.swipeContainer.setOnRefreshListener(() -> {
-            fetchTimelineAsync();
-        });
+        Repository.getRepoInstance().fetchUsers(requireContext(), new Repository.ResourceListener<List<UserDto>>() {
+            @Override
+            public void onSuccess(List<UserDto> data) {
+                AllS = data;
+                setAdapt();
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+            }
+        }, true);
+        mBinding.swipeContainer.setOnRefreshListener(this::fetchTimelineAsync);
+        mBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
         return mBinding.getRoot();
     }
 
     public void fetchTimelineAsync() {
-        AdapterFactory.fetchUsers(requireContext(), usersList -> {
-            DataPersistence.usersList = usersList;
-            mBinding.swipeContainer.setRefreshing(false);
-            setAdapt();
-        });
+        Repository.getRepoInstance().fetchUsers(requireContext(), new Repository.ResourceListener<List<UserDto>>() {
+            @Override
+            public void onSuccess(List<UserDto> data) {
+                mBinding.swipeContainer.setRefreshing(false);
+                setAdapt();
+            }
+            @Override
+            public void onFailure(String errMsg) {
+            }
+        }, true);
     }
 
     public void loadUserFragment(String jsonData) {
@@ -110,29 +127,28 @@ public class UserListFragment extends Fragment {
         });
     }
 
-    public static void searcher(UserListFragment fragment, String query){
+    public static void searcher(UserListFragment fragment, String query) {
 
         List<UserDto> filteredUsers = new ArrayList<>();
 
-        for(UserDto user: AllS){
+        for (UserDto user : AllS) {
             String name = user.getName();
-            if(name.contains(query)){
-                Log.d(TAG, "searcher: hmmmm");
+            if (name.contains(query)) {
                 filteredUsers.add(user);
             }
         }
 
-        if(filteredUsers.size() == 0){
+        if (filteredUsers.size() == 0) {
             Toast.makeText(fragment.requireContext(), "No User found !", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        DataPersistence.usersList = filteredUsers;
+        Repository.getRepoInstance().setUsersList(filteredUsers);
         fragment.setAdapt();
     }
 
-    public static void reset(UserListFragment fragment){
-        DataPersistence.usersList = AllS;
+    public static void reset(UserListFragment fragment) {
+        Repository.getRepoInstance().setUsersList(AllS);
         fragment.setAdapt();
     }
 

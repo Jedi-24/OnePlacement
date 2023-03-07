@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.jedi.oneplacement.admin.fragments.UserListFragment;
+import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.payloads.RoleDto;
@@ -15,9 +16,7 @@ import com.jedi.oneplacement.user.fragments.OpeningsFragment;
 import com.jedi.oneplacement.user.fragments.RegisteredCompaniesFragment;
 import com.jedi.oneplacement.user.utils.CompanyAdapter;
 import com.jedi.oneplacement.user.utils.RegCompanyAdapter;
-import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
-import com.jedi.oneplacement.data.DataPersistence;
 
 import org.modelmapper.ModelMapper;
 
@@ -28,16 +27,8 @@ import java.util.Set;
 public class AdapterFactory { // optimized trike se fetch only once:
     private static final String TAG = "AdapterFactory";
 
-    public interface fetchUsersListener {
-        void onResponse(List<UserDto> usersList);
-    }
-
     public interface fetchAdaptersListener {
         void onResponse(UsersAdapter internUsersAdapter, UsersAdapter placementUsersAdapter);
-    }
-
-    public interface FetchCompaniesListener {
-        void onResponse(List<Company> companiesList);
     }
 
     public interface fetchCompanyAdapterListener {
@@ -53,7 +44,16 @@ public class AdapterFactory { // optimized trike se fetch only once:
 
     public static void fetchCompanyAdapter(OpeningsFragment openingsFragment, fetchCompanyAdapterListener listener) {
         CompanyAdapter companyAdapter = new CompanyAdapter(openingsFragment);
-        companyAdapter.companyList = (ArrayList<Company>) DataPersistence.companyList;
+
+        Repository.getRepoInstance().fetchCompanies(openingsFragment.requireContext(), new Repository.ResourceListener<List<Company>>() {
+            @Override
+            public void onSuccess(List<Company> data) {
+                companyAdapter.companyList = (ArrayList<Company>) data;
+            }
+            @Override
+            public void onFailure(String errMsg) {
+            }
+        }, false);
 //        if (registeredCompaniesFragment != null) {
 //            // todo: fix this
 //            regCompanyAdapter.companyList.addAll(UserInstance.getUserCompanies());
@@ -74,53 +74,28 @@ public class AdapterFactory { // optimized trike se fetch only once:
     public static void fetchUsersAdapters(UserListFragment userListFragment, fetchAdaptersListener listener) {
         UsersAdapter internUsersAdapter = new UsersAdapter(userListFragment);
         UsersAdapter placementUsersAdapter = new UsersAdapter(userListFragment);
-        for (UserDto userDto : DataPersistence.usersList) {
-            if (userDto.getId() == UserInstance.getId()) continue;
+        Repository.getRepoInstance().fetchUsers(userListFragment.requireContext(), new Repository.ResourceListener<List<UserDto>>() {
+            @Override
+            public void onSuccess(List<UserDto> data) {
+                for (UserDto userDto : data) {
+                    if (userDto.getId() == UserInstance.getId()) continue;
 
-            User user = new ModelMapper().map(userDto, User.class);
-            Set<RoleDto> roles = user.getRoles();
-            for (RoleDto roleDto : roles) {
-                if (roleDto.getRole_name().matches("ROLE_Internship")) {
-                    internUsersAdapter.usersList.add(user);
-                } else if (roleDto.getRole_name().matches("ROLE_Placement")) {
-                    placementUsersAdapter.usersList.add(user);
+                    User user = new ModelMapper().map(userDto, User.class);
+                    Set<RoleDto> roles = user.getRoles();
+                    for (RoleDto roleDto : roles) {
+                        if (roleDto.getRole_name().matches("ROLE_Internship")) {
+                            internUsersAdapter.usersList.add(user);
+                        } else if (roleDto.getRole_name().matches("ROLE_Placement")) {
+                            placementUsersAdapter.usersList.add(user);
+                        }
+                    }
                 }
+                listener.onResponse(internUsersAdapter, placementUsersAdapter);
             }
-        }
-        listener.onResponse(internUsersAdapter, placementUsersAdapter);
+            @Override
+            public void onFailure(String errMsg) {
+            }
+        }, false);
     }
-
     // no sense of fetching users from here bhenCHOD:
-    public static void fetchUsers(Context ctx, fetchUsersListener listener) {
-        SharedPreferences sharedPreferences = ctx.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-        String jwt = sharedPreferences.getString(AppConstants.JWT, null);
-        ApiImpl.getAllUsers(jwt, new ApiImpl.ApiCallListener<List<UserDto>>() {
-            @Override
-            public void onResponse(List<UserDto> response) {
-                Log.d(TAG, "onResponse: haa nhai yhi uh meeehe");
-                listener.onResponse(response);
-            }
-
-            @Override
-            public void onFailure(int code) {
-                Toast.makeText(ctx, code + " Failed to fetch users !", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public static void fetchCompanies(Context ctx, FetchCompaniesListener companiesListener) {
-        SharedPreferences sharedPreferences = ctx.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-        String jwt = sharedPreferences.getString(AppConstants.JWT, null);
-        ApiImpl.getAllCompanies(jwt, new ApiImpl.ApiCallListener<List<Company>>() {
-            @Override
-            public void onResponse(List<Company> response) {
-                companiesListener.onResponse(response);
-            }
-
-            @Override
-            public void onFailure(int code) {
-                Toast.makeText(ctx, "Error in fetching Companies !", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

@@ -17,8 +17,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.fragments.AdminFragment;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
+import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.ActivityMainBinding;
 import com.jedi.oneplacement.payloads.ApiResponse;
+import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.user.fragments.CompanyFragment;
 import com.jedi.oneplacement.user.fragments.HomeFragment;
@@ -26,8 +28,8 @@ import com.jedi.oneplacement.user.fragments.RolesFragment;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.UserInstance;
-import com.jedi.oneplacement.data.DataPersistence;
 
+import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -86,13 +88,10 @@ public class MainActivity extends AppCompatActivity {
                     });
                 });
 
-        if (UserInstance.getRoles().size() > 1) {
-            AdapterFactory.fetchUsers(this, usersList -> DataPersistence.usersList = usersList);
-            Toast.makeText(this, "fetching Users....", Toast.LENGTH_SHORT).show();
+        if (UserInstance.getRoles().size() > 1)
             mBinding.bottomNav.getMenu().getItem(3).setVisible(true);
-        }
 
-        // todo: fetch companies was here: irrelevant place to fetch companies.
+        // todo: fetching companies/users here was: irrelevant.
 
         mBinding.bottomNav.getMenu().getItem(2).setTitle(role + "s");
         mBinding.bottomNav.setOnItemSelectedListener(item1 -> {

@@ -3,28 +3,23 @@ package com.jedi.oneplacement.user.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
+import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.FragmentOpeningsBinding;
 import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.Company;
-import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.user.utils.CompanyAdapter;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.data.DataPersistence;
 import com.jedi.oneplacement.utils.UserInstance;
+import java.util.List;
 
 public class OpeningsFragment extends Fragment {
     private static final String TAG = "OpeningsFragment";
@@ -32,26 +27,26 @@ public class OpeningsFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Toast.makeText(requireContext(), "onCCCCC", Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         mBinding = FragmentOpeningsBinding.inflate(inflater, container, false);
         mBinding.companyRv.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-
         // Fragment Result API to get data using Navigation Component:
         requireActivity().getSupportFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
             String result = bundle.getString("bundleKey");
-            if (result != null && result.matches(AppConstants.PING_SERVER)) {
-                if (DataPersistence.companyList.size() != 0) fetchTimelineAsync();
-            }
+            if (result != null && result.matches(AppConstants.PING_SERVER))
+                fetchTimelineAsync();
         });
 
         // once ping the server in onCreate, then ping only when refreshed (force ping) OR a new notification is detected --> coming from MainActivity.
-        if (DataPersistence.companyList.size() == 0) {
-            AdapterFactory.fetchCompanies(requireContext(), companiesList -> {
-                DataPersistence.companyList = companiesList;
+        Repository.getRepoInstance().fetchCompanies(requireContext(), new Repository.ResourceListener<List<Company>>() {
+            @Override
+            public void onSuccess(List<Company> data) {
                 setAdapt();
-            });
-        }
+            }
+            @Override
+            public void onFailure(String errMsg) {
+            }
+        }, true);
 
         mBinding.swipeContainer.setOnRefreshListener(this::fetchTimelineAsync);
         mBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -60,11 +55,18 @@ public class OpeningsFragment extends Fragment {
     }
 
     public void fetchTimelineAsync() {
-        AdapterFactory.fetchCompanies(requireContext(), companiesList -> {
-            DataPersistence.companyList = companiesList;
-            mBinding.swipeContainer.setRefreshing(false);
-            setAdapt();
-        });
+        Repository.getRepoInstance().fetchCompanies(requireContext(), new Repository.ResourceListener<List<Company>>() {
+            @Override
+            public void onSuccess(List<Company> data) {
+                mBinding.swipeContainer.setRefreshing(false);
+                setAdapt();
+            }
+
+            @Override
+            public void onFailure(String errMsg) {
+
+            }
+        }, true);
     }
 
     public void registerInCompany(Company company) {
