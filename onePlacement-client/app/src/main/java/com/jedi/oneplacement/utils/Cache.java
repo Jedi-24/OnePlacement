@@ -1,39 +1,31 @@
 package com.jedi.oneplacement.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.link.DefaultLinkHandler;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
-import com.jedi.oneplacement.payloads.FileResponse;
-import com.jedi.oneplacement.retrofit.ApiImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 
 public class Cache {
     private static final String TAG = "Cache";
     private static boolean resumeLoader = false;
 
-    public static Bitmap readFromCache(Context context) {
+    public static Bitmap readImgFromCache(Context context, Integer userId) {
         File folder = context.getCacheDir();
-        File f = new File(folder, AppConstants.USER_PHOTO);
+        File f = new File(folder, AppConstants.USER_PHOTO + "_" + userId);
         Bitmap b = null;
         try {
             b = BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (IOException e) {
             Log.d(TAG, "readFromCache: " + e.getMessage());
-//            e.printStackTrace();
         }
         return b;
     }
@@ -41,7 +33,7 @@ public class Cache {
     public static void updateResCache(Context context) {
         File folder = context.getCacheDir();
         File f = new File(folder, AppConstants.RESUME_BAK);
-        File f_ = new File(folder, AppConstants.RESUME);
+        File f_ = new File(folder, AppConstants.RESUME + "_" + 0);
         Log.d(TAG, "updateCache: " + f_.delete());
         Log.d(TAG, "updateCache: " + f.renameTo(f_));
     }
@@ -49,24 +41,17 @@ public class Cache {
     public static void updateImgCache(Context context) {
         File folder = context.getCacheDir();
         File f = new File(folder, AppConstants.USER_PHOTO_BAK);
-        File f_ = new File(folder, AppConstants.USER_PHOTO);
+        File f_ = new File(folder, AppConstants.USER_PHOTO + "_" + 0);
         Log.d(TAG, "updateCache: " + f_.delete());
         Log.d(TAG, "updateCache: " + f.renameTo(f_));
     }
 
-    public static void removeResumeFromCache(Context context) {
+    public static void ClearCache(Context context) {
         File folder = context.getCacheDir();
-        File f = new File(folder, AppConstants.RESUME);
-        f.delete();
+        for(File f:folder.listFiles())
+            f.delete();
     }
-
-    public static void removeImgFromCache(Context context) {
-        File folder = context.getCacheDir();
-        File f = new File(folder, AppConstants.USER_PHOTO);
-        f.delete();
-    }
-
-    public static void writeToCache(Context context, byte[] byteData, String type) {
+    public static void writeToCache(Context context, byte[] byteData, String type, Integer userId) {
         String fileName = "";
         if (type.matches("I"))
             fileName = AppConstants.USER_PHOTO;
@@ -74,7 +59,7 @@ public class Cache {
             fileName = AppConstants.RESUME;
 
         File folder = context.getCacheDir();
-        File f = new File(folder, fileName);
+        File f = new File(folder, fileName + "_" + userId);
         Log.d(TAG, "writeToCache: " + f.getAbsolutePath());
 
         FileOutputStream fos = null;
@@ -94,41 +79,7 @@ public class Cache {
         }
     }
 
-    public static boolean getResume(Context context, PDFView pdf) {
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString(AppConstants.JWT, null);
-
-        File folder = context.getCacheDir();
-        File f = new File(folder, AppConstants.RESUME);
-        if(f.exists()){
-            try{
-                byte[] byteArray = Files.readAllBytes(f.toPath());
-                configurePdf(pdf, byteArray);
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        ApiImpl.getResume(UserInstance.getId(), token, new ApiImpl.ApiCallListener<FileResponse>() {
-            @Override
-            public void onResponse(FileResponse response) {
-                byte[] byteData = Base64.decode(response.getFileName(), 0);
-                configurePdf(pdf, byteData);
-                writeToCache(context,byteData,"R");
-                resumeLoader = true;
-            }
-
-            @Override
-            public void onFailure(int code) {
-                Toast.makeText(context, code + " Failed to Open Resume.", Toast.LENGTH_SHORT).show();
-            }
-        });
-        return resumeLoader;
-    }
-
-    private static void configurePdf(PDFView pdf, byte[] byteData){
+    public static void configurePdf(PDFView pdf, byte[] byteData) {
         pdf.fromBytes(byteData).enableSwipe(true) // allows to block changing pages using swipe
                 .swipeHorizontal(false)
                 .enableDoubletap(true)
@@ -147,37 +98,5 @@ public class Cache {
                 .pageFling(false) // make a fling change only a single page like ViewPager
                 .nightMode(false) // toggle night mode
                 .load();
-    }
-
-    public static void getImage(Context context, ImageView userImg, ImageView tbImg) {
-        Log.d(TAG, "getImage: haha " + UserInstance.getId());
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString(AppConstants.JWT, null);
-        Bitmap b = Cache.readFromCache(context);
-
-        if (b != null) {
-            userImg.setImageBitmap(b);
-            tbImg.setImageBitmap(b);
-            return;
-        }
-
-        ApiImpl.getImage(UserInstance.getId(), token, new ApiImpl.ApiCallListener<FileResponse>() {
-            @Override
-            public void onResponse(FileResponse response) {
-                byte[] byteData = Base64.decode(response.getFileName(), 0);
-                Bitmap bm = BitmapFactory.decodeByteArray(byteData, 0, byteData.length);
-                userImg.setImageBitmap(bm);
-                tbImg.setImageBitmap(bm);
-
-                Cache.writeToCache(context, byteData, "I");
-            }
-
-            @Override
-            public void onFailure(int code) {
-                if(code==-1)
-                    Toast.makeText(context, "Failed to load the image...", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

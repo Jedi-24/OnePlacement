@@ -13,6 +13,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.fragments.UserListFragment;
+import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.payloads.User;
 
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     protected ArrayList<User> usersList = new ArrayList<>(); // <|--|>
 
     private static UserListFragment userListFragment;
-    public UsersAdapter(UserListFragment userListFragment){
+
+    public UsersAdapter(UserListFragment userListFragment) {
         this.userListFragment = userListFragment;
     }
 
@@ -46,7 +48,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     }
 
     // Inner VH Class:
-    public static class UsersViewHolder extends RecyclerView.ViewHolder{
+    public static class UsersViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView userCard;
         CircleImageView img;
         TextView username, regNo, branch;
@@ -55,14 +57,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             super(itemView);
             init();
         }
-        
-        public void bindView(User user){
+
+        public void bindView(User user) {
             username.setText(user.getName());
             regNo.setText(user.getRegNo());
-               branch.setText(user.getBranch());
-            // todo: fetch photo of the users:
-//            img.setBitmap()
-
+            branch.setText(user.getBranch());
+            // todo: fetch photo of the users: "😎"
+            Repository.getImage(userListFragment.requireContext(), user.getId(), img, null);
+//            Repository.getResume(userListFragment.requireContext(), ,user.getId());
             // onClickListener on User's Card:
             userCard.setOnClickListener(v -> {
                 Log.d(TAG, "bindView: clickedddd");
@@ -74,7 +76,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             });
         }
 
-        private void init(){
+        private void init() {
             userCard = itemView.findViewById(R.id.user);
             img = itemView.findViewById(R.id.userprofile_img);
             username = itemView.findViewById(R.id.user_name);

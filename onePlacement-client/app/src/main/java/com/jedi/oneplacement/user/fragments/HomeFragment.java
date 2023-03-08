@@ -1,5 +1,6 @@
 package com.jedi.oneplacement.user.fragments;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.FragmentHomeBinding;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.utils.AppConstants;
@@ -44,7 +46,7 @@ public class HomeFragment extends Fragment {
             role = roleDto.getRole_name();
         }
 
-        Cache.getImage(requireContext(), mBinding.userProfileImg, mBinding.layout.userPhoto);
+        Repository.getImage(requireContext(),0, mBinding.userProfileImg, mBinding.layout.userPhoto);
 
         if (UserInstance.getBranch() != null)
             mBinding.userBranch.setText(UserInstance.getBranch());

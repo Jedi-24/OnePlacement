@@ -18,7 +18,6 @@ import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.databinding.FragmentCompanyBinding;
 import com.jedi.oneplacement.databinding.LockedLayoutBinding;
 import com.jedi.oneplacement.user.utils.VPadapter;
-import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
 import com.jedi.oneplacement.utils.UserInstance;
 
@@ -48,7 +47,7 @@ public class CompanyFragment extends Fragment {
             return lockedBinding.getRoot();
         }
 
-        Bitmap b = Cache.readFromCache(requireContext());
+        Bitmap b = Cache.readImgFromCache(requireContext(), 0);
         if (b != null) mBinding.layout.userPhoto.setImageBitmap(b);
 
         mBinding.layout.userPhoto.setOnClickListener(v -> {

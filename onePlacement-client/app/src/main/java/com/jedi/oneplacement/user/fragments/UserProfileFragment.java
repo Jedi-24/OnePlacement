@@ -71,7 +71,7 @@ public class UserProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = FragmentUserProfileBinding.inflate(inflater, container, false);
-        b = Cache.readFromCache(getContext());
+        b = Cache.readImgFromCache(getContext(), 0);
         if (b != null) mBinding.profilePhoto.setImageBitmap(b);
         requireActivity().findViewById(R.id.bottom_nav).setVisibility(View.GONE);
 
@@ -79,7 +79,7 @@ public class UserProfileFragment extends Fragment {
         mBinding.layout.userPhoto.setVisibility(View.GONE);
         setUserDetails();
         isEditable = UserInstance.getProfileStatus().matches(AppConstants.VERIFIED) ? false : true;
-        if(!isEditable){
+        if (!isEditable) {
             mBinding.warning.setVisibility(View.VISIBLE);
         }
         Log.d(TAG, "onCreateView: " + isEditable);
@@ -104,9 +104,7 @@ public class UserProfileFragment extends Fragment {
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
             sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
             sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, "Jedi_24").apply();
-
-            Cache.removeImgFromCache(requireContext());
-            Cache.removeResumeFromCache(requireContext());
+            Cache.ClearCache(requireContext());
 
             Intent intent = new Intent(requireActivity(), EntryActivity.class);
             startActivity(intent);
@@ -119,7 +117,7 @@ public class UserProfileFragment extends Fragment {
                 mBinding.editView.setText("Save");
                 mBinding.resume.setText("UPLOAD RESUME");
                 editable = true;
-                if(isEditable) {
+                if (isEditable) {
                     mBinding.editImg.setVisibility(View.VISIBLE);
                     toggleEditables(true);
                 }
@@ -179,7 +177,7 @@ public class UserProfileFragment extends Fragment {
                             });
                         }
 
-                        if(isEditable) {
+                        if (isEditable) {
                             ApiImpl.updateUser(jwt, branch, email, mno, new ApiImpl.ApiCallListener<UserDto>() {
                                 @Override
                                 public void onResponse(UserDto response) {
@@ -187,6 +185,7 @@ public class UserProfileFragment extends Fragment {
                                     Log.d(TAG, "onResponse: " + response.toString());
                                     toggleEditables(false);
                                 }
+
                                 @Override
                                 public void onFailure(int code) {
                                     Log.d(TAG, "onFailure: code: " + code);
@@ -196,8 +195,7 @@ public class UserProfileFragment extends Fragment {
                                         Toast.makeText(requireContext(), code + ": Bad Request..", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        }
-                        else
+                        } else
                             toggleEditables(false);
                     }
 

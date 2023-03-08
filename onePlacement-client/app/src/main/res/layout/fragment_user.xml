@@ -86,6 +86,16 @@
                     android:maxLines="1"
                     android:text="Branch"
                     android:textSize="15dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/resume_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_below="@id/user_email"
+                    android:backgroundTint="#7F909E"
+                    android:text="Resume" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 

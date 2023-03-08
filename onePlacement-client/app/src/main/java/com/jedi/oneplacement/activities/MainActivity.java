@@ -92,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
             mBinding.bottomNav.getMenu().getItem(3).setVisible(true);
 
         // todo: fetching companies/users here was: irrelevant.
-
-        mBinding.bottomNav.getMenu().getItem(2).setTitle(role + "s");
+        mBinding.bottomNav.getMenu().getItem(2).setTitle(role.substring(5) + "s");
         mBinding.bottomNav.setOnItemSelectedListener(item1 -> {
             NavOptions.Builder navBuilder = new NavOptions.Builder();
             NavOptions navOptions = navBuilder.setPopUpTo(popUpto, true).build();

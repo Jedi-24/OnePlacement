@@ -62,8 +62,7 @@ public class UserInstance {
         sharedPreferences.edit().putString(AppConstants.JWT, AppConstants.JEDI).apply();
         sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, AppConstants.JEDI).apply();
 
-        Cache.removeImgFromCache(context);
-        Cache.removeResumeFromCache(context);
+        Cache.ClearCache(context);
 
         NavOptions.Builder navBuilder = new NavOptions.Builder();
         NavOptions navOptions = navBuilder.setPopUpTo(R.id.homeFragment, true).build();

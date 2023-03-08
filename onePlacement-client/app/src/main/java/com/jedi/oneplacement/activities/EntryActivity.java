@@ -1,16 +1,12 @@
 package com.jedi.oneplacement.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jedi.oneplacement.R;
@@ -47,8 +43,7 @@ public class EntryActivity extends AppCompatActivity {
 
             @Override
             public void onError(int code) {
-                Cache.removeImgFromCache(EntryActivity.this);
-                Cache.removeResumeFromCache(EntryActivity.this);
+                Cache.ClearCache(EntryActivity.this);
                 // in any case, BAD REQUEST | UNSUCCESSFUL REQUEST :
 //                loadLoginFragment();
             }

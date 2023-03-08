@@ -36,17 +36,17 @@ public class OpeningsFragment extends Fragment {
             if (result != null && result.matches(AppConstants.PING_SERVER))
                 fetchTimelineAsync();
         });
-
-        // once ping the server in onCreate, then ping only when refreshed (force ping) OR a new notification is detected --> coming from MainActivity.
-        Repository.getRepoInstance().fetchCompanies(requireContext(), new Repository.ResourceListener<List<Company>>() {
-            @Override
-            public void onSuccess(List<Company> data) {
-                setAdapt();
-            }
-            @Override
-            public void onFailure(String errMsg) {
-            }
-        }, true);
+//        setAdapt();
+        // once ping the server in onCreate, then ping only when refreshed (force ping) OR a new notification is detected --> coming from MainActivity. NO NEED:
+//        Repository.getRepoInstance().fetchCompanies(requireContext(), new Repository.ResourceListener<List<Company>>() {
+//            @Override
+//            public void onSuccess(List<Company> data) {
+//                setAdapt();
+//            }
+//            @Override
+//            public void onFailure(String errMsg) {
+//            }
+//        }, false);
 
         mBinding.swipeContainer.setOnRefreshListener(this::fetchTimelineAsync);
         mBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);

@@ -407,8 +407,6 @@ public class ApiImpl {
                             listener.onFailure(response.code());
                             return;
                         }
-
-                        Log.d(TAG, "onResponse: " + response.body());
                         listener.onResponse(response.body());
                     }
 

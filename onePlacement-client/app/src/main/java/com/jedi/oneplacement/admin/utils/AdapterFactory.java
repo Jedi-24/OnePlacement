@@ -1,14 +1,8 @@
 package com.jedi.oneplacement.admin.utils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.jedi.oneplacement.admin.fragments.UserListFragment;
 import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.payloads.Company;
-import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.payloads.UserDto;
@@ -49,6 +43,7 @@ public class AdapterFactory { // optimized trike se fetch only once:
             @Override
             public void onSuccess(List<Company> data) {
                 companyAdapter.companyList = (ArrayList<Company>) data;
+                listener.onResponse(companyAdapter);
             }
             @Override
             public void onFailure(String errMsg) {
@@ -60,7 +55,6 @@ public class AdapterFactory { // optimized trike se fetch only once:
 //            Log.d(TAG, "fetchCompanyAdapter: " + regCompanyAdapter.companyList.size());
 ////            Log.d(TAG, "fetchCompanyAdapter: " + regCompanyAdapter.companyList.get(0).toString());
 //        }
-        listener.onResponse(companyAdapter);
     }
 
     public static void fetchRegCompanyAdapter(RegisteredCompaniesFragment registeredCompaniesFragment, fetchRegCompanyAdapterListener listener) {
@@ -97,5 +91,4 @@ public class AdapterFactory { // optimized trike se fetch only once:
             }
         }, false);
     }
-    // no sense of fetching users from here bhenCHOD:
 }

@@ -58,18 +58,6 @@ public class UserListFragment extends Fragment {
 
         mBinding.placementUsersListRv.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         mBinding.internUsersListRv.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-
-        Repository.getRepoInstance().fetchUsers(requireContext(), new Repository.ResourceListener<List<UserDto>>() {
-            @Override
-            public void onSuccess(List<UserDto> data) {
-                AllS = data;
-                setAdapt();
-            }
-
-            @Override
-            public void onFailure(String errMsg) {
-            }
-        }, true);
         mBinding.swipeContainer.setOnRefreshListener(this::fetchTimelineAsync);
         mBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
@@ -88,7 +76,6 @@ public class UserListFragment extends Fragment {
             }
         }, true);
     }
-
     public void loadUserFragment(String jsonData) {
         Bundle result = new Bundle();
         result.putString("bundleKey", jsonData);
@@ -97,7 +84,6 @@ public class UserListFragment extends Fragment {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.userFragment);
     }
-
     private void toggleExpand(boolean b, String role) {
         if (b && role.matches(AppConstants.DEFAULT_ROLE)) {
             mBinding.internUsersListRv.setVisibility(View.VISIBLE);
@@ -117,7 +103,6 @@ public class UserListFragment extends Fragment {
             mBinding.pArrowUp.setVisibility(View.INVISIBLE);
         }
     }
-
     private void setAdapt() {
         AdapterFactory.fetchUsersAdapters(UserListFragment.this, (internUsersAdapter, placementUsersAdapter) -> {
             mBinding.placementUsersListRv.setAdapter(placementUsersAdapter);
@@ -126,7 +111,6 @@ public class UserListFragment extends Fragment {
             internUsersAdapter.notifyDataSetChanged();
         });
     }
-
     public static void searcher(UserListFragment fragment, String query) {
 
         List<UserDto> filteredUsers = new ArrayList<>();
@@ -146,12 +130,10 @@ public class UserListFragment extends Fragment {
         Repository.getRepoInstance().setUsersList(filteredUsers);
         fragment.setAdapt();
     }
-
     public static void reset(UserListFragment fragment) {
         Repository.getRepoInstance().setUsersList(AllS);
         fragment.setAdapt();
     }
-
     @Override
     public void onResume() {
         Log.d(TAG, "onResume: " + "hereee");
