@@ -1,6 +1,5 @@
 package com.jedi.oneplacement.user.fragments;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,8 +15,7 @@ import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.FragmentHomeBinding;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
 import java.util.Set;
 

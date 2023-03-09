@@ -4,32 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.fragments.AdminFragment;
-import com.jedi.oneplacement.admin.utils.AdapterFactory;
-import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.ActivityMainBinding;
 import com.jedi.oneplacement.payloads.ApiResponse;
-import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.user.fragments.CompanyFragment;
 import com.jedi.oneplacement.user.fragments.HomeFragment;
 import com.jedi.oneplacement.user.fragments.RolesFragment;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
-import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {

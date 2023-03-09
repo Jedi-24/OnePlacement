@@ -3,36 +3,31 @@ package com.jedi.oneplacement.admin.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.jedi.oneplacement.R;
+import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.FragmentUserBinding;
 import com.jedi.oneplacement.payloads.ApiResponse;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.ApiImpl;
-import com.jedi.oneplacement.payloads.FileResponse;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.UserInstance;
 
 import java.util.List;
 import java.util.Set;
@@ -58,9 +53,18 @@ public class UserFragment extends Fragment {
             String result = bundle.getString("bundleKey");
             // Do something with the result
             mUser = new Gson().fromJson(result, User.class);
-            setUserData();
+//            setUserData();
         });
         mBinding.layout.userPhoto.setVisibility(View.GONE);
+        mBinding.layout.toolBar.setNavigationIcon(R.drawable.ic_arrow_back_svgrepo_com);
+
+        mBinding.layout.toolBar.setNavigationOnClickListener(v -> {
+            NavOptions.Builder navBuilder = new NavOptions.Builder();
+            NavOptions navOptions = navBuilder.setPopUpTo(R.id.adminFragment, true).build();
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.adminFragment, null, navOptions);
+            requireActivity().findViewById(R.id.bottom_nav).setVisibility(View.VISIBLE); // todo: fix this transition
+        });
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String jwt = sharedPreferences.getString(AppConstants.JWT, null);
@@ -108,7 +112,7 @@ public class UserFragment extends Fragment {
                 // to update user verified status:
                 mBinding.profileStatusIcon.setImageResource(R.drawable.verified_svgrepo_com);
                 mBinding.profileStatusTxt.setText(AppConstants.VERIFIED);
-                updateLists();
+                updateLists(AppConstants.VERIFIED, mUser.getTpoCredits());
             }
 
             @Override
@@ -117,9 +121,7 @@ public class UserFragment extends Fragment {
             }
         }));
 
-        mBinding.editCredFab.setOnClickListener(v ->
-
-        {
+        mBinding.editCredFab.setOnClickListener(v -> {
             final AlertDialog.Builder builder = new AlertDialog.Builder(requireContext()).setTitle("CREDITS :");
             ViewGroup viewGroup = getView().findViewById(android.R.id.content);
             View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.num_picker, viewGroup, false);
@@ -140,7 +142,7 @@ public class UserFragment extends Fragment {
                         // to update the UI:
 
                         mBinding.creditPts.setText(Integer.toString(numberPicker.getValue()));
-                        updateLists();
+                        updateLists(mUser.getProfileStatus(), Integer.toString(numberPicker.getValue()));
                     }
 
                     @Override
@@ -155,7 +157,9 @@ public class UserFragment extends Fragment {
         return mBinding.getRoot();
     }
 
-    private void updateLists() {
+    private void updateLists(String profStatus, String credits) {
+        mUser.setTpoCredits(credits);
+        mUser.setProfileStatus(profStatus);
         Repository.getRepoInstance().fetchUsers(requireContext(), new Repository.ResourceListener<List<UserDto>>() {
             @Override
             public void onSuccess(List<UserDto> data) {
@@ -195,20 +199,9 @@ public class UserFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (mUser != null) {
-
-//            SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-//            String jwt = sharedPreferences.getString(AppConstants.JWT, null);
-
+            setUserData();
             Repository.getImage(requireContext(), mUser.getId(), mBinding.userProfileImg, null);
-//            ApiImpl.getResume(mUser.getId(), jwt, new ApiImpl.ApiCallListener<FileResponse>() {
-//                @Override
-//                public void onResponse(FileResponse response) {
-//                }
-//
-//                @Override
-//                public void onFailure(int code) {
-//                }
-//            });
+//            Toast.makeText(requireContext(), "set again", Toast.LENGTH_SHORT).show();
         }
     }
 }

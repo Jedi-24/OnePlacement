@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
 public class EntryActivity extends AppCompatActivity {
     private static final String TAG = "EntryActivity";

@@ -1,6 +1,5 @@
 package com.jedi.oneplacement.user.utils;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.payloads.Company;
-import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.user.fragments.OpeningsFragment;
-import com.jedi.oneplacement.user.fragments.RegisteredCompaniesFragment;
-import com.jedi.oneplacement.utils.UserInstance;
 
 import java.util.ArrayList;
 

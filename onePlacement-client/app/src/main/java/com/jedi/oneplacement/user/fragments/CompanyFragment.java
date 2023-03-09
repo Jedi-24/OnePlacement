@@ -19,7 +19,7 @@ import com.jedi.oneplacement.databinding.FragmentCompanyBinding;
 import com.jedi.oneplacement.databinding.LockedLayoutBinding;
 import com.jedi.oneplacement.user.utils.VPadapter;
 import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
 public class CompanyFragment extends Fragment {
     FragmentCompanyBinding mBinding;

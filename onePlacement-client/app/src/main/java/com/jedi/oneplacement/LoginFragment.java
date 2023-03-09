@@ -20,7 +20,7 @@ import com.jedi.oneplacement.databinding.FragmentLoginBinding;
 import com.jedi.oneplacement.payloads.JwtAuthResponse;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";

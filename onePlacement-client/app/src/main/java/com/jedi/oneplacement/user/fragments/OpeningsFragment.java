@@ -18,7 +18,7 @@ import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.user.utils.CompanyAdapter;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 import java.util.List;
 
 public class OpeningsFragment extends Fragment {

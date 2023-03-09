@@ -18,7 +18,7 @@ import com.jedi.oneplacement.databinding.FragmentRegisterBinding;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
 public class RegisterFragment extends Fragment {
     private String name, password, email, regNo, role;

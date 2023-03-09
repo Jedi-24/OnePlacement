@@ -10,7 +10,7 @@ import com.jedi.oneplacement.user.fragments.OpeningsFragment;
 import com.jedi.oneplacement.user.fragments.RegisteredCompaniesFragment;
 import com.jedi.oneplacement.user.utils.CompanyAdapter;
 import com.jedi.oneplacement.user.utils.RegCompanyAdapter;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
 import org.modelmapper.ModelMapper;
 

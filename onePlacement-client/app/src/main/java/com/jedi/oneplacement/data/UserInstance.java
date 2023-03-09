@@ -1,4 +1,4 @@
-package com.jedi.oneplacement.utils;
+package com.jedi.oneplacement.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,6 +15,8 @@ import com.jedi.oneplacement.payloads.Company;
 import com.jedi.oneplacement.payloads.RoleDto;
 import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.retrofit.ApiImpl;
+import com.jedi.oneplacement.utils.AppConstants;
+import com.jedi.oneplacement.utils.Cache;
 
 import java.util.Map;
 import java.util.Set;
@@ -53,7 +55,6 @@ public class UserInstance {
     }
 
     public static void updateJwtToken(String token, FetchListener listener) {
-        Log.d(TAG, "updateJwtToken: " + token);
         fetchUser(token,listener);
     }
 
@@ -76,7 +77,6 @@ public class UserInstance {
         ApiImpl.checkUser(mUser.getJwtToken(), new ApiImpl.ApiCallListener<Map<String, Object>>() {
             @Override
             public void onResponse(Map<String, Object> response) {
-                Log.d(TAG, "onResponse: " + response);
                 String toJson = new Gson().toJson(response.get("Authenticated: "));
                 mUser = new Gson().fromJson(toJson, User.class);
                 Log.d(TAG, "onResponse: " + mUser.toString());

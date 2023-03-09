@@ -37,7 +37,7 @@ import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
 import org.modelmapper.ModelMapper;
 
@@ -214,6 +214,9 @@ public class UserProfileFragment extends Fragment {
                 // todo: upload resume
                 chooseFileFromStorage();
             } else {
+                Bundle result = new Bundle();
+                result.putInt("userId", 0);
+                requireActivity().getSupportFragmentManager().setFragmentResult("userIdKey", result);
                 // todo: view resume:
                 NavController navController = NavHostFragment.findNavController(this);
                 navController.navigate(R.id.pdfFragment);

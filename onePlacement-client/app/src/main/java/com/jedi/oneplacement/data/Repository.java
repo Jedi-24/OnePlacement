@@ -20,7 +20,6 @@ import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.utils.Cache;
-import com.jedi.oneplacement.utils.UserInstance;
 
 import java.io.File;
 import java.io.IOException;
@@ -139,7 +138,6 @@ public class Repository {
     }
 
     public static boolean getResume(Context context, PDFView pdf, Integer userId) {
-        Log.d(TAG, "getResume:usserr iddd " + userId);
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(AppConstants.JWT, null);
 
@@ -163,10 +161,8 @@ public class Repository {
                 writeToCache(context, byteData, "R", userId);
                 resumeLoader = true;
             }
-
             @Override
             public void onFailure(int code) {
-                Toast.makeText(context, code + " Failed to Open Resume.", Toast.LENGTH_SHORT).show();
             }
         });
         return resumeLoader;

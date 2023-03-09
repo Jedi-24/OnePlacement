@@ -1,9 +1,6 @@
 package com.jedi.oneplacement.retrofit;
 
-import static com.jedi.oneplacement.utils.UserInstance.getRoles;
-
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -19,7 +16,7 @@ import com.jedi.oneplacement.payloads.User;
 import com.jedi.oneplacement.payloads.UserDto;
 import com.jedi.oneplacement.payloads.UserLoginInfo;
 import com.jedi.oneplacement.utils.AppConstants;
-import com.jedi.oneplacement.utils.UserInstance;
+import com.jedi.oneplacement.data.UserInstance;
 
 import org.modelmapper.ModelMapper;
 
