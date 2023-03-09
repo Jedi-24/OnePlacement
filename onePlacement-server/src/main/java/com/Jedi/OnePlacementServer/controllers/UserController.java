@@ -24,7 +24,7 @@ public class UserController {
     @Autowired // implementation class's object Injection into the userService.
     private UserService userService;
 
-    @PreAuthorize("hasRole('Admin')")
+//    @PreAuthorize("hasRole('Admin')")
     @GetMapping("/")
     public List<UserDto> getAllUsers(){ return userService.getAllUsers(); }
 

@@ -52,7 +52,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         // custom authentication + route decision + api access limitations + role based api access + auth type
-        httpSecurity.csrf().disable().authorizeHttpRequests(auth -> auth.anyRequest().permitAll()).exceptionHandling().authenticationEntryPoint(this.jwtAuthEntryPoint).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.csrf().disable().authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
+                .anyRequest().authenticated()).exceptionHandling().authenticationEntryPoint(this.jwtAuthEntryPoint).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(this.jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.authenticationProvider(daoAuthenticationProvider());
         return httpSecurity.build();

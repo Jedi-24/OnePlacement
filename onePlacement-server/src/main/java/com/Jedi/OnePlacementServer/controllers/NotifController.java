@@ -23,9 +23,7 @@ public class NotifController {
     @PreAuthorize("hasRole('Admin')")
     @PostMapping("/{Role}")
     public ResponseEntity<ApiResponse> sendNotification(@RequestBody NotifMessage msg, @PathVariable("Role") String role) throws FirebaseMessagingException{
-//        tokens.add("dADNiGciQyaL6HlTm9ERaY:APA91bE94cmnJU2ZhvENWIYJdDKfsirTU-plwMlFrExJu8xx3StKXdKBnf4P6bzObrZzE2k1MdRRwy20Iv2uS_mtJ4KDUO-DCxbzlMjSwQ8_Ai63AxFF8hz83M8uwnCTQP3Ce90-ROdy");
         firebaseMessagingService.sendNotification(role, msg);
-
         return new ResponseEntity<ApiResponse>(new ApiResponse("Success", true), HttpStatus.OK);
     }
 
