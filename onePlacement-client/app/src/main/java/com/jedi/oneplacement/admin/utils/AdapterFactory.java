@@ -15,6 +15,8 @@ import com.jedi.oneplacement.data.UserInstance;
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -36,15 +38,16 @@ public class AdapterFactory { // optimized trike se fetch only once:
     private AdapterFactory() {
     }
 
-    public static void fetchCompanyAdapter(OpeningsFragment openingsFragment, fetchCompanyAdapterListener listener) {
+    public static void fetchCompanyAdapter(int pgN, OpeningsFragment openingsFragment, fetchCompanyAdapterListener listener) {
         CompanyAdapter companyAdapter = new CompanyAdapter(openingsFragment);
 
-        Repository.getRepoInstance().fetchCompanies(openingsFragment.requireContext(), new Repository.ResourceListener<List<Company>>() {
+        Repository.getRepoInstance().fetchCompanies(pgN, openingsFragment.requireContext(), new Repository.ResourceListener<List<Company>>() {
             @Override
             public void onSuccess(List<Company> data) {
                 companyAdapter.companyList = (ArrayList<Company>) data;
                 listener.onResponse(companyAdapter);
             }
+
             @Override
             public void onFailure(String errMsg) {
             }
@@ -57,10 +60,18 @@ public class AdapterFactory { // optimized trike se fetch only once:
 //        }
     }
 
-    public static void fetchRegCompanyAdapter(RegisteredCompaniesFragment registeredCompaniesFragment, fetchRegCompanyAdapterListener listener) {
+    public static void fetchRegCompanyAdapter(int pgN, RegisteredCompaniesFragment registeredCompaniesFragment, fetchRegCompanyAdapterListener listener) {
         RegCompanyAdapter regCompanyAdapter = new RegCompanyAdapter(registeredCompaniesFragment);
+        List<Company> chunkedData = new ArrayList<>();
 
-        regCompanyAdapter.companyList.addAll(UserInstance.getUserCompanies());
+        List<Company> companyList = new ArrayList<>();
+        companyList.addAll(UserInstance.getUserCompanies());
+        companyList.sort(new CustomComparator());
+
+        for (int i = 0; i < 8 && (8 * pgN + i) < companyList.size(); i++)
+            chunkedData.add(companyList.get(8 * pgN + i));
+
+        regCompanyAdapter.companyList.addAll(chunkedData);
         listener.onResponse(regCompanyAdapter);
     }
 
@@ -86,9 +97,17 @@ public class AdapterFactory { // optimized trike se fetch only once:
                 }
                 listener.onResponse(internUsersAdapter, placementUsersAdapter);
             }
+
             @Override
             public void onFailure(String errMsg) {
             }
         }, false);
+    }
+}
+
+class CustomComparator implements Comparator<Company> {
+    @Override
+    public int compare(Company o1, Company o2) {
+        return o1.getCname().compareTo(o2.getCname());
     }
 }

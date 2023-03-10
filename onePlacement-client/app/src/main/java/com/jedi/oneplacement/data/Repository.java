@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+
 // this class deals with all the data, whatever fragment / activity needs some data, it is provided by this class only:
 public class Repository {
     private static final String TAG = "Repository";
@@ -62,20 +63,29 @@ public class Repository {
         companyList = filteredCompanies;
     }
 
-    public void fetchCompanies(Context ctx, ResourceListener<List<Company>> companiesListener, boolean forceFetch) {
-        Log.d(TAG, "fetchCompanies: " + companyList.isEmpty() + " " + forceFetch + " jaya k ");
-        if (!companyList.isEmpty() && !forceFetch) {
-            companiesListener.onSuccess(companyList);
+    public void fetchCompanies(int pgN, Context ctx, ResourceListener<List<Company>> companiesListener, boolean forceFetch) {
+        Log.d(TAG, "fetchCompanies: " + pgN);
+        if (companyList.size() > (pgN + 1) * 8 && !forceFetch) {
+            List<Company> chunkedData = new ArrayList<>();
+            for(int i = 0;i<8;i++)
+                chunkedData.add(companyList.get(8*pgN + i));
+            companiesListener.onSuccess(chunkedData);
             return;
         }
+        // if list is empty or FF == true: fetch from server
+//        if (!companyList.isEmpty() && !forceFetch) {
+//            companiesListener.onSuccess(companyList);
+//            return;
+//        }
 
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String jwt = sharedPreferences.getString(AppConstants.JWT, null);
-        ApiImpl.getAllCompanies(jwt, new ApiImpl.ApiCallListener<List<Company>>() {
+        ApiImpl.getAllCompanies(pgN, jwt, new ApiImpl.ApiCallListener<List<Company>>() {
             @Override
             public void onResponse(List<Company> response) {
                 Log.d(TAG, "onResponse: nbaaaar");
-                companyList = response;
+//                companyList = response;
+                companyList.addAll(response);
                 companiesListener.onSuccess(response);
             }
 
@@ -161,6 +171,7 @@ public class Repository {
                 writeToCache(context, byteData, "R", userId);
                 resumeLoader = true;
             }
+
             @Override
             public void onFailure(int code) {
             }

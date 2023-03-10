@@ -51,6 +51,7 @@ public class ApiImpl {
 
     public interface ApiCallListener<T> {
         void onResponse(T response);
+
         void onFailure(int code);
     }
 
@@ -92,7 +93,7 @@ public class ApiImpl {
         });
     }
 
-    public static void registerUser(String name, String regNo, String email, String password, String role, ApiCallListener<UserDto> listener){
+    public static void registerUser(String name, String regNo, String email, String password, String role, ApiCallListener<UserDto> listener) {
         User user = new User();
         user.setName(name);
         user.setRegNo(regNo);
@@ -108,7 +109,7 @@ public class ApiImpl {
                     @Override
                     public void onResponse(@NonNull Call<UserDto> call, @NonNull Response<UserDto> response) {
                         Log.d(TAG, "onResponse: hehehe " + response.body());
-                        if(!response.isSuccessful() || response.body() == null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -123,7 +124,7 @@ public class ApiImpl {
     }
 
     /* ---------- COMPANIES ---------- */
-    public static void addCompany(String token,String cName, String mProfile, String mStipend, String mCtc, String mPPO, String mRole,ApiCallListener<Company> listener){
+    public static void addCompany(String token, String cName, String mProfile, String mStipend, String mCtc, String mPPO, String mRole, ApiCallListener<Company> listener) {
         Company company = new Company();
 
         company.setCname(cName);
@@ -135,8 +136,7 @@ public class ApiImpl {
                 .enqueue(new Callback<Company>() {
                     @Override
                     public void onResponse(@NonNull Call<Company> call, @NonNull Response<Company> response) {
-                        if(!response.isSuccessful() || response.body() == null)
-                        {
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -150,17 +150,17 @@ public class ApiImpl {
                 });
     }
 
-    public static void getAllCompanies(String token, ApiCallListener<List<Company>> listener){
+    public static void getAllCompanies(int pgN,String token, ApiCallListener<List<Company>> listener) {
         Set<RoleDto> roles = UserInstance.getRoles();
-        String mRole="";
-        for(RoleDto role: roles)
+        String mRole = "";
+        for (RoleDto role : roles)
             mRole = role.getRole_name();
         mRole = mRole.substring(5);
-        getRetrofitAccessObject().fetchCompanies(mRole,"Bearer " + token)
+        getRetrofitAccessObject().fetchCompanies(mRole, "Bearer " + token, pgN)
                 .enqueue(new Callback<List<Company>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<Company>> call, @NonNull Response<List<Company>> response) {
-                        if(!response.isSuccessful() || response.body() == null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -168,6 +168,7 @@ public class ApiImpl {
                         Log.d(TAG, "onResponse: " + company.toString());
                         listener.onResponse(response.body());
                     }
+
                     @Override
                     public void onFailure(Call<List<Company>> call, Throwable t) {
                         listener.onFailure(-1);
@@ -175,17 +176,18 @@ public class ApiImpl {
                 });
     }
 
-    public static void registerInC(Company company, String token, ApiCallListener<ApiResponse> listener){
+    public static void registerInC(Company company, String token, ApiCallListener<ApiResponse> listener) {
         getRetrofitAccessObject().registerInC(company, "Bearer " + token, UserInstance.getId())
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if(!response.isSuccessful() || response.body() == null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
                         listener.onResponse(response.body());
                     }
+
                     @Override
                     public void onFailure(Call<ApiResponse> call, Throwable t) {
                         listener.onFailure(-1);
@@ -194,12 +196,12 @@ public class ApiImpl {
     }
 
     /* --------- DEVICE TOKEN SETUP ------- */
-    public static void setDeviceToken(String devToken, String jwt, ApiCallListener<ApiResponse> listener){
+    public static void setDeviceToken(String devToken, String jwt, ApiCallListener<ApiResponse> listener) {
         getRetrofitAccessObject().setupDevToken("Bearer " + jwt, devToken, UserInstance.getId())
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if(!response.isSuccessful() || response.body()==null) {
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -215,17 +217,18 @@ public class ApiImpl {
     }
 
     /* --------- COMPANY NOTIFICATION -------- */
-    public static void sendNotification(String mRole, String token, NotifMessage notifMessage, ApiCallListener<ApiResponse> listener){
+    public static void sendNotification(String mRole, String token, NotifMessage notifMessage, ApiCallListener<ApiResponse> listener) {
         getRetrofitAccessObject().sendNotification("Bearer " + token, mRole, notifMessage)
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if(!response.isSuccessful() || response.body()==null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
                         listener.onResponse(response.body());
                     }
+
                     @Override
                     public void onFailure(Call<ApiResponse> call, Throwable t) {
                         listener.onFailure(-1);
@@ -234,12 +237,12 @@ public class ApiImpl {
     }
 
     /* --------- EDIT USER DATA --------- */
-    public static void uploadImg(String token, MultipartBody.Part img , ApiCallListener<FileResponse> listener){
+    public static void uploadImg(String token, MultipartBody.Part img, ApiCallListener<FileResponse> listener) {
         getRetrofitAccessObject().uploadImage("Bearer " + token, UserInstance.getId(), img)
                 .enqueue(new Callback<FileResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<FileResponse> call, @NonNull Response<FileResponse> response) {
-                        if(!response.isSuccessful() || response.body()==null) {
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -253,12 +256,12 @@ public class ApiImpl {
                 });
     }
 
-    public static void uploadResume(String token, MultipartBody.Part resume , ApiCallListener<FileResponse> listener){
+    public static void uploadResume(String token, MultipartBody.Part resume, ApiCallListener<FileResponse> listener) {
         getRetrofitAccessObject().uploadResume("Bearer " + token, UserInstance.getId(), resume)
                 .enqueue(new Callback<FileResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<FileResponse> call, @NonNull Response<FileResponse> response) {
-                        if(!response.isSuccessful() || response.body()==null) {
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -273,7 +276,7 @@ public class ApiImpl {
                 });
     }
 
-    public static void updateUser(String token, String branch, String email, String mno, ApiCallListener<UserDto> listener){
+    public static void updateUser(String token, String branch, String email, String mno, ApiCallListener<UserDto> listener) {
         UserDto userDto = new ModelMapper().map(UserInstance.getUserInstance(), UserDto.class);
         userDto.setBranch(branch);
         userDto.setEmail(email);
@@ -282,7 +285,7 @@ public class ApiImpl {
                 .enqueue(new Callback<UserDto>() {
                     @Override
                     public void onResponse(@NonNull Call<UserDto> call, @NonNull Response<UserDto> response) {
-                        if(!response.isSuccessful() || response.body()==null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -298,12 +301,12 @@ public class ApiImpl {
     }
 
     /* ------- GET ALL USERS -------- */
-    public static void getAllUsers(String token,ApiCallListener<List<UserDto>> listener){
+    public static void getAllUsers(String token, ApiCallListener<List<UserDto>> listener) {
         getRetrofitAccessObject().getAllUsers("Bearer " + token)
                 .enqueue(new Callback<List<UserDto>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<UserDto>> call, @NonNull Response<List<UserDto>> response) {
-                        if(!response.isSuccessful() || response.body() == null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -317,12 +320,12 @@ public class ApiImpl {
                 });
     }
 
-    public static void setCredits(int credits, Integer uid, String token, ApiCallListener<ApiResponse> listener){
+    public static void setCredits(int credits, Integer uid, String token, ApiCallListener<ApiResponse> listener) {
         getRetrofitAccessObject().setCredits("Bearer " + token, uid, credits)
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if(!response.isSuccessful() || response.body()==null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -337,12 +340,12 @@ public class ApiImpl {
     }
 
 
-    public static void verifyProfile(Integer uid, String token, ApiCallListener<ApiResponse> listener){
+    public static void verifyProfile(Integer uid, String token, ApiCallListener<ApiResponse> listener) {
         getRetrofitAccessObject().verifyProfile("Bearer " + token, uid)
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-                        if(!response.isSuccessful() || response.body()==null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -356,17 +359,18 @@ public class ApiImpl {
                 });
     }
 
-    public static void searchUsers(String token, String query, ApiCallListener<List<UserDto>> listener){
+    public static void searchUsers(String token, String query, ApiCallListener<List<UserDto>> listener) {
         getRetrofitAccessObject().searchUsers("Bearer " + token, query)
                 .enqueue(new Callback<List<UserDto>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<UserDto>> call, @NonNull Response<List<UserDto>> response) {
-                        if(!response.isSuccessful() || response.body()==null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
                         listener.onResponse(response.body());
                     }
+
                     @Override
                     public void onFailure(Call<List<UserDto>> call, Throwable t) {
                         listener.onFailure(-1);
@@ -375,12 +379,12 @@ public class ApiImpl {
     }
 
     /* ------- DOWNLOAD FILES ------ */
-    public static void getResume(Integer uid, String token, ApiCallListener<FileResponse> listener){
+    public static void getResume(Integer uid, String token, ApiCallListener<FileResponse> listener) {
         getRetrofitAccessObject().getResume(uid, "Bearer " + token)
                 .enqueue(new Callback<FileResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<FileResponse> call, @NonNull Response<FileResponse> response) {
-                        if(!response.isSuccessful() || response.body() == null){
+                        if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }
@@ -395,12 +399,12 @@ public class ApiImpl {
                 });
     }
 
-    public static void getImage(Integer uid,String token,ApiCallListener<FileResponse> listener){
-        getRetrofitAccessObject().getImage(uid,"Bearer " + token)
+    public static void getImage(Integer uid, String token, ApiCallListener<FileResponse> listener) {
+        getRetrofitAccessObject().getImage(uid, "Bearer " + token)
                 .enqueue(new Callback<FileResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<FileResponse> call, @NonNull Response<FileResponse> response) {
-                        if(response.body()==null) {
+                        if (response.body() == null) {
                             listener.onFailure(response.code());
                             return;
                         }

@@ -13,14 +13,12 @@ public class VPadapter extends FragmentStateAdapter {
     public VPadapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
-
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         if(position == 1) return new RegisteredCompaniesFragment();
         return new OpeningsFragment();
     }
-
     @Override
     public int getItemCount() {
         return 2;

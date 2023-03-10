@@ -3,13 +3,17 @@ package com.jedi.oneplacement.user.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.FragmentOpeningsBinding;
@@ -19,11 +23,13 @@ import com.jedi.oneplacement.retrofit.ApiImpl;
 import com.jedi.oneplacement.user.utils.CompanyAdapter;
 import com.jedi.oneplacement.utils.AppConstants;
 import com.jedi.oneplacement.data.UserInstance;
+
 import java.util.List;
 
 public class OpeningsFragment extends Fragment {
     private static final String TAG = "OpeningsFragment";
     FragmentOpeningsBinding mBinding;
+    int pgN = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,20 +39,23 @@ public class OpeningsFragment extends Fragment {
         // Fragment Result API to get data using Navigation Component:
         requireActivity().getSupportFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
             String result = bundle.getString("bundleKey");
-            if (result != null && result.matches(AppConstants.PING_SERVER))
-                fetchTimelineAsync();
+            if (result != null && result.matches(AppConstants.PING_SERVER)) fetchTimelineAsync();
         });
-//        setAdapt();
-        // once ping the server in onCreate, then ping only when refreshed (force ping) OR a new notification is detected --> coming from MainActivity. NO NEED:
-//        Repository.getRepoInstance().fetchCompanies(requireContext(), new Repository.ResourceListener<List<Company>>() {
-//            @Override
-//            public void onSuccess(List<Company> data) {
-//                setAdapt();
-//            }
-//            @Override
-//            public void onFailure(String errMsg) {
-//            }
-//        }, false);
+
+        mBinding.nxtPg.setOnClickListener(v -> {
+            pgN++;
+            if (pgN > 0)
+                mBinding.prevPg.setEnabled(true);
+            Log.d(TAG, "onCreateView: " + pgN);
+            setAdapt(pgN);
+        });
+
+        mBinding.prevPg.setOnClickListener(V -> {
+            if (pgN > 0) {
+                pgN--;
+                setAdapt(pgN);
+            } else mBinding.prevPg.setEnabled(false);
+        });
 
         mBinding.swipeContainer.setOnRefreshListener(this::fetchTimelineAsync);
         mBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -55,11 +64,12 @@ public class OpeningsFragment extends Fragment {
     }
 
     public void fetchTimelineAsync() {
-        Repository.getRepoInstance().fetchCompanies(requireContext(), new Repository.ResourceListener<List<Company>>() {
+        pgN = 0;
+        Repository.getRepoInstance().fetchCompanies(pgN, requireContext(), new Repository.ResourceListener<List<Company>>() {
             @Override
             public void onSuccess(List<Company> data) {
                 mBinding.swipeContainer.setRefreshing(false);
-                setAdapt();
+                setAdapt(pgN);
             }
 
             @Override
@@ -104,12 +114,13 @@ public class OpeningsFragment extends Fragment {
 
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume: " + "resumed again!");
         super.onResume();
-        setAdapt();
+        setAdapt(pgN);
     }
 
-    private void setAdapt() {
-        AdapterFactory.fetchCompanyAdapter(this, companyAdapter -> {
+    public void setAdapt(int pgN) {
+        AdapterFactory.fetchCompanyAdapter(pgN, this, companyAdapter -> {
             mBinding.companyRv.setAdapter(companyAdapter);
             companyAdapter.notifyDataSetChanged();
         });

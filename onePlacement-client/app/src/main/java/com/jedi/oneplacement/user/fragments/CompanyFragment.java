@@ -26,7 +26,6 @@ public class CompanyFragment extends Fragment {
     LockedLayoutBinding lockedBinding;
 
     VPadapter vPadapter;
-
     public CompanyFragment() {
         // Required empty public constructor
     }
@@ -36,9 +35,9 @@ public class CompanyFragment extends Fragment {
         // Inflate the layout for this fragment
         mBinding = FragmentCompanyBinding.inflate(inflater, container, false);
 
-        if(Integer.parseInt(UserInstance.getCreditPts()) <= 4 || UserInstance.getRoleStatus().matches("OFFERED")){
+        if (Integer.parseInt(UserInstance.getCreditPts()) <= 4 || UserInstance.getRoleStatus().matches("OFFERED")) {
             lockedBinding = LockedLayoutBinding.inflate(inflater, container, false);
-            if(Integer.parseInt(UserInstance.getCreditPts()) <= 4)
+            if (Integer.parseInt(UserInstance.getCreditPts()) <= 4)
                 lockedBinding.msg.setText("NOT ENOUGH CREDIT POINTS !");
             else {
                 lockedBinding.profileLocked.setImageResource(R.drawable.checked);

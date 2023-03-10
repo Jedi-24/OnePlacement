@@ -23,6 +23,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Api {
 
@@ -74,7 +75,7 @@ public interface Api {
     @POST("/company/save/{role}")
     Call<Company> addCompany(@Path(value = "role") String role, @Body Company company, @Header(AppConstants.AUTH) String token);
     @GET("/company/{role}")
-    Call<List<Company>> fetchCompanies(@Path(value = "role") String role, @Header(AppConstants.AUTH) String token);
+    Call<List<Company>> fetchCompanies(@Path(value = "role") String role, @Header(AppConstants.AUTH) String token, @Query("pageNumber") Integer pageN);
     @POST("/api/users/company/register/{userId}")
     Call<ApiResponse> registerInC(@Body Company company, @Header(AppConstants.AUTH) String token, @Path(value = "userId") Integer uId);
 
