@@ -4,6 +4,7 @@ import com.Jedi.OnePlacementServer.payloads.ApiResponse;
 import com.Jedi.OnePlacementServer.payloads.CompanyDto;
 import com.Jedi.OnePlacementServer.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,8 +24,10 @@ public class CompanyController {
     }
 
     @GetMapping("/{role}")
-    public List<CompanyDto> fetchAllCompanies(@PathVariable("role") String role){
-        List<CompanyDto> companyDtoList = this.companyService.fetchAllCompanies(role);
+    public List<CompanyDto> fetchAllCompanies(@PathVariable("role") String role, @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageN,
+                                              @RequestParam(value = "pageSize", defaultValue = "8", required = false) Integer pageS,
+                                              @RequestParam(value = "sortBy", defaultValue = "cname", required = false) String sortBy){
+        List<CompanyDto> companyDtoList = this.companyService.fetchAllCompanies(role, pageN, pageS, sortBy);
         return companyDtoList;
     }
 }
