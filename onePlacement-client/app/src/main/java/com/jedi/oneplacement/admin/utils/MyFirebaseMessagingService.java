@@ -39,6 +39,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
+            // todo: there is a bug in notification system, correct it -->
         super.onMessageReceived(message);
 //        RemoteMessage.Notification notification = message.getNotification();
         Map<String, String> notifPayload = message.getData();

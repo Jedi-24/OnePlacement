@@ -10,15 +10,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2ffc766-83d5-4cd1-a0fa-866ae8ced7a9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/onePlacement-server/src/main/java/com/Jedi/OnePlacementServer/OnePlacementServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-server/src/main/java/com/Jedi/OnePlacementServer/OnePlacementServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/activities/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/admin/fragments/UserFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/admin/fragments/UserFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/admin/fragments/UserListFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/admin/fragments/UserListFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/admin/utils/AdapterFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/admin/utils/AdapterFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/admin/utils/UsersAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/admin/utils/UsersAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/data/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/data/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/retrofit/ApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/retrofit/ApiImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/CompanyFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/CompanyFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/HomeFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/OpeningsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/OpeningsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/PdfFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/PdfFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/UserProfileFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/user/fragments/UserProfileFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/utils/Cache.java" beforeDir="false" afterPath="$PROJECT_DIR$/onePlacement-client/app/src/main/java/com/jedi/oneplacement/utils/Cache.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Jay Agarwal\.android\avd\Pixel_5_API_33.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -27,19 +41,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2IUjFNPk8pGwOlKoMzZ4aKEs5EA" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/onePlacement-client" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/media/jedi24/Developer/Android/AndroidProjects/OnePlacementRepo/onePlacement-client&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Android\AndroidProjects\OnePlacementRepo\OnePlacement-Client" />
@@ -55,6 +73,7 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
@@ -123,6 +142,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
