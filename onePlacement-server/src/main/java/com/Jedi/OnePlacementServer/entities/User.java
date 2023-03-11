@@ -1,9 +1,6 @@
 package com.Jedi.OnePlacementServer.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -64,7 +61,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> collection = this.roles.stream()
-                .map((role -> new SimpleGrantedAuthority(role.getRole_name()))).collect(Collectors.toList());
+                .map((role -> new SimpleGrantedAuthority(role.getName()))).collect(Collectors.toList());
         return collection;
     }
 

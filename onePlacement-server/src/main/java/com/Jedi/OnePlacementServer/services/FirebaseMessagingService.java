@@ -28,8 +28,7 @@ public class FirebaseMessagingService {
         for(User user: users){
             Set<Role> roles = user.getRoles();
             for(Role r: roles){
-                if(r.getRole_name().matches(role)){
-                    System.out.println("hhhhh " + r.getRole_name());
+                if(r.getName().matches(role)){
                     if(user.getFcmToken()!=null)
                         uniqueTokens.add(user.getFcmToken());
                 }

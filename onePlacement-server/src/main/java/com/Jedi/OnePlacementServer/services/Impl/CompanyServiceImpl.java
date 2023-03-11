@@ -9,15 +9,11 @@ import com.Jedi.OnePlacementServer.services.CompanyService;
 import com.Jedi.OnePlacementServer.utils.AppConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -30,16 +26,15 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDto addCompany(CompanyDto companyDto, String role) {
-        System.out.println("hereeeeeeee JJJJ");
         Company company = modelMapper.map(companyDto, Company.class);
         // set Roles for the company:
         Role iRole = this.roleRepo.findById(AppConstants.Intern_Role_ID).get();
         Role pRole = this.roleRepo.findById(AppConstants.Placement_Role_ID).get();
         role = "ROLE_".concat(role);
 
-        if (role.matches(iRole.getRole_name())) {
+        if (role.matches(iRole.getName())) {
             company.getRoles().add(iRole);
-        } else if (role.matches(pRole.getRole_name())) {
+        } else if (role.matches(pRole.getName())) {
             company.getRoles().add(pRole);
         } else {
             company.getRoles().add(iRole);
@@ -53,19 +48,14 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDto> fetchAllCompanies(String role, Integer pageN, Integer pageS, String sortBy) {
-//        int pageSize = 5, pageNumber = 1;
-        Pageable p = PageRequest.of(pageN, pageS, Sort.by(sortBy).ascending());
-        Page<Company> companyPage = this.companyRepo.findAll(p);
-        List<Company> companyList = companyPage.getContent();
-//        List<Company> companyList = this.companyRepo.findAll(p);
         role = "ROLE_" + role;
+        Pageable p = PageRequest.of(pageN, pageS, Sort.by(sortBy).ascending());
+        Page<Company> companyPage = this.companyRepo.findAllByRoles_name(role, p);
+
+        List<Company> companyList = companyPage.getContent();
         List<CompanyDto> retC = new ArrayList<>();
-        for (Company company : companyList) {
-            Set<Role> companyRoles = company.getRoles();
-            for (Role c : companyRoles) {
-                if (c.getRole_name().matches(role))
-                    retC.add(this.modelMapper.map(company, CompanyDto.class));
-            }
+        for(Company company: companyList){
+            retC.add(this.modelMapper.map(company, CompanyDto.class));
         }
 
         return retC;

@@ -17,9 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -111,7 +109,7 @@ public class UserServiceImpl implements UserService {
         Role pRole = this.roleRepo.findById(AppConstants.Placement_Role_ID).get();
         role = "ROLE_".concat(role);
 
-        if (role.matches(iRole.getRole_name())) user.getRoles().add(iRole);
+        if (role.matches(iRole.getName())) user.getRoles().add(iRole);
         else user.getRoles().add(pRole);
 
         User savedUser = this.userRepo.save(user);
