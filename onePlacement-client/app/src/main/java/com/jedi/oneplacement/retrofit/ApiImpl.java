@@ -154,7 +154,7 @@ public class ApiImpl {
         Set<RoleDto> roles = UserInstance.getRoles();
         String mRole = "";
         for (RoleDto role : roles)
-            mRole = role.getRole_name();
+            mRole = role.getRoleName();
         mRole = mRole.substring(5);
         getRetrofitAccessObject().fetchCompanies(mRole, "Bearer " + token, pgN)
                 .enqueue(new Callback<List<Company>>() {
@@ -164,8 +164,6 @@ public class ApiImpl {
                             listener.onFailure(response.code());
                             return;
                         }
-                        Company company = response.body().get(0);
-                        Log.d(TAG, "onResponse: " + company.toString());
                         listener.onResponse(response.body());
                     }
 

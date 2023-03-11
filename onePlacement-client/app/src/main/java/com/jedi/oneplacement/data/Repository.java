@@ -64,28 +64,32 @@ public class Repository {
     }
 
     public void fetchCompanies(int pgN, Context ctx, ResourceListener<List<Company>> companiesListener, boolean forceFetch) {
-        Log.d(TAG, "fetchCompanies: " + pgN);
+        Log.d(TAG, "fetchCompanies: " + pgN + " " + companyList.size());
         if (companyList.size() > (pgN + 1) * 8 && !forceFetch) {
             List<Company> chunkedData = new ArrayList<>();
-            for(int i = 0;i<8;i++)
-                chunkedData.add(companyList.get(8*pgN + i));
+            for (int i = 0; i < 8; i++)
+                chunkedData.add(companyList.get(8 * pgN + i));
             companiesListener.onSuccess(chunkedData);
             return;
         }
-        // if list is empty or FF == true: fetch from server
-//        if (!companyList.isEmpty() && !forceFetch) {
-//            companiesListener.onSuccess(companyList);
-//            return;
-//        }
 
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
         String jwt = sharedPreferences.getString(AppConstants.JWT, null);
         ApiImpl.getAllCompanies(pgN, jwt, new ApiImpl.ApiCallListener<List<Company>>() {
             @Override
             public void onResponse(List<Company> response) {
-                Log.d(TAG, "onResponse: nbaaaar");
-//                companyList = response;
-                companyList.addAll(response);
+                // prevents the duplicate entries of the companies: direct companyList.addAll(response) : duplicated the entries;
+                for (Company c : response) {
+                    boolean cnt = false;
+                    for(Company cl:companyList){
+                        if(cl.getCid() == c.getCid()){
+                            cnt = true;
+                            break;
+                        }
+                    }
+                    if(cnt) continue;
+                    companyList.add(c);
+                }
                 companiesListener.onSuccess(response);
             }
 

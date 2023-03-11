@@ -15,7 +15,6 @@ import com.jedi.oneplacement.data.UserInstance;
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -88,9 +87,9 @@ public class AdapterFactory { // optimized trike se fetch only once:
                     User user = new ModelMapper().map(userDto, User.class);
                     Set<RoleDto> roles = user.getRoles();
                     for (RoleDto roleDto : roles) {
-                        if (roleDto.getRole_name().matches("ROLE_Internship")) {
+                        if (roleDto.getRoleName().matches("ROLE_Internship")) {
                             internUsersAdapter.usersList.add(user);
-                        } else if (roleDto.getRole_name().matches("ROLE_Placement")) {
+                        } else if (roleDto.getRoleName().matches("ROLE_Placement")) {
                             placementUsersAdapter.usersList.add(user);
                         }
                     }

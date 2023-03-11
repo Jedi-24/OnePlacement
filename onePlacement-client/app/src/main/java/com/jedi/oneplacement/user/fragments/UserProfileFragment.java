@@ -102,8 +102,8 @@ public class UserProfileFragment extends Fragment {
 
         mBinding.logOutBtn.setOnClickListener(v -> {
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences(AppConstants.APP_NAME, Context.MODE_PRIVATE);
-            sharedPreferences.edit().putString(AppConstants.JWT, "Jedi_24").apply();
-            sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, "Jedi_24").apply();
+            sharedPreferences.edit().putString(AppConstants.JWT, AppConstants.JEDI).apply();
+            sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, AppConstants.JEDI).apply();
             Cache.ClearCache(requireContext());
 
             Intent intent = new Intent(requireActivity(), EntryActivity.class);

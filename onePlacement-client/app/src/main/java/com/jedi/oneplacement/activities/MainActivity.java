@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Set<RoleDto> roles = UserInstance.getRoles();
         String role = "";
         for (RoleDto roleDto : roles) {
-            role = roleDto.getRole_name();
+            role = roleDto.getRoleName();
         }
 
         if(getIntent().getStringExtra("key")!=null)

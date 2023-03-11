@@ -3,13 +3,14 @@ package com.jedi.oneplacement.payloads;
 
 public class RoleDto {
     private int id;
-    private String role_name;
+    private String name;
 
-    public RoleDto() {}
+    public RoleDto() {
+    }
 
     public RoleDto(int id, String role_name) {
         this.id = id;
-        this.role_name = role_name;
+        this.name = role_name;
     }
 
     public int getId() {
@@ -20,11 +21,11 @@ public class RoleDto {
         this.id = id;
     }
 
-    public String getRole_name() {
-        return role_name;
+    public String getRoleName() {
+        return name;
     }
 
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
+    public void setRoleName(String role_name) {
+        this.name = role_name;
     }
 }

@@ -8,11 +8,13 @@ import android.util.Log;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.link.DefaultLinkHandler;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
+import com.jedi.oneplacement.data.Repository;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Cache {
     private static final String TAG = "Cache";
@@ -47,6 +49,7 @@ public class Cache {
     }
 
     public static void ClearCache(Context context) {
+        Repository.getRepoInstance().setCompanyList(new ArrayList<>());
         File folder = context.getCacheDir();
         for(File f:folder.listFiles())
             f.delete();

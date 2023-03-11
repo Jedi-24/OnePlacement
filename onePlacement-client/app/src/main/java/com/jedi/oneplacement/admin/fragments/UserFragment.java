@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.jedi.oneplacement.R;
-import com.jedi.oneplacement.activities.MainActivity;
 import com.jedi.oneplacement.data.Repository;
 import com.jedi.oneplacement.databinding.FragmentUserBinding;
 import com.jedi.oneplacement.payloads.ApiResponse;
@@ -189,7 +188,7 @@ public class UserFragment extends Fragment {
         Set<RoleDto> roles = mUser.getRoles();
         String role = "";
         for (RoleDto roleDto : roles) {
-            role = roleDto.getRole_name();
+            role = roleDto.getRoleName();
         }
 
         if (role.length() > 5) mBinding.role.setText(role.substring(5));

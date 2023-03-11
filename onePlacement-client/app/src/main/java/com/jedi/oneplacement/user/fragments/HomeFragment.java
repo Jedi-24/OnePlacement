@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
         Set<RoleDto> roles = UserInstance.getRoles();
         String role = "";
         for (RoleDto roleDto : roles) {
-            role = roleDto.getRole_name();
+            role = roleDto.getRoleName();
         }
 
         Repository.getImage(requireContext(),0, mBinding.userProfileImg, mBinding.layout.userPhoto);
