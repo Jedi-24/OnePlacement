@@ -14,12 +14,15 @@ import java.util.List;
 
 @RestController @RequestMapping("/company")
 public class CompanyController {
+    final CompanyService companyService;
     @Autowired
-    CompanyService companyService;
+    public CompanyController(CompanyService companyService) {
+        this.companyService = companyService;
+    }
 
     @PreAuthorize("hasRole('Admin')")
     @PostMapping("/save/{role}")
-    public ResponseEntity<CompanyDto> addCompany(@PathVariable("role") String role, @RequestBody CompanyDto companyDto){
+    public ResponseEntity<CompanyDto> addCompany(@PathVariable("role") String role, @RequestBody CompanyDto companyDto) {
         return new ResponseEntity<CompanyDto>(this.companyService.addCompany(companyDto, role), HttpStatus.OK);
     }
 

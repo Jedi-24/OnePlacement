@@ -25,8 +25,9 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Autowired // the instance or let's say bean for this is made via a method, present in config file: security config.
+    private PasswordEncoder passwordEncoder; // name of the object and name of the method declaring that bean needs to be same, highly important.
+    // as bean is made as same name as the method is:
     @Autowired
     private RoleRepo roleRepo;
 

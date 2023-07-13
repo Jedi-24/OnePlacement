@@ -37,6 +37,8 @@ public class UserController {
     // update a user;
     @PutMapping("/{userId}") // path uri variable;
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("userId") Integer uid){
+        if(userDto.getPhoneNumber().length() > 10)
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         return ResponseEntity.ok(this.userService.updateUser(userDto, uid));
     }
     @PreAuthorize("hasRole('Admin')")

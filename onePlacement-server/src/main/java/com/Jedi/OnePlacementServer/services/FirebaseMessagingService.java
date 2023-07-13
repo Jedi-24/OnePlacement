@@ -14,7 +14,7 @@ import java.util.*;
 @Service
 public class FirebaseMessagingService {
     @Autowired
-    private FirebaseMessaging firebaseMessaging;
+    private FirebaseMessaging firebaseMessaging; // made a bean in config file: serverApplication file.
     @Autowired
     private UserRepo userRepo;
 
@@ -35,6 +35,7 @@ public class FirebaseMessagingService {
             }
         }
         tokens.addAll(uniqueTokens);
+        System.out.println(tokens.size());
 
         // todo: Revise that Notification object is useless if you have to deal with user logout status; background me it does not call OnMessageReceived, fcm handles the notification itself and sets it to System Tray :/
 //        Notification notification = Notification
@@ -53,6 +54,7 @@ public class FirebaseMessagingService {
                 .putAllData(notifPayload)
                 .build();
 
+//        System.out.println(message.toString());
         firebaseMessaging.sendMulticast(message);
     }
 }

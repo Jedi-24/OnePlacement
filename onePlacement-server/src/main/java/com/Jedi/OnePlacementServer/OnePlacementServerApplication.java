@@ -38,10 +38,11 @@ public class OnePlacementServerApplication implements CommandLineRunner {
         return new ModelMapper();
     }
 
-    @Bean
+
+    @Bean // important : as we need to create bean in IoC-C to make use of firebaseMessaging object in service code.
     FirebaseMessaging firebaseMessaging() throws IOException {
         GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(new ClassPathResource("oneplacement-57c3c-firebase-adminsdk-hzxaz-d6733cdbe3.json").getInputStream());
+                .fromStream(new ClassPathResource("oneplacement-57c3c-firebase-adminsdk-hzxaz-82092db09a.json").getInputStream());
 
         FirebaseOptions firebaseOptions = FirebaseOptions.builder().setCredentials(googleCredentials).build();
         FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions,AppConstants.APP);
