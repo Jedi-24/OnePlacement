@@ -7,6 +7,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,7 @@ public class AdminFragment extends Fragment {
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
+                        Log.d(TAG, "onQueryTextSubmit: " + query);
                         UserListFragment.searcher(adminVPadapter.getUserFragment(), query);
                         return false;
                     }

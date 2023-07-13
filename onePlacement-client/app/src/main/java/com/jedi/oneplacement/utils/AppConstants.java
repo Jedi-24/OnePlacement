@@ -2,7 +2,7 @@ package com.jedi.oneplacement.utils;
 
 public class AppConstants {
     // todo: use it ?
-    public static String BASE_URL = "http://192.168.116.178:8080";
+    public static String BASE_URL = "http://172.29.49.82:8080";
 
     // --> college proxy:    172.29.54.74, 172.29.42.38 what Ip-Address is this ?
 

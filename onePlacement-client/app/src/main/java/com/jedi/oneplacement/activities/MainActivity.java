@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.jedi.oneplacement.R;
@@ -64,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                         return;
                     }
-
                     String token = task.getResult();
                     String jwt = sharedPreferences.getString(AppConstants.JWT, null);
 
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     ApiImpl.setDeviceToken(token, jwt, new ApiImpl.ApiCallListener<ApiResponse>() {
                         @Override
                         public void onResponse(ApiResponse response) {
+                            Log.d(TAG, "onResponse: ");
                             sharedPreferences.edit().putString(AppConstants.DEV_TOKEN, token).apply();
                         }
 

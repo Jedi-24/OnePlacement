@@ -43,11 +43,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(message);
 //        RemoteMessage.Notification notification = message.getNotification();
         Map<String, String> notifPayload = message.getData();
-
 //        if (notification == null) {
 //            Log.d(TAG, "onMessageReceived: NOTIF NULL");
 //            return;
 //        }
+
         if (notifPayload.isEmpty()) {
             Log.d(TAG, "onMessageReceived: NOTIF NULL");
             return;

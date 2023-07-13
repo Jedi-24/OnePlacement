@@ -1,4 +1,7 @@
+
 package com.jedi.oneplacement.admin.utils;
+
+import android.util.Log;
 
 import com.jedi.oneplacement.admin.fragments.UserListFragment;
 import com.jedi.oneplacement.data.Repository;
@@ -81,6 +84,10 @@ public class AdapterFactory { // optimized trike se fetch only once:
         Repository.getRepoInstance().fetchUsers(userListFragment.requireContext(), new Repository.ResourceListener<List<UserDto>>() {
             @Override
             public void onSuccess(List<UserDto> data) {
+                // populate AllS arrayList, once the data is fetched;
+                if(UserListFragment.AllS.size() == 0) UserListFragment.AllS = data;
+                Log.d(TAG, "onSuccess: " + UserListFragment.AllS.size());
+
                 for (UserDto userDto : data) {
                     if (userDto.getId() == UserInstance.getId()) continue;
 

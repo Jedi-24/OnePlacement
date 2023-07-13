@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.ScopeUtil;
 import com.jedi.oneplacement.R;
 import com.jedi.oneplacement.admin.utils.AdapterFactory;
 import com.jedi.oneplacement.data.Repository;
@@ -29,7 +30,7 @@ public class UserListFragment extends Fragment {
     FragmentUserListBinding mBinding;
 
     boolean internCardExpanded, placementCardExpanded;
-    private static List<UserDto> AllS = new ArrayList<>();
+    public static List<UserDto> AllS = new ArrayList<>();
 
     public UserListFragment() {
         // Required empty public constructor
@@ -43,8 +44,8 @@ public class UserListFragment extends Fragment {
         internCardExpanded = false;
         placementCardExpanded = false;
 
-        if (AllS.size() != 0)
-            reset(this);
+//        if (AllS.size() != 0)
+//            reset(this);
 
         mBinding.internUsers.setOnClickListener(v -> {
             toggleExpand(!internCardExpanded, AppConstants.DEFAULT_ROLE);
@@ -61,6 +62,7 @@ public class UserListFragment extends Fragment {
         mBinding.swipeContainer.setOnRefreshListener(this::fetchTimelineAsync);
         mBinding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
+        Log.d(TAG, "onCreateView: " + AllS.size());
         return mBinding.getRoot();
     }
 
@@ -109,14 +111,16 @@ public class UserListFragment extends Fragment {
             placementUsersAdapter.notifyDataSetChanged();
             mBinding.internUsersListRv.setAdapter(internUsersAdapter);
             internUsersAdapter.notifyDataSetChanged();
+            Log.d(TAG, "setAdapt: finally ? " + AllS.size());
         });
     }
     public static void searcher(UserListFragment fragment, String query) {
 
         List<UserDto> filteredUsers = new ArrayList<>();
-
         for (UserDto user : AllS) {
             String name = user.getName();
+            System.out.println(name);
+
             if (name.contains(query)) {
                 filteredUsers.add(user);
             }
@@ -131,13 +135,15 @@ public class UserListFragment extends Fragment {
         fragment.setAdapt();
     }
     public static void reset(UserListFragment fragment) {
+        Log.d(TAG, "reset: " + AllS.size());
         Repository.getRepoInstance().setUsersList(AllS);
         fragment.setAdapt();
     }
     @Override
     public void onResume() {
-        Log.d(TAG, "onResume: " + "hereee");
+//        Log.d(TAG, "onResume: " + "hereee");
         super.onResume();
         setAdapt();
+//        Log.d(TAG, "onResume: " + AllS.size());
     }
 }

@@ -91,12 +91,13 @@ public class AddCompanyFragment extends Fragment {
                 ApiImpl.sendNotification(mRole, jwt, notifMessage, new ApiImpl.ApiCallListener<ApiResponse>() {
                     @Override
                     public void onResponse(ApiResponse response) {
+                        Log.d(TAG, "onResponse: sending noification");
                         Toast.makeText(requireContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(int code) {
-
+                        Log.d(TAG, "onFailure: " + code);
                     }
                 });
             }
