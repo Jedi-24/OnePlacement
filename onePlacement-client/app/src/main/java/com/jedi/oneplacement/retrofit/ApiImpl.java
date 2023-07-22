@@ -221,9 +221,6 @@ public class ApiImpl {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ApiResponse> call, @NonNull Response<ApiResponse> response) {
-//                        Log.d(TAG, "onResponse: HUA KI NHI? " + response.isSuccessful());
-//                        Log.d(TAG, "onResponse: hoya " + response.body());
-
                         if (!response.isSuccessful() || response.body() == null) {
                             listener.onFailure(response.code());
                             return;
