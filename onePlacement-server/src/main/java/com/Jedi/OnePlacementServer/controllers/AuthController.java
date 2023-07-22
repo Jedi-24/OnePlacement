@@ -29,7 +29,7 @@ public class AuthController {
     private JwtTokenHelper jwtTokenHelper;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager; // iska bean bnana zruri hai, so we made it in security config file:
 
     @Autowired
     private UserDetailsService userDetailsService;

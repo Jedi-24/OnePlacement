@@ -42,7 +42,6 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         Company savedCompany = this.companyRepo.save(company);
-
         return this.modelMapper.map(savedCompany, CompanyDto.class);
     }
 

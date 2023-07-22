@@ -58,8 +58,6 @@ public class UserController {
     @PreAuthorize("hasRole('Admin')")
     @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid){
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-
         this.userService.dltUser(uid);
         return new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK);
     }

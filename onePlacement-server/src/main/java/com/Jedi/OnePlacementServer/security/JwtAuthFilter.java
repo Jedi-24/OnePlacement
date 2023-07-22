@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 // VALIDATION OF JWT IN REQUESTS AND THUS REQUEST ACCESS TO API:
-@Component // to enable auto-wiring of things;
+@Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -27,7 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private JwtTokenHelper jwtTokenHelper;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse     response, FilterChain filterChain) throws ServletException, IOException {
         // 1. Get Token from user request:
         String requestToken = request.getHeader("Authorization"); // "Auth..." is they key to header in request;
 
@@ -65,10 +65,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 System.out.println("Invalid payload in Token!");
             }
         } else {
-            System.out.println("Username is NULL | Context Holder Not Null");
+            // i.e. we have an active session, no need to validate the token again.
+            System.out.println("Context Holder Not Null");
         }
 
-        // we need to filter the request further, to API access maybe...
+        // we need to filter the request further, to API access maybe........
         filterChain.doFilter(request, response);
     }
 }

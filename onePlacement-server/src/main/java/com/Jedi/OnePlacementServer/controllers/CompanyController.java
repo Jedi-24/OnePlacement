@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class CompanyController {
     public List<CompanyDto> fetchAllCompanies(@PathVariable("role") String role, @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageN,
                                               @RequestParam(value = "pageSize", defaultValue = "8", required = false) Integer pageS,
                                               @RequestParam(value = "sortBy", defaultValue = "cname", required = false) String sortBy){
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
         List<CompanyDto> companyDtoList = this.companyService.fetchAllCompanies(role, pageN, pageS, sortBy);
         return companyDtoList;
     }

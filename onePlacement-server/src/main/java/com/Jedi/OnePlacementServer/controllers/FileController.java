@@ -99,5 +99,5 @@ public class FileController {
         fileResponse.setFileName(DatatypeConverter.printBase64Binary(resource.getByteArray()));
         fileResponse.setMessage("success ? eh");
         return ResponseEntity.ok().headers(header).contentType(MediaType.APPLICATION_JSON).body(fileResponse);
-     }
+    }
 }
